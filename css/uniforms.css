@@ -1,0 +1,1950 @@
+
+#container {
+    background-color: #bbbbbb; 
+}
+
+#homeuni, #awayuni, #altuni {
+    border: 0 !important; 
+    border-collapse: collapse !important; 
+    min-height: 250px;
+}
+
+#homeuni tr, #awayuni tr, #altuni tr {
+    background-color: #bbbbbb;
+}
+
+#homeuni td, #awayuni td, #altuni td {
+    border: 0 !important; 
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+#skintone {
+    background-color: rgb(172, 120, 95);
+}
+#shoes {
+    background-color: black;
+}
+
+#h-helmet-gb {
+    background-color: var(--GBB);
+}
+#h-helmetlogo-gb {
+    background-color: var(--GBF);
+}
+#h-facemask-gb {
+    background-color: var(--GBF);
+}
+#h-jersey-gb {
+    background-color: var(--GBF);
+}
+#h-jerseystripe-gb {
+    background-color: var(--GBB);
+}
+#h-pants-gb {
+    background-color: var(--GBB);
+}
+#h-pantsstripe-gb {
+    background-color: var(--GBF);
+}
+#h-sockhigh-gb {
+    background-color: var(--GBF);
+}
+#h-socklow-gb {
+    background-color: white;
+}
+
+#a-helmet-gb {
+    background-color: var(--GBB);
+}
+#a-helmetlogo-gb {
+    background-color: var(--GBF);
+}
+#a-facemask-gb {
+    background-color: var(--GBF);
+}
+#a-jersey-gb {
+    background-color: white;
+}
+#a-jerseystripe-gb {
+    background-color: var(--GBF);
+}
+#a-pants-gb {
+    background-color: var(--GBB);
+}
+#a-pantsstripe-gb {
+    background-color: var(--GBF);
+}
+#a-sockhigh-gb {
+    background-color: var(--GBF);
+}
+#a-socklow-gb {
+    background-color: white;
+}
+
+#t-helmet-gb {
+    background-color: var(--GBB);
+}
+#t-helmetlogo-gb {
+    background-color: var(--GBF);
+}
+#t-facemask-gb {
+    background-color: var(--GBF);
+}
+#t-jersey-gb {
+    background-color: var(--GBB);
+}
+#t-jerseystripe-gb {
+    background-color: var(--GBF);
+}
+#t-pants-gb {
+    background-color: var(--GBB);
+}
+#t-pantsstripe-gb {
+    background-color: var(--GBF);
+}
+#t-sockhigh-gb {
+    background-color: var(--GBF);
+}
+#t-socklow-gb {
+    background-color: white;
+}
+
+
+#h-helmet-cin {
+    background-color: var(--CIB);
+}
+#h-helmetlogo-cin {
+    background-color: var(--CIF);
+}
+#h-facemask-cin {
+    background-color: var(--CIF);
+}
+#h-jersey-cin {
+    background-color: var(--CIF);
+}
+#h-jerseystripe-cin {
+    background-color: var(--CIB);
+}
+#h-pants-cin {
+    background-color: white;
+}
+#h-pantsstripe-cin {
+    background-color: var(--CIF);
+}
+#h-sockhigh-cin {
+    background-color: var(--CIB);
+}
+#h-socklow-cin {
+    background-color: white;
+}
+
+#a-helmet-cin {
+    background-color: var(--CIB);
+}
+#a-helmetlogo-cin {
+    background-color: var(--CIF);
+}
+#a-facemask-cin {
+    background-color: var(--CIF);
+}
+#a-jersey-cin {
+    background-color: white;
+}
+#a-jerseystripe-cin {
+    background-color: var(--CIB);
+}
+#a-pants-cin {
+    background-color: white;
+}
+#a-pantsstripe-cin {
+    background-color: var(--CIF);
+}
+#a-sockhigh-cin {
+    background-color: var(--CIB);
+}
+#a-socklow-cin {
+    background-color: var(--CIB);
+}
+
+#t-helmet-cin {
+    background-color: var(--CIB);
+}
+#t-helmetlogo-cin {
+    background-color: var(--CIF);
+}
+#t-facemask-cin {
+    background-color: var(--CIF);
+}
+#t-jersey-cin {
+    background-color: var(--CIF);
+}
+#t-jerseystripe-cin {
+    background-color: var(--CIB);
+}
+#t-pants-cin {
+    background-color: var(--CIF);
+}
+#t-pantsstripe-cin {
+    background-color: var(--CIB);
+}
+#t-sockhigh-cin {
+    background-color: white;
+}
+#t-socklow-cin {
+    background-color: white;
+}
+
+
+
+#h-helmet-kc {
+    background-color: var(--KCFr);
+}
+#h-helmetlogo-kc {
+    background-color: white;
+}
+#h-facemask-kc {
+    background-color: white;
+}
+#h-jersey-kc {
+    background-color: var(--KCFr);
+}
+#h-jerseystripe-kc {
+    background-color: var(--KCB);
+}
+#h-pants-kc {
+    background-color: white;
+}
+#h-pantsstripe-kc {
+    background-color: var(--KCB);
+}
+#h-sockhigh-kc {
+    background-color: var(--KCFr);
+}
+#h-socklow-kc {
+    background-color: var(--KCB);
+}
+
+#a-helmet-kc {
+    background-color: var(--KCFr);
+}
+#a-helmetlogo-kc {
+    background-color: white;
+}
+#a-facemask-kc {
+    background-color: white;
+}
+#a-jersey-kc {
+    background-color: white;
+}
+#a-jerseystripe-kc {
+    background-color: var(--KCB);
+}
+#a-pants-kc {
+    background-color: var(--KCFr);
+}
+#a-pantsstripe-kc {
+    background-color: var(--KCB);
+}
+#a-sockhigh-kc {
+    background-color: white;
+}
+#a-socklow-kc {
+    background-color: var(--KCB);
+}
+
+#t-helmet-kc {
+    background-color: var(--KCFr);
+}
+#t-helmetlogo-kc {
+    background-color: white;
+}
+#t-facemask-kc {
+    background-color: white;
+}
+#t-jersey-kc {
+    background-color: var(--KCFr);
+}
+#t-jerseystripe-kc {
+    background-color: var(--KCB);
+}
+#t-pants-kc {
+    background-color: var(--KCFr);
+}
+#t-pantsstripe-kc {
+    background-color: var(--KCB);
+}
+#t-sockhigh-kc {
+    background-color: white;
+}
+#t-socklow-kc {
+    background-color: var(--KCB);
+}
+
+
+
+#h-helmet-mia {
+    background-color: white;
+}
+#h-helmetlogo-mia {
+    background-color: var(--MIF);
+}
+#h-facemask-mia {
+    background-color: var(--MIF);
+}
+#h-jersey-mia {
+    background-color: var(--MIF);
+}
+#h-jerseystripe-mia {
+    background-color: var(--MIBr);
+}
+#h-pants-mia {
+    background-color: white;
+}
+#h-pantsstripe-mia {
+    background-color: var(--MIBr);
+}
+#h-sockhigh-mia {
+    background-color: var(--MIF);
+}
+#h-socklow-mia {
+    background-color: var(--MIBr);
+}
+
+#a-helmet-mia {
+    background-color: white;
+}
+#a-helmetlogo-mia {
+    background-color: var(--MIF);
+}
+#a-facemask-mia {
+    background-color: var(--MIF);
+}
+#a-jersey-mia {
+    background-color: white;
+}
+#a-jerseystripe-mia {
+    background-color: var(--MIBr);
+}
+#a-pants-mia {
+    background-color: white;
+}
+#a-pantsstripe-mia {
+    background-color: var(--MIBr);
+}
+#a-sockhigh-mia {
+    background-color: var(--MIF);
+}
+#a-socklow-mia {
+    background-color: var(--MIBr);
+}
+
+#t-helmet-mia {
+    background-color: white;
+}
+#t-helmetlogo-mia {
+    background-color: var(--MIF);
+}
+#t-facemask-mia {
+    background-color: var(--MIF);
+}
+#t-jersey-mia {
+    background-color: white;
+}
+#t-jerseystripe-mia {
+    background-color: var(--MIBr);
+}
+#t-pants-mia {
+    background-color: var(--MIF);
+}
+#t-pantsstripe-mia {
+    background-color: var(--MIBr);
+}
+#t-sockhigh-mia {
+    background-color: white;
+}
+#t-socklow-mia {
+    background-color: var(--MIBr);
+}
+
+
+#h-helmet-hou {
+    background-color: white;
+}
+#h-helmetlogo-hou {
+    background-color: var(--HOBr);
+}
+#h-facemask-hou {
+    background-color: var(--HOFr);
+}
+#h-jersey-hou {
+    background-color: var(--HOBr);
+}
+#h-jerseystripe-hou {
+    background-color: var(--HOFr);
+}
+#h-pants-hou {
+    background-color: white;
+}
+#h-pantsstripe-hou {
+    background-color: var(--HOBr);
+}
+#h-sockhigh-hou {
+    background-color: var(--HOFr);
+}
+#h-socklow-hou {
+    background-color: var(--HOBr);
+}
+
+
+#a-helmet-hou {
+    background-color: white;
+}
+#a-helmetlogo-hou {
+    background-color: var(--HOBr);
+}
+#a-facemask-hou {
+    background-color: var(--HOFr);
+}
+#a-jersey-hou {
+    background-color: white;
+}
+#a-jerseystripe-hou {
+    background-color: var(--HOFr);
+}
+#a-pants-hou {
+    background-color: white;
+}
+#a-pantsstripe-hou {
+    background-color: var(--HOBr);
+}
+#a-sockhigh-hou {
+    background-color: var(--HOFr);
+}
+#a-socklow-hou {
+    background-color: var(--HOBr);
+}
+
+
+#t-helmet-hou {
+    background-color: var(--OAB);
+}
+#t-helmetlogo-hou {
+    background-color: var(--HOBr);
+}
+#t-facemask-hou {
+    background-color: var(--HOFr);
+}
+#t-jersey-hou {
+    background-color: var(--HOBr);
+}
+#t-jerseystripe-hou {
+    background-color: var(--HOFr);
+}
+#t-pants-hou {
+    background-color: var(--OAB);
+}
+#t-pantsstripe-hou {
+    background-color: var(--HOBr);
+}
+#t-sockhigh-hou {
+    background-color: var(--HOFr);
+}
+#t-socklow-hou {
+    background-color: var(--HOBr);
+}
+
+
+#h-helmet-chi {
+    background-color: var(--CHF);
+}
+#h-helmetlogo-chi {
+    background-color: var(--CHBr);
+}
+#h-facemask-chi {
+    background-color: var(--CHF);
+}
+#h-jersey-chi {
+    background-color: var(--CHF);
+}
+#h-jerseystripe-chi {
+    background-color: var(--CHBr);
+}
+#h-pants-chi {
+    background-color: white;
+}
+#h-pantsstripe-chi {
+    background-color: var(--CHBr);
+}
+#h-sockhigh-chi {
+    background-color: var(--CHBr);
+}
+#h-socklow-chi {
+    background-color: white;
+}
+
+
+#a-helmet-chi {
+    background-color: var(--CHF);
+}
+#a-helmetlogo-chi {
+    background-color: var(--CHBr);
+}
+#a-facemask-chi {
+    background-color: var(--CHF);
+}
+#a-jersey-chi {
+    background-color: white;
+}
+#a-jerseystripe-chi {
+    background-color: var(--CHBr);
+}
+#a-pants-chi {
+    background-color: var(--CHF);
+}
+#a-pantsstripe-chi {
+    background-color: var(--CHBr);
+}
+#a-sockhigh-chi {
+    background-color: white;
+}
+#a-socklow-chi {
+    background-color: var(--CHBr);
+}
+
+
+#t-helmet-chi {
+    background-color: var(--CHBr);
+}
+#t-helmetlogo-chi {
+    background-color: var(--CHF);
+}
+#t-facemask-chi {
+    background-color: var(--CHF);
+}
+#t-jersey-chi {
+    background-color: var(--CHF);
+}
+#t-jerseystripe-chi {
+    background-color: var(--CHBr);
+}
+#t-pants-chi {
+    background-color: var(--CHF);
+}
+#t-pantsstripe-chi {
+    background-color: var(--CHBr);
+}
+#t-sockhigh-chi {
+    background-color: white;
+}
+#t-socklow-chi {
+    background-color: var(--CHBr);
+}
+
+
+#h-helmet-oak {
+    background-color: var(--OAB);
+}
+#h-helmetlogo-oak {
+    background-color: var(--OAF);
+}
+#h-facemask-oak {
+    background-color: var(--OAB);
+}
+#h-jersey-oak {
+    background-color: var(--OAF);
+}
+#h-jerseystripe-oak {
+    background-color: var(--OAB);
+}
+#h-pants-oak {
+    background-color: var(--OAB);
+}
+#h-pantsstripe-oak {
+    background-color: var(--OAF);
+}
+#h-sockhigh-oak {
+    background-color: var(--OAF);
+}
+#h-socklow-oak {
+    background-color: white;
+}
+
+
+#a-helmet-oak {
+    background-color: var(--OAB);
+}
+#a-helmetlogo-oak {
+    background-color: var(--OAF);
+}
+#a-facemask-oak {
+    background-color: var(--OAB);
+}
+#a-jersey-oak {
+    background-color: white;
+}
+#a-jerseystripe-oak {
+    background-color: var(--OAF);
+}
+#a-pants-oak {
+    background-color: var(--OAB);
+}
+#a-pantsstripe-oak {
+    background-color: var(--OAF);
+}
+#a-sockhigh-oak {
+    background-color: var(--OAF);
+}
+#a-socklow-oak {
+    background-color: white;
+}
+
+
+#t-helmet-oak {
+    background-color: var(--OAB);
+}
+#t-helmetlogo-oak {
+    background-color: white;
+}
+#t-facemask-oak {
+    background-color: var(--OAB);
+}
+#t-jersey-oak {
+    background-color: white;
+}
+#t-jerseystripe-oak {
+    background-color: var(--OAB);
+}
+#t-pants-oak {
+    background-color: var(--OAB);
+}
+#t-pantsstripe-oak {
+    background-color: white;
+}
+#t-sockhigh-oak {
+    background-color: var(--OAF);
+}
+#t-socklow-oak {
+    background-color: white;
+}
+
+
+
+#h-helmet-buf {
+    background-color: var(--BUBr);
+}
+#h-helmetlogo-buf {
+    background-color: var(--BUF);
+}
+#h-facemask-buf {
+    background-color: var(--BUF);
+}
+#h-jersey-buf {
+    background-color: var(--BUF);
+}
+#h-jerseystripe-buf {
+    background-color: white;
+}
+#h-pants-buf {
+    background-color: white;
+}
+#h-pantsstripe-buf {
+    background-color: var(--BUBr);
+}
+#h-sockhigh-buf {
+    background-color: var(--BUBr);
+}
+#h-socklow-buf {
+    background-color: white;
+}
+
+#a-helmet-buf {
+    background-color: var(--BUBr);
+}
+#a-helmetlogo-buf {
+    background-color: var(--BUF);
+}
+#a-facemask-buf {
+    background-color: var(--BUF);
+}
+#a-jersey-buf {
+    background-color: white;
+}
+#a-jerseystripe-buf {
+    background-color: var(--BUF);
+}
+#a-pants-buf {
+    background-color: var(--BUF);
+}
+#a-pantsstripe-buf {
+    background-color: var(--BUBr);
+}
+#a-sockhigh-buf {
+    background-color: var(--BUBr);
+}
+#a-socklow-buf {
+    background-color: white;
+}
+
+#t-helmet-buf {
+   /* background-color: white; */
+    background-color: #69BE28;
+}
+#t-helmetlogo-buf {
+   /* background-color: var(--BUF); */
+    background-color: #00653A;
+}
+#t-facemask-buf {
+   /* background-color: var(--BUF); */
+    background-color: black;
+}
+#t-jersey-buf {
+   /*  background-color: var(--BUF); */
+    background-color: #00653A;
+}
+#t-jerseystripe-buf {
+   /* background-color: white; */
+    background-color: #FFC200;
+}
+#t-pants-buf {
+   /*  background-color: white; */
+   background-color: black;
+}
+#t-pantsstripe-buf {
+    /* background-color: var(--BUBr); */
+    background-color: #FFC200;
+}
+#t-sockhigh-buf {
+   /*  background-color: var(--BUBr); */
+    background-color: #00653A;
+}
+#t-socklow-buf {
+    background-color: white;
+}
+
+
+
+#h-helmet-win {
+    background-color: var(--WIB);
+}
+#h-helmetlogo-win {
+    background-color: var(--WIF);
+}
+#h-facemask-win {
+    background-color: var(--WIF);
+}
+#h-jersey-win {
+    background-color: var(--WIF);
+}
+#h-jerseystripe-win {
+    background-color: var(--WIB);
+}
+#h-pants-win {
+    background-color: var(--WIB);
+}
+#h-pantsstripe-win {
+    background-color: var(--WIF);
+}
+#h-sockhigh-win {
+    background-color: var(--WIF);
+}
+#h-socklow-win {
+    background-color: white;
+}
+
+
+#a-helmet-win {
+    background-color: var(--WIB);
+}
+#a-helmetlogo-win {
+    background-color: var(--WIF);
+}
+#a-facemask-win {
+    background-color: var(--WIF);
+}
+#a-jersey-win {
+    background-color: white;
+}
+#a-jerseystripe-win {
+    background-color: var(--WIB);
+}
+#a-pants-win {
+    background-color: var(--WIB);
+}
+#a-pantsstripe-win {
+    background-color: var(--WIF);
+}
+#a-sockhigh-win {
+    background-color: var(--WIF);
+}
+#a-socklow-win {
+    background-color: white;
+}
+
+
+#t-helmet-win {
+    background-color: var(--WIB);
+}
+#t-helmetlogo-win {
+    background-color: var(--WIF);
+}
+#t-facemask-win {
+    background-color: var(--WIF);
+}
+#t-jersey-win {
+    background-color: var(--WIF);
+}
+#t-jerseystripe-win {
+    background-color: var(--WIB);
+}
+#t-pants-win {
+    background-color: var(--WIF);
+}
+#t-pantsstripe-win {
+    background-color: var(--WIB);
+}
+#t-sockhigh-win {
+    background-color: var(--WIB);
+}
+#t-socklow-win {
+    background-color: white;
+}
+
+#h-helmet-pro {
+    background-color: var(--PRF);
+}
+#h-helmetlogo-pro {
+    background-color: var(--PRB);
+}
+#h-facemask-pro {
+    background-color: black;
+}
+#h-jersey-pro {
+    background-color: black;
+}
+#h-jerseystripe-pro {
+    background-color: var(--PRF);
+}
+#h-pants-pro {
+    background-color: var(--PRF);
+}
+#h-pantsstripe-pro {
+    background-color: var(--PRB);
+}
+#h-sockhigh-pro {
+    background-color: var(--PRB);
+}
+#h-socklow-pro {
+    background-color: white;
+}
+
+
+#a-helmet-pro {
+    background-color: var(--PRF);
+}
+#a-helmetlogo-pro {
+    background-color: var(--PRB);
+}
+#a-facemask-pro {
+    background-color: black;
+}
+#a-jersey-pro {
+    background-color: white;
+}
+#a-jerseystripe-pro {
+    background-color: var(--PRF);
+}
+#a-pants-pro {
+    background-color: black;
+}
+#a-pantsstripe-pro {
+    background-color: var(--PRF);
+}
+#a-sockhigh-pro {
+    background-color: var(--PRB);
+}
+#a-socklow-pro {
+    background-color: white;
+}
+
+#t-helmet-pro {
+    background-color: var(--PRF);
+}
+#t-helmetlogo-pro {
+    background-color: var(--PRB);
+}
+#t-facemask-pro {
+    background-color: black;
+}
+#t-jersey-pro {
+    background-color: var(--PRF);
+}
+#t-jerseystripe-pro {
+    background-color: var(--PRB);
+}
+#t-pants-pro {
+    background-color: black;
+}
+#t-pantsstripe-pro {
+    background-color: var(--PRF);
+}
+#t-sockhigh-pro {
+    background-color: var(--PRB);
+}
+#t-socklow-pro {
+    background-color: white;
+}
+
+
+
+#h-helmet-lon {
+    background-color: var(--LOB);
+}
+#h-helmetlogo-lon {
+    background-color: red;
+}
+#h-facemask-lon {
+    background-color: var(--LOF);
+}
+#h-jersey-lon {
+    background-color: var(--LOF);
+}
+#h-jerseystripe-lon {
+    background-color: var(--LOB);
+}
+#h-pants-lon {
+    background-color: var(--LOB);
+}
+#h-pantsstripe-lon {
+    background-color: red;
+}
+#h-sockhigh-lon {
+    background-color: red;
+}
+#h-socklow-lon {
+    background-color: var(--LOF);
+}
+
+#a-helmet-lon {
+    background-color: var(--LOB);
+}
+#a-helmetlogo-lon {
+    background-color: red;
+}
+#a-facemask-lon {
+    background-color: var(--LOF);
+}
+#a-jersey-lon {
+    background-color: white;
+}
+#a-jerseystripe-lon {
+    background-color: var(--LOF);
+}
+#a-pants-lon {
+    background-color: var(--LOB);
+}
+#a-pantsstripe-lon {
+    background-color: red;
+}
+#a-sockhigh-lon {
+    background-color: red;
+}
+#a-socklow-lon {
+    background-color: var(--LOF);
+}
+
+
+#t-helmet-lon {
+    background-color: var(--LOB);
+}
+#t-helmetlogo-lon {
+    background-color: red;
+}
+#t-facemask-lon {
+    background-color: var(--LOF);
+}
+#t-jersey-lon {
+    background-color: var(--LOB);
+}
+#t-jerseystripe-lon {
+    background-color: red;
+}
+#t-pants-lon {
+    background-color: white;
+}
+#t-pantsstripe-lon {
+    background-color: red;
+}
+#t-sockhigh-lon {
+    background-color: red;
+}
+#t-socklow-lon {
+    background-color: var(--LOF);
+}
+
+
+
+#h-helmet-det {
+    background-color: var(--DEB);
+}
+#h-helmetlogo-det {
+    background-color: var(--DEFr);
+}
+#h-facemask-det {
+    background-color: var(--DEFr);
+}
+#h-jersey-det {
+    background-color: var(--DEFr);
+}
+#h-jerseystripe-det {
+    background-color: var(--DEB);
+}
+#h-pants-det {
+    background-color: var(--DEB);
+}
+#h-pantsstripe-det {
+    background-color: var(--DEFr);
+}
+#h-sockhigh-det {
+    background-color: var(--DEFr);
+}
+#h-socklow-det {
+    background-color: white;
+}
+
+
+#a-helmet-det {
+    background-color: var(--DEB);
+}
+#a-helmetlogo-det {
+    background-color: var(--DEFr);
+}
+#a-facemask-det {
+    background-color: var(--DEFr);
+}
+#a-jersey-det {
+    background-color: white;
+}
+#a-jerseystripe-det {
+    background-color: var(--DEF);
+}
+#a-pants-det {
+    background-color: var(--DEB);
+}
+#a-pantsstripe-det {
+    background-color: var(--DEFr);
+}
+#a-sockhigh-det {
+    background-color: var(--DEFr);
+}
+#a-socklow-det {
+    background-color: white;
+}
+
+
+#t-helmet-det {
+    background-color: var(--DEFr);
+}
+#t-helmetlogo-det {
+    background-color: var(--DEB);
+}
+#t-facemask-det {
+    background-color: var(--DEB);
+}
+#t-jersey-det {
+    background-color: var(--DEB);
+}
+#t-jerseystripe-det {
+    background-color: var(--DEFr);
+}
+#t-pants-det {
+    background-color: var(--DEB);
+}
+#t-pantsstripe-det {
+    background-color: var(--DEFr);
+}
+#t-sockhigh-det {
+    background-color: var(--DEFr);
+}
+#t-socklow-det {
+    background-color: white;
+}
+
+
+
+#h-helmet-min {
+    background-color: var(--MNF);
+}
+#h-helmetlogo-min {
+    background-color: white;
+}
+#h-facemask-min {
+    background-color: white;
+}
+#h-jersey-min {
+    background-color: var(--MNF);
+}
+#h-jerseystripe-min {
+    background-color: var(--MNB);
+}
+#h-pants-min {
+    background-color: white;
+}
+#h-pantsstripe-min {
+    background-color: var(--MNB);
+}
+#h-sockhigh-min {
+    background-color: var(--MNF);
+}
+#h-socklow-min {
+    background-color: var(--MNB);
+}
+
+#a-helmet-min {
+    background-color: var(--MNF);
+}
+#a-helmetlogo-min {
+    background-color: white;
+}
+#a-facemask-min {
+    background-color: white;
+}
+#a-jersey-min {
+    background-color: white;
+}
+#a-jerseystripe-min {
+    background-color: var(--MNB);
+}
+#a-pants-min {
+    background-color: var(--MNF);
+}
+#a-pantsstripe-min {
+    background-color: var(--MNB);
+}
+#a-sockhigh-min {
+    background-color: white;
+}
+#a-socklow-min {
+    background-color: var(--MNB);
+}
+
+#t-helmet-min {
+    background-color: var(--MNF);
+}
+#t-helmetlogo-min {
+    background-color: white;
+}
+#t-facemask-min {
+    background-color: white;
+}
+#t-jersey-min {
+    background-color: var(--MNB);
+}
+#t-jerseystripe-min {
+    background-color: var(--MNF);
+}
+#t-pants-min {
+    background-color: var(--MNB);
+}
+#t-pantsstripe-min {
+    background-color: var(--MNF);
+}
+#t-sockhigh-min {
+    background-color: var(--MNF);
+}
+#t-socklow-min {
+    background-color: white;
+}
+
+
+
+#h-helmet-atl {
+    background-color: var(--ATFr);
+}
+#h-helmetlogo-atl {
+    background-color: black;
+}
+#h-facemask-atl {
+    background-color: black;
+}
+#h-jersey-atl {
+    background-color: var(--ATFr);
+}
+#h-jerseystripe-atl {
+    background-color: black;
+}
+#h-pants-atl {
+    background-color: var(--ATBr);
+}
+#h-pantsstripe-atl {
+    background-color: var(--ATFr);
+}
+#h-sockhigh-atl {
+    background-color: var(--ATFr);
+}
+#h-socklow-atl {
+    background-color: white;
+}
+
+
+
+#a-helmet-atl {
+    background-color: var(--ATFr);
+}
+#a-helmetlogo-atl {
+    background-color: black;
+}
+#a-facemask-atl {
+    background-color: black;
+}
+#a-jersey-atl {
+    background-color: white;
+}
+#a-jerseystripe-atl {
+    background-color: var(--ATFr);
+}
+#a-pants-atl {
+    background-color: var(--ATBr);
+}
+#a-pantsstripe-atl {
+    background-color: var(--ATFr);
+}
+#a-sockhigh-atl {
+    background-color: var(--ATFr);
+}
+#a-socklow-atl {
+    background-color: white;
+}
+
+
+#t-helmet-atl {
+    background-color: var(--ATFr);
+}
+#t-helmetlogo-atl {
+    background-color: black;
+}
+#t-facemask-atl {
+    background-color: black;
+}
+#t-jersey-atl {
+    background-color: black;
+}
+#t-jerseystripe-atl {
+    background-color: black;
+}
+#t-pants-atl {
+    background-color: white;
+}
+#t-pantsstripe-atl {
+    background-color: var(--ATFr);
+}
+#t-sockhigh-atl {
+    background-color: var(--ATFr);
+}
+#t-socklow-atl {
+    background-color: white;
+}
+
+
+#h-helmet-sf {
+    background-color: var(--SFBr);
+}
+#h-helmetlogo-sf {
+    background-color: var(--SFFr);
+}
+#h-facemask-sf {
+    background-color: var(--OAB);
+}
+#h-jersey-sf {
+    background-color: var(--SFFr);
+}
+#h-jerseystripe-sf {
+    background-color: white;
+}
+#h-pants-sf {
+    background-color: var(--SFBr);
+}
+#h-pantsstripe-sf {
+    background-color: var(--SFFr);
+}
+#h-sockhigh-sf {
+    background-color: var(--SFFr);
+}
+#h-socklow-sf {
+    background-color: white;
+}
+
+
+#a-helmet-sf {
+    background-color: var(--SFBr);
+}
+#a-helmetlogo-sf {
+    background-color: var(--SFFr);
+}
+#a-facemask-sf {
+    background-color: var(--OAB);
+}
+#a-jersey-sf {
+    background-color: white;
+}
+#a-jerseystripe-sf {
+    background-color: var(--SFFr);
+}
+#a-pants-sf {
+    background-color: var(--SFBr);
+}
+#a-pantsstripe-sf {
+    background-color: var(--SFFr);
+}
+#a-sockhigh-sf {
+    background-color: var(--SFFr);
+}
+#a-socklow-sf {
+    background-color: white;
+}
+
+
+#t-helmet-sf {
+    /* background-color: var(--SFBr); */
+    background-color: #cb974b;
+}
+#t-helmetlogo-sf {
+    /* background-color: var(--SFFr); */
+    background-color: #1D1160;
+}
+#t-facemask-sf {
+   /* background-color: var(--OAB); */
+    background-color: #00788C;
+}
+#t-jersey-sf {
+    /* background-color: var(--SFFr); */
+    background-color: white;
+}
+#t-jerseystripe-sf {
+   /* background-color: white; */
+    background-color: #00788C;
+}
+#t-pants-sf {
+    /* background-color: white; */
+    background-color: #1D1160;
+}
+#t-pantsstripe-sf {
+    /* background-color: var(--SFFr); */
+    background-color: #00788C;
+}
+#t-sockhigh-sf {
+    /* background-color: var(--SFFr); */
+    background-color: #00788C;
+}
+#t-socklow-sf {
+    /* background-color: var(--SFBr); */
+    background-color: #1D1160;
+}
+
+
+
+#h-helmet-tb {
+    background-color: white;
+}
+#h-helmetlogo-tb {
+    background-color: var(--TBBr);
+}
+#h-facemask-tb {
+    background-color: var(--TBBr);
+}
+#h-jersey-tb {
+    background-color: var(--TBBr);
+}
+#h-jerseystripe-tb {
+    background-color: var(--TBF);
+}
+#h-pants-tb {
+    background-color: white;
+}
+#h-pantsstripe-tb {
+    background-color: var(--TBF);
+}
+#h-sockhigh-tb {
+    background-color: var(--TBF);
+}
+#h-socklow-tb {
+    background-color: var(--TBBr);
+}
+
+
+#a-helmet-tb {
+    background-color: white;
+}
+#a-helmetlogo-tb {
+    background-color: var(--TBBr);
+}
+#a-facemask-tb {
+    background-color: var(--TBBr);
+}
+#a-jersey-tb {
+    background-color: white;
+}
+#a-jerseystripe-tb {
+    background-color: var(--TBF);
+}
+#a-pants-tb {
+    background-color: var(--TBBr);
+}
+#a-pantsstripe-tb {
+    background-color: var(--TBF);
+}
+#a-sockhigh-tb {
+    background-color: var(--TBF);
+}
+#a-socklow-tb {
+    background-color: white;
+}
+
+
+#t-helmet-tb {
+    background-color: white
+}
+#t-helmetlogo-tb {
+    background-color: var(--TBBr);
+}
+#t-facemask-tb {
+    background-color: var(--TBBr);
+}
+#t-jersey-tb {
+    background-color: black;
+}
+#t-jerseystripe-tb {
+    background-color: var(--TBBr);
+}
+#t-pants-tb {
+    background-color: white;
+}
+#t-pantsstripe-tb {
+    background-color: var(--TBF);
+}
+#t-sockhigh-tb {
+    background-color: var(--TBF);
+}
+#t-socklow-tb {
+    background-color: var(--TBBr);
+}
+
+
+
+#h-helmet-was {
+    background-color: var(--WAF);
+}
+#h-helmetlogo-was {
+    background-color: var(--WAB);
+}
+#h-facemask-was {
+    background-color: var(--WAB);
+}
+#h-jersey-was {
+    background-color: var(--WAF);
+}
+#h-jerseystripe-was {
+    background-color: var(--WAB);
+}
+#h-pants-was {
+    background-color: white;
+}
+#h-pantsstripe-was {
+    background-color: var(--WAF);
+}
+#h-sockhigh-was {
+    background-color: var(--WAF);
+}
+#h-socklow-was {
+    background-color: var(--WAB);
+}
+
+
+#a-helmet-was {
+    background-color: var(--WAF);
+}
+#a-helmetlogo-was {
+    background-color: var(--WAB);
+}
+#a-facemask-was {
+    background-color: var(--WAB);
+}
+#a-jersey-was {
+    background-color: white;
+}
+#a-jerseystripe-was {
+    background-color: var(--WAF);
+}
+#a-pants-was {
+    background-color: var(--WAF);
+}
+#a-pantsstripe-was {
+    background-color: var(--WAB);
+}
+#a-sockhigh-was {
+    background-color: var(--WAB);
+}
+#a-socklow-was {
+    background-color: var(--WAF);
+}
+
+
+#t-helmet-was {
+    background-color: var(--WAF);
+}
+#t-helmetlogo-was {
+    background-color: var(--WAB);
+}
+#t-facemask-was {
+    background-color: var(--WAB);
+}
+#t-jersey-was {
+    background-color: var(--WAF);
+}
+#t-jerseystripe-was {
+    background-color: var(--WAB);
+}
+#t-pants-was {
+    background-color: var(--WAB);
+}
+#t-pantsstripe-was {
+    background-color: var(--WAF);
+}
+#t-sockhigh-was {
+    background-color: var(--WAF);
+}
+#t-socklow-was {
+    background-color: white;
+}
+
+
+
+#h-helmet-bal {
+    background-color: black;
+}
+#h-helmetlogo-bal {
+    background-color: var(--CLBr);
+}
+#h-facemask-bal {
+    background-color: var(--CLF);
+}
+#h-jersey-bal {
+    background-color: var(--CLF);
+}
+#h-jerseystripe-bal {
+    background-color: var(--CLBr);
+}
+#h-pants-bal {
+    background-color: white;
+}
+#h-pantsstripe-bal {
+    background-color: var(--CLF);
+}
+#h-sockhigh-bal {
+    background-color: var(--CLF);
+}
+#h-socklow-bal {
+    background-color: var(--CLBr);
+}
+
+
+#a-helmet-bal {
+    background-color: black;
+}
+#a-helmetlogo-bal {
+    background-color: var(--CLBr);
+}
+#a-facemask-bal {
+    background-color: var(--CLF);
+}
+#a-jersey-bal {
+    background-color: white;
+}
+#a-jerseystripe-bal {
+    background-color: var(--CLF);
+}
+#a-pants-bal {
+    background-color: black;
+}
+#a-pantsstripe-bal {
+    background-color: var(--CLF);
+}
+#a-sockhigh-bal {
+    background-color: var(--CLF);
+}
+#a-socklow-bal {
+    background-color: var(--CLBr);
+}
+
+
+#t-helmet-bal {
+    background-color: black;
+}
+#t-helmetlogo-bal {
+    background-color: var(--CLBr);
+}
+#t-facemask-bal {
+    background-color: var(--CLF);
+}
+#t-jersey-bal {
+    background-color: black;
+}
+#t-jerseystripe-bal {
+    background-color: var(--CLBr);
+}
+#t-pants-bal {
+    background-color: black;
+}
+#t-pantsstripe-bal {
+    background-color: var(--CLF);
+}
+#t-sockhigh-bal {
+    background-color: var(--CLF);
+}
+#t-socklow-bal {
+    background-color: var(--CLBr);
+}
+
+
+
+#h-helmet-ind {
+    background-color: white;
+}
+#h-helmetlogo-ind {
+    background-color: var(--INF);
+}
+#h-facemask-ind {
+    background-color: var(--INF);
+}
+#h-jersey-ind {
+    background-color: var(--INF);
+}
+#h-jerseystripe-ind {
+    background-color: white;
+}
+#h-pants-ind {
+    background-color: white;
+}
+#h-pantsstripe-ind {
+    background-color: var(--INF);
+}
+#h-sockhigh-ind {
+    background-color: white;
+}
+#h-socklow-ind {
+    background-color: var(--INF);
+}
+
+
+#a-helmet-ind {
+    background-color: white;
+}
+#a-helmetlogo-ind {
+    background-color: var(--INF);
+}
+#a-facemask-ind {
+    background-color: var(--INF);
+}
+#a-jersey-ind {
+    background-color: white;
+}
+#a-jerseystripe-ind {
+    background-color: var(--INF);
+}
+#a-pants-ind {
+    background-color: white;
+}
+#a-pantsstripe-ind {
+    background-color: var(--INF);
+}
+#a-sockhigh-ind {
+    background-color: white;
+}
+#a-socklow-ind {
+    background-color: var(--INF);
+}
+
+
+#t-helmet-ind {
+    background-color: black;
+}
+#t-helmetlogo-ind {
+    background-color: var(--INF);
+}
+#t-facemask-ind {
+    background-color: var(--INF);
+}
+#t-jersey-ind {
+    background-color: var(--INF);
+}
+#t-jerseystripe-ind {
+    background-color: white;
+}
+#t-pants-ind {
+    background-color: white;
+}
+#t-pantsstripe-ind {
+    background-color: var(--INF);
+}
+#t-sockhigh-ind {
+    background-color: white;
+}
+#t-socklow-ind {
+    background-color: var(--INF);
+}
+
+#h-helmet-sea {
+    background-color: var(--SEBr);
+}
+#h-helmetlogo-sea {
+    background-color: var(--SEB);
+}
+#h-facemask-sea {
+    background-color: var(--SEF);
+}
+#h-jersey-sea {
+    background-color: var(--SEBr);
+}
+#h-jerseystripe-sea {
+    background-color: var(--SEB);
+}
+#h-pants-sea {
+    background-color: var(--SEBr);
+}
+#h-pantsstripe-sea {
+    background-color: var(--SEB);
+}
+#h-sockhigh-sea {
+    background-color: white;
+}
+#h-socklow-sea {
+    background-color: var(--SEBr);
+}
+
+#a-helmet-sea {
+    background-color: var(--SEBr);
+}
+#a-helmetlogo-sea {
+    background-color: var(--SEB);
+}
+#a-facemask-sea {
+    background-color: var(--SEF);
+}
+#a-jersey-sea {
+    background-color: white;
+}
+#a-jerseystripe-sea {
+    background-color: var(--SEBr);
+}
+#a-pants-sea {
+    background-color: var(--SEBr);
+}
+#a-pantsstripe-sea {
+    background-color: var(--SEB);
+}
+#a-sockhigh-sea {
+    background-color: white;
+}
+#a-socklow-sea {
+    background-color: var(--SEBr);
+}
+
+#t-helmet-sea {
+    background-color: var(--SEFr);
+}
+#t-helmetlogo-sea {
+    background-color: var(--SEB);
+}
+#t-facemask-sea {
+    background-color: #003087;
+}
+#t-jersey-sea {
+    background-color: #003087;
+}
+#t-jerseystripe-sea {
+    background-color: var(--SEB);
+}
+#t-pants-sea {
+    background-color: var(--SEFr);
+}
+#t-pantsstripe-sea {
+    background-color: #003087;
+}
+#t-sockhigh-sea {
+    background-color: white;
+}
+#t-socklow-sea {
+    background-color: var(--SEB);
+}
+
+
+#h-helmet-nyg {
+    background-color: var(--NYF);
+}
+#h-helmetlogo-nyg {
+    background-color: white;
+}
+#h-facemask-nyg {
+    background-color: white;
+}
+#h-jersey-nyg {
+    background-color: var(--NYF);
+}
+#h-jerseystripe-nyg {
+    background-color: var(--NYBr);
+}
+#h-pants-nyg {
+    background-color: white;
+}
+#h-pantsstripe-nyg {
+    background-color: var(--NYBr);
+}
+#h-sockhigh-nyg {
+    background-color: var(--NYF);
+}
+#h-socklow-nyg {
+    background-color: var(--NYBr);
+}
+
+#a-helmet-nyg {
+    background-color: var(--NYF);
+}
+#a-helmetlogo-nyg {
+    background-color: white;
+}
+#a-facemask-nyg {
+    background-color: white;
+}
+#a-jersey-nyg {
+    background-color: white;
+}
+#a-jerseystripe-nyg {
+    background-color: var(--NYBr);
+}
+#a-pants-nyg {
+    background-color: white;
+}
+#a-pantsstripe-nyg {
+    background-color: var(--NYBr);
+}
+#a-sockhigh-nyg {
+    background-color: var(--NYF);
+}
+#a-socklow-nyg {
+    background-color: var(--NYBr);
+}
+
+
+#t-helmet-nyg {
+    background-color: var(--NYF);
+}
+#t-helmetlogo-nyg {
+    background-color: white;
+}
+#t-facemask-nyg {
+    background-color: white;
+}
+#t-jersey-nyg {
+    background-color: white;
+}
+#t-jerseystripe-nyg {
+    background-color: var(--NYBr);
+}
+#t-pants-nyg {
+    background-color: var(--NYF);
+}
+#t-pantsstripe-nyg {
+    background-color: var(--NYBr);
+}
+#t-sockhigh-nyg {
+    background-color: white;
+}
+#t-socklow-nyg {
+    background-color: var(--NYBr);
+}
+
+
+#h-helmet-nyj {
+    background-color: var(--NJF);
+}
+#h-helmetlogo-nyj {
+    background-color: white;
+}
+#h-facemask-nyj {
+    background-color: white;
+}
+#h-jersey-nyj {
+    background-color: var(--NJF);
+}
+#h-jerseystripe-nyj {
+    background-color: white;
+}
+#h-pants-nyj {
+    background-color: white;
+}
+#h-pantsstripe-nyj {
+    background-color: var(--NJF);
+}
+#h-sockhigh-nyj {
+    background-color: white;
+}
+#h-socklow-nyj {
+    background-color: var(--NJF);
+}
+
+#a-helmet-nyj {
+    background-color: var(--NJF);
+}
+#a-helmetlogo-nyj {
+    background-color: white;
+}
+#a-facemask-nyj {
+    background-color: white;
+}
+#a-jersey-nyj {
+    background-color: white;
+}
+#a-jerseystripe-nyj {
+    background-color: var(--NJF);
+}
+#a-pants-nyj {
+    background-color: var(--NJF);
+}
+#a-pantsstripe-nyj {
+    background-color: white;
+}
+#a-sockhigh-nyj {
+    background-color: white;
+}
+#a-socklow-nyj {
+    background-color: var(--NJF);
+}
+
+
+#t-helmet-nyj {
+    background-color: black;
+}
+#t-helmetlogo-nyj {
+    background-color: var(--NJF);
+}
+#t-facemask-nyj {
+    background-color: var(--NJF);
+}
+#t-jersey-nyj {
+    background-color: black;
+}
+#t-jerseystripe-nyj {
+    background-color: var(--NJF);
+}
+#t-pants-nyj {
+    background-color: black;
+}
+#t-pantsstripe-nyj {
+    background-color: var(--NJF);
+}
+#t-sockhigh-nyj {
+    background-color: white;
+}
+#t-socklow-nyj {
+    background-color: var(--NJBr);
+}
