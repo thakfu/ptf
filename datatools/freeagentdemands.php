@@ -1,7 +1,7 @@
 <?php
 
 //require('../header.php');
-require('../../../sql/phpmysqlconnect.php');
+require('../../sql/phpmysqlconnect.php');
 require('../../ptf-services/player-service.php');
 //require('../../ptf-services/team-service.php');
 
@@ -10,8 +10,8 @@ require('../../ptf-services/player-service.php');
 //REMOVE BEFORE RUNNING!!!!!
 
 // VARIABLES //
-$draftStart = 6242; // IMPORTANT!!!!   The Players file includes incoming draft class.  This is the PLAYERID number where draft picks BEGIN! //
-$salaryCap = 105000000;
+$draftStart = 10261; // IMPORTANT!!!!   The Players file includes incoming draft class.  This is the PLAYERID number where draft picks BEGIN! //
+$salaryCap = 140000000;
 
 //$var = 'ext';
 $var = 'fa';
@@ -24,7 +24,7 @@ if($var == 'ext') {
 
 usort($playerService, fn($a, $b) => $b['Overall'] <=> $a['Overall']);
 
-$year = 1987;
+$year = 1991;
 
 
 // ARRAYS //
@@ -54,7 +54,7 @@ if(isset($_POST['finalize'])){
     }
     $upsert2 = substr($update2, 0, -1);
 
-    echo 'INSERT INTO `ptf_fa_demands` (PlayerID, Position, year, amount, tier, previous, string) VALUES ' . $values;
+    //echo 'INSERT INTO `ptf_fa_demands` (PlayerID, Position, year, amount, tier, previous, string) VALUES ' . $values;
 
     if($var == 'ext') {
         $write = $connection->query('INSERT INTO `ptf_extend_demands` (PlayerID, Position, year, amount, tier, previous, string) VALUES ' . $values . ' ON DUPLICATE KEY UPDATE ' . $upsert2 . ';');
@@ -92,30 +92,44 @@ $csvFile = null;
 // Let's make a table for each position, for readibility.  
 $writeTable = array();
 foreach ($positions as $position) {
-    echo '<table><tr><th>Name</th><th>Age</th><th>Prev. Team</th><th>1986 Salary</th><th>Overall</th><th>Money</th><th>TOTAL</th><th>Pos</th><th>Initial Demand</th><th>Detailed Demand</th></tr>';
+    echo '<table><tr><th>Name</th><th>Age</th><th>Prev. Team</th><th>' . $year . ' Salary</th><th>Overall</th><th>Money</th><th>TOTAL</th><th>Pos</th><th>Initial Demand</th><th>Detailed Demand</th></tr>';
     foreach ($playerService as $player) {
         if ($player['RetiredSeason'] == 0) {
             if ($player['Position'] == $position) {
                 $writeRow = array();
-                $previous = $player[$year - 1];
+                $previous = max($player[$year], $player[$year - 1]);
 
                 if ($previous == 0) {
                     $previous = 250000;
                 } 
+                // QB Bonus Buff
+                if ($player['Position'] == 'QB') {
+                    $QbBonus = $player['Overall'] - 80;
+                    if ($QbBonus < 0) {
+                        $QbBonus = 0;
+                    }
+                    if ($player['Money'] < 80) {
+                        $money = $player['Money'] + $QbBonus;
+                    } else {
+                    $money = $player['Money'];
+                }
+                } else {
+                    $money = $player['Money'];
+                }
 
                 // $moneyDemand is the player's base demand trigger.
-                $moneyDemand = $player['Overall'] + $player['Money'];
+                $moneyDemand = $player['Overall'] + $money;
                     // TRIGGER POINTS //
-                if ($moneyDemand >= 185 || $player['Overall'] >= 99) {
+                if ($money >= 90 && $player['Overall'] >= 90) {
                     $demandString = 'I want to be the highest paid player at my position!';
                     $sal = $salaries[$player['Position'] . 'TOP'];
-                    $demandAmt = $sal + $sal*(10/100) ;
+                    $demandAmt = $sal + $sal*(5/100) ;
                     $tier = 1;
-                } elseif (($moneyDemand <= 185 && $moneyDemand >= 175) || $player['Overall'] >= 90) {
+                } elseif ($money >= 80 && $player['Overall'] >= 90) {
                     $demandString = 'I want to be in the TOP 5 highest paid players at my position!';
                     $demandAmt = $salaries[$player['Position'] . '5'];
                     $tier = 2;
-                } elseif ($player['Overall'] > 65 && $player['Overall'] < 80 && $player['Money'] >= 85) {
+                } elseif ($player['Overall'] >= 80 && $money >= 80) {
                     $demandString = 'I want to make ATLEAST the league average for my position!';
                     $demandAmt = $salaries[$player['Position'] . 'ALL'];
                     $tier = 3;
@@ -123,32 +137,38 @@ foreach ($positions as $position) {
                     // For all players who don't fall under a trigger point, we need to figure out how much money they want.
                     $demandString = 'I have a specific financial requirement, please meet it!';
                     $tier = 0;
-                    if ($player['Overall'] > 65) {
+                    if ($player['Overall'] >= 90) {
+                        $sal = $salaries[$player['Position'] . 'ALL'] * 2;
+                    } elseif ($player['Overall'] >= 80 && $player['Overall'] < 90) {
                         $sal = $salaries[$player['Position'] . 'ALL'];
-                    } elseif ($player['Overall'] > 55 && $player['Overall'] <= 65) {
-                        $sal = $salaries[$player['Position'] . 'ALL'] / 1.5;
-                    } elseif ($player['Overall'] > 45 && $player['Overall'] <= 55) {
-                        $sal = $salaries[$player['Position'] . 'ALL'] / 2;
+                    } elseif ($player['Overall'] > 70 && $player['Overall'] < 80) {
+                        $sal = $salaries[$player['Position'] . 'ALL'] / 2.5;
                     } else {
-                        $sal = $salaries[$player['Position'] . 'ALL'] / 4;
+                        $sal = $salaries[$player['Position'] . 'ALL'] / 5;
                     }
-                    $calc = ($player['Overall'] - 65) + ($player['Money'] - 80);
+                    $calc = ($player['Overall'] - 65) + ($money - 80);
                     $demandAmt = $sal + $sal*($calc/100);
                 }
-                if ($player['Age'] < 29) {
+                if ($player['Age'] < 28) {
                     if ($previous > $demandAmt) {
                         $demandString = 'I\'m not taking a pay cut! I got plenty of good years left!';
                     }
                     $demandAmt = max($previous, $demandAmt);
-                } elseif ($player['Age'] >= 29 && $player['Age'] <= 32) {
+                } elseif ($player['Age'] >= 28 && $player['Age'] < 32) {
                     if ($previous > $demandAmt) {
                         $diff = $previous - $demandAmt;
                         $demandAmt = $demandAmt + ($diff / 2);
                         $demandString = 'I\'ll take a small pay cut... But I had a great salary last year!';
                     }
                 }
+
+                if ($demandAmt > 300000) {
+                    $demandAmt = ceil($demandAmt / 10000) * 10000;
+                } else {
+                    $demandAmt = 250000;
+                }
                 
-                $prevTeam = $connection->query("SELECT Team, TeamID FROM `ptf_players_season_stats_1985` where Season = 1986 AND PlayerID = '" . $player['PlayerID'] . "'");
+                $prevTeam = $connection->query("SELECT Team, TeamID FROM `ptf_players_season_stats_1985` where Season = 1990 AND PlayerID = '" . $player['PlayerID'] . "'");
                 $prev = $prevTeam->fetch_assoc();
 
                 if($prev['TeamID'] == '') {
@@ -157,9 +177,9 @@ foreach ($positions as $position) {
                     $previousTeam = $prev['TeamID'];
                 }
 
-                echo '<tr><td>'. $player['FirstName'] . ' ' . $player['LastName'] .'</td><td>' . $player['Age'] . '</td><td>' . $prev['Team'] . '</td><td>' . $previous . '</td><td>' . $player['Overall'] . '</td><td>' . $player['Money'] . '</td><td>' . $moneyDemand . '</td><td>' . $player['AltPosition'] . '</td><td>' . $demandString . '</td><td>' . number_format($demandAmt) . '</td>';
+                echo '<tr><td>'. $player['FirstName'] . ' ' . $player['LastName'] .'</td><td>' . $player['Age'] . '</td><td>' . $prev['Team'] . '</td><td>' . $previous . '</td><td>' . $player['Overall'] . '</td><td>' . $money . '</td><td>' . $moneyDemand . '</td><td>' . $player['AltPosition'] . '</td><td>' . $demandString . '</td><td>' . number_format($demandAmt) . '</td>';
                 echo '</tr>';
-                array_push($writeRow, $player['PlayerID'],$player['Position'],1986,$demandAmt,$tier,$previousTeam,$demandString);
+                array_push($writeRow, $player['PlayerID'],$player['Position'],1990,$demandAmt,$tier,$previousTeam,$demandString);
                 array_push($writeTable,$writeRow);
             }
         }

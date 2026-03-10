@@ -35,7 +35,7 @@ if ($playerSeason['PassAtt'] > 0 || $played > 0) {
     echo '<th>Long</th>';
     echo '</tr>';
 
-    $statsService = statsService(0,$_GET['player'],'season');
+    $statsService = statsService(0,$_GET['player'],'ppseason');
     foreach ($statsService as $player) {
         echo '<tr><td>' .
             $player['Season'] . '</td><td>' .
@@ -115,7 +115,7 @@ if ($playerSeason['RushAtt'] > 0 || $played > 0) {
     echo '<th>Long</th>';
     echo '</tr>';
 
-    $statsService = statsService(0,$_GET['player'],'season');
+    $statsService = statsService(0,$_GET['player'],'ppseason');
     foreach ($statsService as $player) {
         echo '<tr><td>' .
             $player['Season'] . '</td><td>' .
@@ -188,7 +188,7 @@ if ($playerSeason['Catches'] > 0 || $played > 0) {
     echo '<th>Long</th>';
     echo '</tr>';
 
-    $statsService = statsService(0,$_GET['player'],'season');
+    $statsService = statsService(0,$_GET['player'],'ppseason');
     foreach ($statsService as $player) {
         echo '<tr><td>' .
             $player['Season'] . '</td><td>' .
@@ -256,7 +256,7 @@ if ((($playerSeason['MissedBlocks'] + $playerSeason['Pancakes']) > 0) || $played
     echo '<th>Fumble Rec.</th>';
     echo '</tr>';
 
-    $statsService = statsService(0,$_GET['player'],'season');
+    $statsService = statsService(0,$_GET['player'],'ppseason');
     foreach ($statsService as $player) {
         echo '<tr><td>' .
             $player['Season'] . '</td><td>' .
@@ -319,7 +319,7 @@ if ((($playerSeason['Tackles'] + $playerSeason['Int'] +  $playerSeason['Hurries'
     echo '<th>Safeties</th>';
     echo '</tr>';
 
-    $statsService = statsService(0,$_GET['player'],'season');
+    $statsService = statsService(0,$_GET['player'],'ppseason');
     foreach ($statsService as $player) {
         echo '<tr><td>' .
             $player['Season'] . '</td><td>' .
@@ -397,7 +397,7 @@ if (($playerSeason['KickingPoints'] + $playerSeason['Punts']) > 0) {
     echo '<th>PuntAvg</th>';
     echo '</tr>';
 
-    $statsService = statsService(0,$_GET['player'],'season');
+    $statsService = statsService(0,$_GET['player'],'ppseason');
     foreach ($statsService as $player) {
         echo '<tr><td>' .
             $player['Season'] . '</td><td>' .
@@ -466,7 +466,7 @@ if (($playerSeason['PuntReturns'] + $playerSeason['KickoffReturns']) > 0) {
     echo '<th>PR Long</th>';
     echo '</tr>';
 
-    $statsService = statsService(0,$_GET['player'],'season');
+    $statsService = statsService(0,$_GET['player'],'ppseason');
     foreach ($statsService as $player) {
         echo '<tr><td>' .
             $player['Season'] . '</td><td>' .
@@ -527,6 +527,8 @@ function relocation($team,$year) {
     } elseif ($year == '1986') {
         if ($team == 'NYG') {
             $teamabrv = 'WIN';
+        } else {
+            $teamabrv = $team;
         }
     } else {
         $teamabrv = $team;

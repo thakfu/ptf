@@ -8,11 +8,15 @@ if ($_POST['tag'] == 'tag') {
     $roster = $connection->query("UPDATE ptf_teams_data SET FranchiseTag = 0 WHERE TeamID = " . $_POST['TeamID']);
     $roster = $connection->query("UPDATE ptf_players SET TeamID = '{$_POST['TeamID']}', Team = '{$_POST['Abbreviation']}' WHERE PlayerID = " . $_POST['PlayerID']);
     $roster = $connection->query("UPDATE ptf_players_salaries SET `" . $year . "` = '" . $_POST['franchise'] . "', `" . $year + 1 . "` = '" . $_POST['franchise'] . "' WHERE PlayerID = " . $_POST['PlayerID']);
-    $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date) VALUES ({$_POST['PlayerID']},0, {$_POST['TeamID']}, 'tag', NOW())");
+    $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$_POST['PlayerID']},0, {$_POST['TeamID']}, 'tag', NOW(), '')");
     transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['Pos'], 'tag');
-}
+}  
 
     echo '<h2>OFFER SUMMARY</h2>';
+
+    if ($_POST['UDFA'] == 1) {
+        echo '<h3><center><b>THIS PLAYER IS AN UNDRAFTED FREE AGENT!  IGNORE ALL NOTES BELOW!</b></center></h3>';
+    }
 
     $faService = playerService($_SESSION['TeamID'],$_POST['PlayerID']);
     $day = $faday;
@@ -44,7 +48,6 @@ if ($_POST['tag'] == 'tag') {
         <th>Loyalty</th>
         <th>Winning</th>
         <th>Playing Time</th>
-        <th>Close Home</th>
         <th>Market Size</th>';
         /*<th>Sec. Mult</th>
         <th>Loy. Bonus</th>
@@ -98,7 +101,7 @@ if ($_POST['tag'] == 'tag') {
             $w = $calc['winVal'];
             $ww = $fas['Winning'];
             $p = $calc['ptBonus'];
-            $h = $calc['homeBase'];
+            //$h = $calc['homeBase'];
             $km = $calc['marketBonus'];
             //$part1 = (($mm - 70) / 100) + 1;
             $wb = $calc['winBonus'];
@@ -114,9 +117,9 @@ if ($_POST['tag'] == 'tag') {
                 $lAdj = $avgOffer * $l - $avgOffer;
                 $wAdj = $avgOffer * $wb - $avgOffer;
                 $pAdj = $avgOffer * $p - $avgOffer;
-                $hAdj = $avgOffer * $h - $avgOffer;
+                //$hAdj = $avgOffer * $h - $avgOffer;
                 $mAdj = $avgOffer * $km - $avgOffer;
-                $final = $avgOffer + $sAdj + $lAdj + $wAdj + $pAdj + $hAdj + $mAdj;
+                $final = $avgOffer + $sAdj + $lAdj + $wAdj + $pAdj + $mAdj;
                 $final = floor($final/50000) * 50000;
                 $afterRand = $final + $randomValue;
 
@@ -160,7 +163,6 @@ if ($_POST['tag'] == 'tag') {
                 <td>' . $calc['loy'] . '</td>
                 <td>' . $calc['win'] . '</td>
                 <td>' . $calc['pt'] . '</td>
-                <td>' . $calc['cth'] . '</td>
                 <td>' . $calc['mar'] . '</td>';
                 /*<td><b>' . $secureMult . '</b></td>
                 <td><b>' . $prevBonus . '</b></td>
@@ -182,7 +184,6 @@ if ($_POST['tag'] == 'tag') {
                 '<td>' . number_format($lAdj) . '</td>' . 
                 '<td>' . number_format($wAdj) . '</td>' . 
                 '<td>' . number_format($pAdj) . '</td>' . 
-                '<td>' . number_format($hAdj) . '</td>' . 
                 '<td>' . number_format($mAdj) . '</td>' . 
                 '<td ' . $color . '><i>Rounded</i></td><td></td></tr>';
 
@@ -224,11 +225,11 @@ if ($_POST['tag'] == 'tag') {
                     $disliked .= 'No Opportunity for Playing Time, ';
                 }
 
-                if ($calc['homeBase'] >= 1) {
+              /*  if ($calc['homeBase'] >= 1) {
                     $liked .= 'Close to Home, ';
                 } elseif ($calc['homeBase'] < 1) {
                     $disliked .= 'Too Far From Home, ';
-                }
+                } */
 
                 if ($calc['marketBonus'] >= 1) {
                     $liked .= 'Market Size, ';
@@ -256,7 +257,7 @@ if ($_POST['tag'] == 'tag') {
                 
             }
         }
-        echo '</table><br><center>Keep in mind, this <b>DOES NOT</b> factor in the randomizer!<br><br>';
+        echo '</table><br><center><br>Keep in mind, this <b>DOES NOT</b> factor in the randomizer!<br><br>';
         echo 'Randomizer MIN / MAX = <b>' . number_format($final * 0.95) . ' / ' . number_format($final * 1.15) . '</b><br><br>';
 
 
@@ -291,7 +292,7 @@ if ($_POST['tag'] == 'tag') {
         }
     
     
-        $url = 'https://discord.com/api/webhooks/1174883663457046569/bGRKx88xeep7TZePOMjE5W4zbHM1L5rlPRLhQkKBBSdL237XJleNwTVG4beYUSHmHrtq';
+        $url = 'https://discord.com/api/webhooks/1331306239623434312/e4KJkCcCF_MadaS_AWyhvGMbPlhCs-f5dLlDxKXvWwU1BqG2pWngZKpqfMNCY3I9n3Rl';
         $headers = [ 'Content-Type: application/json; charset=utf-8' ];
         $POST = [ 'username' => 'League Offices', 'content' => $message ];
     

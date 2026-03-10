@@ -37,7 +37,7 @@ if ($_POST['Type'] == 'Awards') {
         $votes['teamid'] = $teamid;
         $votes['conf'] = substr($key,0,3);
         $votes['playerid'] = substr($key,-4);
-        $votes['playername'] = $value;
+        $votes['playername'] = str_replace("'","",$value);
         $key = substr($key,3);
         $key = substr($key,0,-4);
         if ($key == 'Return') {

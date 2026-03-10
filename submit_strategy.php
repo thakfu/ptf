@@ -2,8 +2,10 @@
 
 include 'header.php';
 
+$post = array();
 foreach($_POST as $header => $row) {
     echo $header . ': ' . $row . '<br>';
+    $post[$header] = $row;
 }
 
 $date = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $_POST['Time'])));
@@ -36,9 +38,28 @@ if($_POST['Type'] == 'playcalling') {
     overrideLose = "'.$_POST["overrideLose"].'", handlePrep  = "'.$_POST["handlePrep"].'", oPrep  = "'.$_POST["oPrep"].'", 
     dPrep = "'.$_POST["dPrep"].'" WHERE TeamID = '.$_POST["TeamID"]);
     echo 'Game Plan submitted successfully!';
+    $update2 = $connection->query("UPDATE ptf_users SET Last_Strat = " . $curWeek . " WHERE TeamID = '" . $_POST["TeamID"] . "'");
     exit;
 } elseif ($_POST['Type'] == 'depth') {
     exit;
+}
+$chart = array();
+    $depth = $connection->query('SELECT Position, Team, PlayerID, Special FROM `ptf_players_depth` WHERE Team = ' . $_SESSION['TeamID'] . ' ORDER BY Position DESC');
+    while($row = $depth->fetch_assoc()) {
+        array_push($chart, $row);
+    }
+
+$changed = array();
+foreach ($chart as $ch) {
+    foreach ($post as $h => $p) {
+        if ($ch['Position'] == $h) {
+            if ($ch['PlayerID'] != $p) {
+                $change = $ch['Position'] . ' = change';
+                echo $change;
+                array_push($changed, $change);
+            }
+        }
+    }
 }
 
 $players = array();
@@ -88,6 +109,23 @@ foreach ($depthchart as $team) {
     $update1 = $connection->query("UPDATE ptf_players_depth SET Position = '$team[0]', Team = $team[1], PlayerID = $team[2], SimPos = '$team[3]', SimAlt = '$team[4]', Special = '$team[5]' WHERE Position = '$team[0]' AND Team = $team[1]");
 
 }
-$update2 = $connection->query("UPDATE ptf_users SET Last_DC = '$date' WHERE TeamID = '$teamID'");
+$update2 = $connection->query("UPDATE ptf_users SET Last_DC = " . $curWeek . " WHERE TeamID = '$teamID'");
 echo 'Depth Chart submitted successfully!';
+
+    $message = idToName($teamID) . ' have submitted a depth chart' . "\n";
+    foreach($changed as $cha) {
+        $message .= $cha . "\n";
+    }
+    $url = 'https://discord.com/api/webhooks/1393064762849366037/NmLZwbHIfZtBTOY3yJFM3uHw1ksmJ1NcdkhHyyrUeF-EUmcv9aeFP6-Fpz9XoKfjjM4i';
+    $headers = [ 'Content-Type: application/json; charset=utf-8' ];
+    $POST = [ 'username' => 'League Offices', 'content' => $message ];
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($POST));
+    $response   = curl_exec($ch);
 ?>

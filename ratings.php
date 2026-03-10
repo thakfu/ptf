@@ -1,4 +1,5 @@
 <?php
+$year = $league[5]['value'];
 echo '<h2>' .  $player['FullName'] . ' ' . $year . ' Ratings & Salary </h2>';
 
 echo '<h3 align="center">Attributes</h3>';
@@ -198,8 +199,53 @@ foreach ($playerService as $player) {
     $player['FS'] . '</td><td>' .
     $player['K'] . '</td><td>' .
     $player['P'] . '</td></tr></table>';
-    /*'</tr><tr><th colspan=16>**ESTIMATED** OVERALL POSITION RATING</th></tr><tr>' . 
-    '<td>' . round((($str * 3) + ($agl * 10) + ($arm * 30) + ($int * 30) + ($acc * 40) + ($tck * 0) + ($spd * 10) + ($hnd * 0) + ($pbl * 0) + ($rbl * 0) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($player['QB'] * 10)) / 125) . '</td>' .
+
+
+    $greatest = max($player['QB'],$player['RB'],$player['FB'],$player['WR'],$player['TE'],$player['C'],$player['G'],$player['T'],$player['DT'],$player['DE'],$player['LB'],$player['CB'],$player['SS'],$player['FS'],$player['K'],$player['P']);
+
+    echo '
+    
+    <h3 align="center">OVERALL POSITION RATING</h3>' . 
+    '<table><tr>
+    <th>Type</th>
+<th>QB</th>
+<th>RB</th>
+<th>FB</th>
+<th>WR</th>
+<th>TE</th>
+<th>G</th>
+<th>T</th>
+<th>C</th>
+<th>DT</th>
+<th>DE</th>
+<th>LB</th>
+<th>CB</th>
+<th>SS</th>
+<th>FS</th>
+<th>K</th>
+<th>P</th>
+
+</tr><td>Overall</td>
+    <td>' . round((($str * 3) + ($agl * 10) + ($arm * 30) + ($int * 30) + ($acc * 40) + ($tck * 0) + ($spd * 10) + ($hnd * 0) + ($pbl * 0) + ($rbl * 0) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($greatest * 10)) / 125) . '</td>' .
+    '<td>' . round((($str * 20) + ($agl * 25) + ($arm * 0) + ($int * 10) + ($acc * 0) + ($tck * 0) + ($spd * 50) + ($hnd * 20) + ($pbl * 3) + ($rbl * 3) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($greatest * 10)) / 125) . '</td>' .
+    '<td>' . round((($str * 30) + ($agl * 5) + ($arm * 0) + ($int * 10) + ($acc * 0) + ($tck * 0) + ($spd * 10) + ($hnd * 20) + ($pbl * 48) + ($rbl * 48) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($greatest * 10)) / 125) . '</td>' .
+    '<td>' . round((($str * 15) + ($agl * 25) + ($arm * 0) + ($int * 10) + ($acc * 0) + ($tck * 0) + ($spd * 45) + ($hnd * 30) + ($pbl * 3) + ($rbl * 3) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($greatest * 10)) / 125) . '</td>' .
+    '<td>' . round((($str * 30) + ($agl * 20) + ($arm * 0) + ($int * 10) + ($acc * 0) + ($tck * 0) + ($spd * 25) + ($hnd * 30) + ($pbl * 15) + ($rbl * 15) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($greatest * 10)) / 125) . '</td>' .
+    '<td>' . round((($str * 20) + ($agl * 5) + ($arm * 0) + ($int * 15) + ($acc * 0) + ($tck * 0) + ($spd * 15) + ($hnd * 0) + ($pbl * 30) + ($rbl * 45) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($greatest * 10)) / 125) . '</td>' .
+    '<td>' . round((($str * 20) + ($agl * 5) + ($arm * 0) + ($int * 15) + ($acc * 0) + ($tck * 0) + ($spd * 15) + ($hnd * 0) + ($pbl * 45) + ($rbl * 30) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($greatest * 10)) / 125) . '</td>' .
+    '<td>' . round((($str * 20) + ($agl * 5) + ($arm * 0) + ($int * 15) + ($acc * 0) + ($tck * 0) + ($spd * 15) + ($hnd * 0) + ($pbl * 37) + ($rbl * 37) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($greatest * 10)) / 125) . '</td>' .
+    '<td>' . round((($str * 50) + ($agl * 5) + ($arm * 0) + ($int * 15) + ($acc * 0) + ($tck * 45) + ($spd * 10) + ($hnd * 10) + ($pbl * 0) + ($rbl * 0) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($greatest * 10)) / 125) . '</td>' .
+    '<td>' . round((($str * 30) + ($agl * 15) + ($arm * 0) + ($int * 15) + ($acc * 0) + ($tck * 40) + ($spd * 35) + ($hnd * 15) + ($pbl * 0) + ($rbl * 0) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($greatest * 10)) / 125) . '</td>' .
+    '<td>' . round((($str * 35) + ($agl * 15) + ($arm * 0) + ($int * 10) + ($acc * 0) + ($tck * 35) + ($spd * 30) + ($hnd * 10) + ($pbl * 0) + ($rbl * 0) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($greatest * 10)) / 125) . '</td>' .
+    '<td>' . round((($str * 10) + ($agl * 25) + ($arm * 0) + ($int * 20) + ($acc * 0) + ($tck * 30) + ($spd * 40) + ($hnd * 25) + ($pbl * 0) + ($rbl * 0) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($greatest * 10)) / 125) . '</td>' .
+    '<td>' . round((($str * 25) + ($agl * 25) + ($arm * 0) + ($int * 10) + ($acc * 0) + ($tck * 25) + ($spd * 35) + ($hnd * 10) + ($pbl * 0) + ($rbl * 0) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($greatest * 10)) / 125) . '</td>' .
+    '<td>' . round((($str * 10) + ($agl * 25) + ($arm * 0) + ($int * 10) + ($acc * 0) + ($tck * 25) + ($spd * 40) + ($hnd * 25) + ($pbl * 0) + ($rbl * 0) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($greatest * 10)) / 125) . '</td>' .
+    '<td>' . round((($str * 10) + ($agl * 5) + ($arm * 0) + ($int * 25) + ($acc * 0) + ($tck * 0) + ($spd * 10) + ($hnd * 10) + ($pbl * 0) + ($rbl * 0) + ($kds * 35) + ($kac * 40) + ($end * 1) + ($greatest * 10)) / 125) . '</td>' .
+    '<td>' . round((($str * 10) + ($agl * 5) + ($arm * 0) + ($int * 25) + ($acc * 0) + ($tck * 0) + ($spd * 10) + ($hnd * 10) + ($pbl * 0) + ($rbl * 0) + ($kds * 40) + ($kac * 35) + ($end * 1) + ($greatest * 10)) / 125) . '</td>' .
+    '</tr>
+
+</tr><td>Will Play Like</td>
+    <td>' . round((($str * 3) + ($agl * 10) + ($arm * 30) + ($int * 30) + ($acc * 40) + ($tck * 0) + ($spd * 10) + ($hnd * 0) + ($pbl * 0) + ($rbl * 0) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($player['QB'] * 10)) / 125) . '</td>' .
     '<td>' . round((($str * 20) + ($agl * 25) + ($arm * 0) + ($int * 10) + ($acc * 0) + ($tck * 0) + ($spd * 50) + ($hnd * 20) + ($pbl * 3) + ($rbl * 3) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($player['RB'] * 10)) / 125) . '</td>' .
     '<td>' . round((($str * 30) + ($agl * 5) + ($arm * 0) + ($int * 10) + ($acc * 0) + ($tck * 0) + ($spd * 10) + ($hnd * 20) + ($pbl * 48) + ($rbl * 48) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($player['FB'] * 10)) / 125) . '</td>' .
     '<td>' . round((($str * 15) + ($agl * 25) + ($arm * 0) + ($int * 10) + ($acc * 0) + ($tck * 0) + ($spd * 45) + ($hnd * 30) + ($pbl * 3) + ($rbl * 3) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($player['WR'] * 10)) / 125) . '</td>' .
@@ -208,16 +254,15 @@ foreach ($playerService as $player) {
     '<td>' . round((($str * 20) + ($agl * 5) + ($arm * 0) + ($int * 15) + ($acc * 0) + ($tck * 0) + ($spd * 15) + ($hnd * 0) + ($pbl * 45) + ($rbl * 30) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($player['T'] * 10)) / 125) . '</td>' .
     '<td>' . round((($str * 20) + ($agl * 5) + ($arm * 0) + ($int * 15) + ($acc * 0) + ($tck * 0) + ($spd * 15) + ($hnd * 0) + ($pbl * 37) + ($rbl * 37) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($player['C'] * 10)) / 125) . '</td>' .
     '<td>' . round((($str * 50) + ($agl * 5) + ($arm * 0) + ($int * 15) + ($acc * 0) + ($tck * 45) + ($spd * 10) + ($hnd * 10) + ($pbl * 0) + ($rbl * 0) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($player['DT'] * 10)) / 125) . '</td>' .
-    '<td>' . round((($str * 50) + ($agl * 15) + ($arm * 0) + ($int * 15) + ($acc * 0) + ($tck * 40) + ($spd * 35) + ($hnd * 15) + ($pbl * 0) + ($rbl * 0) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($player['DE'] * 10)) / 125) . '</td>' .
+    '<td>' . round((($str * 30) + ($agl * 15) + ($arm * 0) + ($int * 15) + ($acc * 0) + ($tck * 40) + ($spd * 35) + ($hnd * 15) + ($pbl * 0) + ($rbl * 0) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($player['DE'] * 10)) / 125) . '</td>' .
     '<td>' . round((($str * 35) + ($agl * 15) + ($arm * 0) + ($int * 10) + ($acc * 0) + ($tck * 35) + ($spd * 30) + ($hnd * 10) + ($pbl * 0) + ($rbl * 0) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($player['LB'] * 10)) / 125) . '</td>' .
     '<td>' . round((($str * 10) + ($agl * 25) + ($arm * 0) + ($int * 20) + ($acc * 0) + ($tck * 30) + ($spd * 40) + ($hnd * 25) + ($pbl * 0) + ($rbl * 0) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($player['CB'] * 10)) / 125) . '</td>' .
     '<td>' . round((($str * 25) + ($agl * 25) + ($arm * 0) + ($int * 10) + ($acc * 0) + ($tck * 25) + ($spd * 35) + ($hnd * 10) + ($pbl * 0) + ($rbl * 0) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($player['SS'] * 10)) / 125) . '</td>' .
     '<td>' . round((($str * 10) + ($agl * 25) + ($arm * 0) + ($int * 10) + ($acc * 0) + ($tck * 25) + ($spd * 40) + ($hnd * 25) + ($pbl * 0) + ($rbl * 0) + ($kds * 0) + ($kac * 0) + ($end * 1) + ($player['FS'] * 10)) / 125) . '</td>' .
     '<td>' . round((($str * 10) + ($agl * 5) + ($arm * 0) + ($int * 25) + ($acc * 0) + ($tck * 0) + ($spd * 10) + ($hnd * 10) + ($pbl * 0) + ($rbl * 0) + ($kds * 35) + ($kac * 40) + ($end * 1) + ($player['K'] * 10)) / 125) . '</td>' .
     '<td>' . round((($str * 10) + ($agl * 5) + ($arm * 0) + ($int * 25) + ($acc * 0) + ($tck * 0) + ($spd * 10) + ($hnd * 10) + ($pbl * 0) + ($rbl * 0) + ($kds * 40) + ($kac * 35) + ($end * 1) + ($player['P'] * 10)) / 125) . '</td>' .
-    '</tr></table>';*/
+    '</tr></table>';
 }
-
 
 echo '<h3 align="center">Contract</h3>';
 echo '<table class="roster" border=1 id="'.$curteam.'">';
@@ -235,15 +280,15 @@ echo '</tr>';
 $playerService = playerService(0,$_GET['player'],0);
 $total = $player[$year] + $player[$year + 1] + $player[$year + 2] + $player[$year + 3] + $player[$year + 4] + $player[$year + 5] + $player[$year + 6];
 foreach ($playerService as $player) {
-    echo '<tr><td>$' .
-    number_format($total) . '</td><td>$' .
-    number_format($player[$year]) . '</td><td>$' .
-    number_format($player[$year + 1]) . '</td><td>$' .
-    number_format($player[$year + 2]) . '</td><td>$' .
-    number_format($player[$year + 3]) . '</td><td>$' .
-    number_format($player[$year + 4]) . '</td><td>$' .
-    number_format($player[$year + 5]) . '</td><td>$' .
-    number_format($player[$year + 6]) . '</td>' .
+    echo '<tr><td>' .
+    cashConvert($total) . '</td><td>' .
+    cashConvert($player[$year]) . '</td><td>' .
+    cashConvert($player[$year + 1]) . '</td><td>' .
+    cashConvert($player[$year + 2]) . '</td><td>' .
+    cashConvert($player[$year + 3]) . '</td><td>' .
+    cashConvert($player[$year + 4]) . '</td><td>' .
+    cashConvert($player[$year + 5]) . '</td><td>' .
+    cashConvert($player[$year + 6]) . '</td>' .
     '</tr></table>';
 }
 

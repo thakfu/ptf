@@ -1,7 +1,7 @@
 <?php 
 //include '../header.php';
 session_start();
-require('../../../sql/phpmysqlconnect.php');
+require('../../sql/phpmysqlconnect.php');
 
 if ($_SESSION['admin'] !== '0') {
     echo 'Admin Tools<br><br><ul>';

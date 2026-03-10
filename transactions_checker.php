@@ -10,12 +10,17 @@ foreach ($playerService as $notSquad) {
 }
 usort($playerService, fn($a, $b) => $b['Overall'] <=> $a['Overall']);
 
+echo '<center><a href="transactions_checker.php?team=0">ALL</a>';
+for ($x =1; $x <= 20; $x++) {
+    echo '<a href="transactions_checker.php?team=' . $x . '"> - ' . idtoAbbrev($x) . '</a>';
+}
+
 echo "<h1>" . idToAbbrev($_GET['team']) . " Roster Moves</h1>";
 echo "<h3 id='poscat'>" . $rowcount . " players on active roster.  Limit is 53 plus 5 Practice Squad</h3>";
 
 foreach ($positions as $pos) {
     $posCount = 0;
-    echo '<div id="poscat"><b>' . $pos . '</b> <br> Minimum - ' . $rosMin[$pos] . ' || Maximum - ' . $rosMax[$pos] . '</div><br>';
+    echo '<div id="poscat"><b>' . $pos . '</b> <br></div><br>';
     echo '<table border=1 id="'.idToAbbrev($_GET['team']).'">';
     echo '<th>Name</th>';
     echo '<th>Age</th>';
@@ -85,12 +90,7 @@ foreach ($positions as $pos) {
         $positionCount = $posCount;
     }
     echo '</table><br>';
-    if ($positionCount > $rosMax[$pos] ) {
-        echo '<div id="poswarnmuch">' . $positionCount . ' Players: Too Many Players At ABOVE Position! Please RELEASE ' . ($positionCount - $rosMax[$pos]) . ' Player(s)</div><br>';
-    } elseif ($positionCount < $rosMin[$pos] ) {
-        echo '<div id="poswarnfew">' . $positionCount . ' Players: Too Few Players At ABOVE Position! Please SIGN ' . ($rosMin[$pos] - $positionCount) . ' Player(s)</div><br>';
 
-    }
     echo '<hr>';
 }
 

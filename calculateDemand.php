@@ -5,144 +5,189 @@ function calculateDemand($year, $day, $player, $data, $team, $datastate) {
 $calc = array();
 global $connection;
 
-         // $percent - Daily decrease amount
-         if($player['Money'] == 100) {
-            $percent = 0;
-        } elseif($player['Money'] >= 90 && $player['Money'] < 100) {
-            $percent = 100 - $player['Money'];
+
+//var_dump($player);
+
+if ($data == 'extend') {
+    $data = array();
+    if ($player['yearsOffered'] == 1) {
+        $data['year6'] = $data['year5'] = $data['year4'] = $data['year3'] = $data['year2'] = 0;
+        $data['year1'] = 1;
+    } elseif ($player['yearsOffered'] == 2) {
+        $data['year6'] = $data['year5'] = $data['year4'] = $data['year3'] = 0;
+        $data['year2'] = $data['year1'] = 1;
+    } elseif ($player['yearsOffered'] == 3) {
+        $data['year6'] = $data['year5'] = $data['year4'] = 0;
+        $data['year3'] = $data['year2'] = $data['year1'] = 1;
+    } elseif ($player['yearsOffered'] == 4) {
+        $data['year6'] = $data['year5'] = 0;
+        $data['year4'] = $data['year3'] = $data['year2'] = $data['year1'] = 1;
+    } elseif ($player['yearsOffered'] == 5) {
+        $data['year6'] = 0;
+        $data['year5'] = $data['year4'] = $data['year3'] = $data['year2'] = $data['year1'] = 1;
+    } elseif ($player['yearsOffered'] == 6) {
+        $data['year6'] = $data['year5'] = $data['year4'] = $data['year3'] = $data['year2'] = $data['year1'] = 1;
+    }
+
+    $demand = $player['demandAmount'];
+
+} else {
+    // $percent - Daily decrease amount
+    if($player['Money'] == 100) {
+        $percent = 10;
+    } elseif($player['Money'] >= 90 && $player['Money'] < 100) {
+        $percent = 15;
+    } else {
+        $percent = 20; 
+    }
+
+        // Adjusted Demand
+    if ($day > 1 && $day < 5) {
+        $demandAdj = ($percent / 100) * ($day - 1);
+        $demand = $player['amount'] * (1 - $demandAdj);
+    } elseif ($day == 5) {
+        if ($player['Money'] >= 90 && $player['Money'] < 100) {
+            $demand = ($player['amount'] * 0.10);  
+        } elseif ($player['Money'] == 100) {
+            $demand = ($player['amount'] * 0.25);  
         } else {
-            $percent = 10;
+            $demand = 250000;
+        }
+    } else {
+        $demandAdj = 0;
+        $demand = $player['amount'];
+    }
+
+    // unsigned free agents
+    if ($player[$year - 1] == 0) {
+        $previous = 250000;
+    } else {
+        $previous = $player[$year - 1];
+    }
+}
+
+
+
+        // SECURITY - Scale 30-50  // 
+        if ($player['Security'] > 50) {
+            $security = $player['Security'] - 20;
+        } else {
+            $security = $player['Security'];
         }
 
-         // Adjusted Demand
-        if ($day > 1 && $day < 7) {
-            $demandAdj = ($percent / 100) * ($day - 1);
-            $demand = $player['amount'] * (1 - $demandAdj);
-        } elseif ($day == 7) {
-            if ($player['Money'] >= 90 && $player['Money'] < 100) {
-                $demand = ($player['amount'] * 0.5);
-            } elseif ($player['Money'] == 100) {
-                $demand = ($player['amount'] * 0.75);
-            } else {
-                $demand = 250000;
-            }
-        } else {
-            $demandAdj = 0;
-            $demand = $player['amount'];
-        }
-
-        // unsigned free agents
-        if ($player[$year - 1] == 0) {
-            $previous = 250000;
-        } else {
-            $previous = $player[$year - 1];
-        }
-
-
-        // SECURITY - Scale 30-50
-        if ($player['Security'] <= 35) {
+        if ($security <= 35) {
             $sec = '1-2 Yrs';
-        } elseif ($player['Security'] <= 40 && $player['Security'] > 35) {
+        } elseif ($security <= 40 && $security > 35) {
             $sec = '1-4 Yrs';
-        } elseif ($player['Security'] <= 45 && $player['Security'] > 40) {
+        } elseif ($security <= 45 && $security > 40) {
             $sec = '3-6 Yrs';
-        } elseif ($player['Security'] >= 46) {
+        } elseif ($security >= 46) {
             $sec = '5-6 Yrs';
         }
 
         if ($data['year2'] == 0) {
             $length = 1;
-            if ($player['Security'] > 45) {
-                $secureMult = 0.85;
-            } elseif ($player['Security'] > 40 && $player['Security'] <= 45) {
+            if ($security > 45) {
                 $secureMult = 0.9;
-            } elseif ($player['Security'] > 35 && $player['Security'] <= 40) {
+            } elseif ($security > 40 && $security <= 45) {
+                $secureMult = 0.95;
+            } elseif ($security > 35 && $security <= 40) {
+                $secureMult = 1.05;
+            } elseif ($security <= 35) {
                 $secureMult = 1.1;
-            } elseif ($player['Security'] <= 35) {
-                $secureMult = 1.15;
             }
         } elseif ($data['year3'] == 0) {
             $length = 2;
-            if ($player['Security'] > 45) {
+            if ($security > 45) {
                 $secureMult = 0.9;
-            } elseif ($player['Security'] > 40 && $player['Security'] <= 45) {
-                $secureMult = 0.9;
-            } elseif ($player['Security'] > 35 && $player['Security'] <= 40) {
-                $secureMult = 1.1;
-            } elseif ($player['Security'] <= 35) {
+            } elseif ($security > 40 && $security <= 45) {
+                $secureMult = 0.95;
+            } elseif ($security > 35 && $security <= 40) {
+                $secureMult = 1.05;
+            } elseif ($security <= 35) {
                 $secureMult = 1.1;
             }
         } elseif ($data['year4'] == 0) {
             $length = 3;
-            if ($player['Security'] > 45) {
-                $secureMult = 0.9;
-            } elseif ($player['Security'] > 40 && $player['Security'] <= 45) {
-                $secureMult = 1;
-            } elseif ($player['Security'] > 35 && $player['Security'] <= 40) {
-                $secureMult = 1;
-            } elseif ($player['Security'] <= 35) {
-                $secureMult = 1;
+            if ($security > 45) {
+                $secureMult = 0.95;
+            } elseif ($security > 40 && $security <= 45) {
+                $secureMult = 1.05;
+            } elseif ($security > 35 && $security <= 40) {
+                $secureMult = 1.05;
+            } elseif ($security <= 35) {
+                $secureMult = 0.95;
             }
         } elseif ($data['year5'] == 0) {
             $length = 4;
-            if ($player['Security'] > 45) {
-                $secureMult = 1;
-            } elseif ($player['Security'] > 40 && $player['Security'] <= 45) {
-                $secureMult = 1;
-            } elseif ($player['Security'] > 35 && $player['Security'] <= 40) {
-                $secureMult = 1;
-            } elseif ($player['Security'] <= 35) {
-                $secureMult = 0.9;
+            if ($security > 45) {
+                $secureMult = 0.95;
+            } elseif ($security > 40 && $security <= 45) {
+                $secureMult = 1.05;
+            } elseif ($security > 35 && $security <= 40) {
+                $secureMult = 1.05;
+            } elseif ($security <= 35) {
+                $secureMult = 0.95;
             }
         } elseif ($data['year6'] == 0) {
             $length = 5;
-            if ($player['Security'] > 45) {
+            if ($security > 45) {
                 $secureMult = 1.1;
-            } elseif ($player['Security'] > 40 && $player['Security'] <= 45) {
-                $secureMult = 1.1;
-            } elseif ($player['Security'] > 35 && $player['Security'] <= 40) {
-                $secureMult = 0.9;
-            } elseif ($player['Security'] <= 35) {
+            } elseif ($security > 40 && $security <= 45) {
+                $secureMult = 1.05;
+            } elseif ($security > 35 && $security <= 40) {
+                $secureMult = 0.95;
+            } elseif ($security <= 35) {
                 $secureMult = 0.9;
             }
         } elseif ($data['year6'] > 0) {
             $length = 6;
-            if ($player['Security'] > 45) {
-                $secureMult = 1.15;
-            } elseif ($player['Security'] > 40 && $player['Security'] <= 45) {
+            if ($security > 45) {
                 $secureMult = 1.1;
-            } elseif ($player['Security'] > 35 && $player['Security'] <= 40) {
+            } elseif ($security > 40 && $security <= 45) {
+                $secureMult = 1.05;
+            } elseif ($security > 35 && $security <= 40) {
+                $secureMult = 0.95;
+            } elseif ($security <= 35) {
                 $secureMult = 0.9;
-            } elseif ($player['Security'] <= 35) {
-                $secureMult = 0.85;
             }
         }
 
+        //echo $secureMult;
 
-        //LOYALTY - Scale 30-50
-        if ($player['Loyalty'] <= 32) {
+
+        //LOYALTY - Scale 30-50     // NOW 30-70
+        if ($player['Loyalty'] > 50) {
+            $loyalty = $player['Loyalty'] - 20;
+        } else {
+            $loyalty = $player['Loyalty'];
+        }
+
+        if ($loyalty <= 33) {
             $loy = 'D';
-        } elseif ($player['Loyalty'] <= 39 && $player['Loyalty'] > 32) {
+        } elseif ($loyalty <= 39 && $loyalty > 33) {
             $loy = 'C';
-        } elseif ($player['Loyalty'] <= 47 && $player['Loyalty'] > 39) {
+        } elseif ($loyalty <= 46 && $loyalty > 39) {
             $loy = 'B';
-        } elseif ($player['Loyalty'] >= 48) {
+        } elseif ($loyalty >= 47) {
             $loy = 'A';
         }
 
         if ($player['previous'] == $team) {
-            if ($player['Loyalty'] > 47) {
-                $prevBonus = 1.15;
-            } elseif ($player['Loyalty'] > 39 && $player['Loyalty'] <= 47) {
+            if ($loyalty >= 47) {
                 $prevBonus = 1.1;
-            } elseif ($player['Loyalty'] > 32 && $player['Loyalty'] <= 39) {
+            } elseif ($loyalty > 39 && $loyalty <= 46) {
                 $prevBonus = 1.05;
-            } elseif ($player['Loyalty'] <= 32) {
+            } elseif ($loyalty > 33 && $loyalty <= 39) {
                 $prevBonus = 1.025;
+            } elseif ($loyalty <= 33) {
+                $prevBonus = 1;
             }
         } else {
             $prevBonus = 1;
         }
+
+        //echo ' * ' . $prevBonus;
 
 
         //WINNING - Scale 30-70
@@ -156,10 +201,10 @@ global $connection;
             $win = 'A';
         }
 
-        $wl1s = winlossService($team,$year-2); // CHANGE THIS TO -3 AFTER 1987
+        $wl1s = winlossService($team,$year-3);
         $wl1 = $wl1s[0];
 
-        $wl2s = winlossService($team,$year-1); // CHANGE THIS TO -2 AFTER 1987
+        $wl2s = winlossService($team,$year-2); 
         $wl2 = $wl2s[0];
 
         $wl3s = winlossService($team,$year-1);
@@ -170,69 +215,69 @@ global $connection;
         $winValY2 = $wl2['Wins'];
         $winValY1 = $wl1['Wins'] * 0.5;
         // $winVal - Bonus given for a team's wins over the previous 3 seasons
-        if ($team >= 19) {
+
+        $winVal = ($winValY1 + $winValY2 + $winValY3) / 24;
+        if ($winVal < 0.75) {
             $winVal = 0.75;
-        } else {
-            $winVal = ($winValY1 + $winValY2 + $winValY3) / 24;
+        }
+        if ($winVal > 1.5) {
+            $winVal = 1.5;
         }
 
         if ($player['Winning'] <= 40) {
-            if ($winVal >= 1.35) {
+            if ($winVal >= 1.3) {
                 $winBonus = 1.025;
-            } elseif ($winVal > 1.15 && $winVal < 1.35) {
-                $winBonus = 1.01875;
+            } elseif ($winVal > 1.15 && $winVal < 1.3) {
+                $winBonus = 1.015;
             } elseif ($winVal >= 1 && $winVal < 1.15) {
-                $winBonus = 1.0125;
+                $winBonus = 1;
             } elseif ($winVal >= 0.85 && $winVal < 1) {
                 $winBonus = 1;
-            } elseif ($winVal >= 0.75 && $winVal < 0.85) {
+            } elseif ($winVal < 0.85) {
                 $winBonus = 0.995;
-            } elseif ($winVal < 0.75) {
+            }
+
+        } elseif ($player['Winning'] <= 50 && $player['Winning'] > 40) {
+            if ($winVal >= 1.3) {
+                $winBonus = 1.05;
+            } elseif ($winVal > 1.15 && $winVal < 1.3) {
+                $winBonus = 1.025;
+            } elseif ($winVal >= 1 && $winVal < 1.15) {
+                $winBonus = 1;
+            } elseif ($winVal >= 0.85 && $winVal < 1) {
+                $winBonus = 1;
+            } elseif ($winVal < 0.85) {
                 $winBonus = 0.99;
             }
-        } elseif ($player['Winning'] <= 50 && $player['Winning'] > 40) {
-            if ($winVal >= 1.35) {
+
+        } elseif ($player['Winning'] <= 60 && $player['Winning'] > 50) {
+            if ($winVal >= 1.3) {
+                $winBonus = 1.075;
+            } elseif ($winVal > 1.15 && $winVal < 1.3) {
                 $winBonus = 1.05;
-            } elseif ($winVal > 1.15 && $winVal < 1.35) {
-                $winBonus = 1.0375;
             } elseif ($winVal >= 1 && $winVal < 1.15) {
                 $winBonus = 1.025;
             } elseif ($winVal >= 0.85 && $winVal < 1) {
                 $winBonus = 1;
-            } elseif ($winVal >= 0.75 && $winVal < 0.85) {
-                $winBonus = 0.99;
-            } elseif ($winVal < 0.75) {
-                $winBonus = 0.98;
-            }
-        } elseif ($player['Winning'] <= 60 && $player['Winning'] > 50) {
-            if ($winVal >= 1.35) {
-                $winBonus = 1.1;
-            } elseif ($winVal > 1.15 && $winVal < 1.35) {
-                $winBonus = 1.075;
-            } elseif ($winVal >= 1 && $winVal < 1.15) {
-                $winBonus = 1.05;
-            } elseif ($winVal >= 0.85 && $winVal < 1) {
-                $winBonus = 1;
-            } elseif ($winVal >= 0.75 && $winVal < 0.85) {
-                $winBonus = 0.985;
-            } elseif ($winVal < 0.75) {
-                $winBonus = 0.97;
-            }
-        } elseif ($player['Winning'] >= 61) {
-            if ($winVal >= 1.35) {
-                $winBonus = 1.15;
-            } elseif ($winVal > 1.15 && $winVal < 1.35) {
-                $winBonus = 1.1125;
-            } elseif ($winVal >= 1 && $winVal < 1.15) {
-                $winBonus = 1.075;
-            } elseif ($winVal >= 0.85 && $winVal < 1) {
-                $winBonus = 1;
-            } elseif ($winVal >= 0.75 && $winVal < 0.85) {
+            } elseif ($winVal < 0.85) {
                 $winBonus = 0.975;
-            } elseif ($winVal < 0.75) {
+            }
+
+        } elseif ($player['Winning'] >= 61) {
+            if ($winVal >= 1.3) {
+                $winBonus = 1.1;
+            } elseif ($winVal > 1.15 && $winVal < 1.3) {
+                $winBonus = 1.05;
+            } elseif ($winVal >= 1 && $winVal < 1.15) {
+                $winBonus = 1.025;
+            } elseif ($winVal >= 0.85 && $winVal < 1) {
+                $winBonus = 0.975;
+            } elseif ($winVal < 0.85) {
                 $winBonus = 0.95;
             }
         }
+
+        //echo ' * ' . $winBonus;
 
 
         //PLAYING TIME - Scale 70-100
@@ -240,9 +285,9 @@ global $connection;
             $pt = 'D';
         } elseif ($player['PlayingTime'] <= 85 && $player['PlayingTime'] > 75) {
             $pt = 'C';
-        } elseif ($player['PlayingTime'] <= 92 && $player['PlayingTime'] > 85) {
+        } elseif ($player['PlayingTime'] <= 95 && $player['PlayingTime'] > 85) {
             $pt = 'B';
-        } elseif ($player['PlayingTime'] >= 93) {
+        } elseif ($player['PlayingTime'] >= 95) {
             $pt = 'A';
         }
 
@@ -258,9 +303,9 @@ global $connection;
 
         if ($possibleStart == 1) {
             if ($player['PlayingTime'] >= 95) {
-                $ptBonus = 1.15;
-            } elseif ($player['PlayingTime'] >= 90 && $player['PlayingTime'] < 95) {
                 $ptBonus = 1.1;
+            } elseif ($player['PlayingTime'] >= 90 && $player['PlayingTime'] < 95) {
+                $ptBonus = 1.075;
             } elseif ($player['PlayingTime'] >= 80 && $player['PlayingTime'] < 90) {
                 $ptBonus = 1.05;
             } elseif ($player['PlayingTime'] < 80) {
@@ -277,13 +322,12 @@ global $connection;
                 $ptBonus = 0.975;
             }
         }
-        if ($player['Overall'] >= 80) {
-            $ptBonus = 1;
-        }
+
+        //echo ' * ' . $ptBonus;
 
 
-        //CLOSE TO HOME - Scale 30-50
-        if ($player['CloseToHome'] <= 32) {
+        //CLOSE TO HOME - Scale 30-50     // NOW 30-70
+        /*if ($player['CloseToHome'] <= 32) {
             $cth = 'D';
         } elseif ($player['CloseToHome'] <= 39 && $player['CloseToHome'] > 32) {
             $cth = 'C';
@@ -333,7 +377,7 @@ global $connection;
                     $homeBase = 0.95;
                 }
             }
-        }
+        }*/
 
         //MARKET SIZE - Scale 30-70
         if ($player['MarketSize'] <= 40) {
@@ -352,48 +396,51 @@ global $connection;
         if ($market['market'] == 4) {
             $marStr = 'Large';
             if($player['MarketSize'] > 60) {
-                $marketBonus = 1.15;
-            } elseif($player['MarketSize'] > 50 && $player['MarketSize'] < 61) {
                 $marketBonus = 1.1;
+            } elseif($player['MarketSize'] > 50 && $player['MarketSize'] < 61) {
+                $marketBonus = 1.05;
             } elseif($player['MarketSize'] > 40 && $player['MarketSize'] < 51) {
-                $marketBonus = 0.9;
+                $marketBonus = 0.95;
             } elseif($player['MarketSize'] < 41) {
-                $marketBonus = 0.85;
+                $marketBonus = 0.9;
             }
         } elseif ($market['market'] == 3) {
             $marStr = 'Lg-Mid';
             if($player['MarketSize'] > 60) {
-                $marketBonus = 1.1;
+                $marketBonus = 1.05;
             } elseif($player['MarketSize'] > 50 && $player['MarketSize'] < 61) {
                 $marketBonus = 1;
             } elseif($player['MarketSize'] > 40 && $player['MarketSize'] < 51) {
                 $marketBonus = 1;
             } elseif($player['MarketSize'] < 41) {
-                $marketBonus = 0.9;
+                $marketBonus = 0.95;
             }
         } elseif ($market['market'] == 2) {
             $marStr = 'Sm-Mid';
             if($player['MarketSize'] > 60) {
-                $marketBonus = 0.9;
+                $marketBonus = 0.95;
             } elseif($player['MarketSize'] > 50 && $player['MarketSize'] < 61) {
                 $marketBonus = 1;
             } elseif($player['MarketSize'] > 40 && $player['MarketSize'] < 51) {
                 $marketBonus = 1;
             } elseif($player['MarketSize'] < 41) {
-                $marketBonus = 1.1;
+                $marketBonus = 1.05;
             }
         } elseif ($market['market'] == 1) {
             $marStr = 'Small';
             if($player['MarketSize'] > 60) {
-                $marketBonus = 0.85;
-            } elseif($player['MarketSize'] > 50 && $player['MarketSize'] < 61) {
                 $marketBonus = 0.9;
+            } elseif($player['MarketSize'] > 50 && $player['MarketSize'] < 61) {
+                $marketBonus = 0.95;
             } elseif($player['MarketSize'] > 40 && $player['MarketSize'] < 51) {
-                $marketBonus = 1.1;
+                $marketBonus = 1.05;
             } elseif($player['MarketSize'] < 41) {
-                $marketBonus = 1.15;
+                $marketBonus = 1.1;
             }
         }
+
+
+        //echo ' * ' . $marketBonus;
 
 
 
@@ -406,6 +453,8 @@ global $connection;
             }
         }
 
+        //echo ' = ' . $finaldemand;
+
 
         $calc['winVal'] = $winVal;
         $calc['previous'] = $previous;
@@ -413,7 +462,7 @@ global $connection;
         $calc['loy'] = $loy;
         $calc['win'] = $win;
         $calc['pt'] = $pt;
-        $calc['cth'] = $cth;
+        //$calc['cth'] = $cth;
         $calc['mar'] = $mar;
         $calc['string'] = $player['string'];
         $calc['final'] = number_format($finaldemand);
@@ -422,11 +471,11 @@ global $connection;
         $calc['secureMult'] = $secureMult;
         $calc['prevBonus'] = $prevBonus;
         $calc['ptBonus'] = $ptBonus;
-        $calc['homeBase'] = $homeBase;
+        //$calc['homeBase'] = $homeBase;
         $calc['marketBonus'] = $marketBonus;
         $calc['demand'] = $finaldemand;
-        $calc['homestate'] = $homestate;
-        $calc['state'] = $datastate;
+        //$calc['homestate'] = $homestate;
+        //$calc['state'] = $datastate;
         $calc['winBonus'] = $winBonus;
         $calc['market'] = $marStr;
 

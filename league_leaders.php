@@ -2,8 +2,7 @@
 
 include 'header.php';
 $statsService = statsService(0,0,'season');
-
-
+$year = '1990';
 
 echo "<h1>" . $year . " League Leaders</h1>";
 

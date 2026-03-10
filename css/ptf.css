@@ -42,7 +42,8 @@
 
     /* CI */
     --CIF: #000000;
-    --CIB: #FB4F14;
+    --CIB: #FB7614;
+    --CIBr: #FB4F14;
 
     /* OA */
     --OAF: #000000; 
@@ -80,9 +81,9 @@
     --DEFr: #0076B6;
 
     /* CL */
-    --CLB: #c9ac1a;   
-    --CLBr: #9E7C0C;
-    --CLF: #241773;
+    --BAB: #c9ac1a;   
+    --BABr: #9E7C0C;
+    --BAF: #241773;
 
     /* IN */
     --INB: #A2AAAD;   
@@ -98,16 +99,128 @@
     --NYB: #A5ACAF;  
     --NYBr: #A71930;
 
-    /* NYJ */
-    --NJF: #125740;
-    --NJB: #A2AAAD;  
-    --NJBr: #000000;
+    /* NYT */
+    --NJF: #1d2e5f;
+    --NJFr: #091F2C;
+    --NJBr: #fbcd02;
+    --NJB: #9A7611;
+    --NJFold: #125740;
+    --NJBold: #A2AAAD;  
 
     /* SEA */
-    --SEF: #002244;
+    --SEF: #003087;
     --SEB: #69BE28;  
     --SEBr: #2D5980;
     --SEFr: #8A8D8F;
+
+    /* BER */
+    --BEB: #B3995D;
+    --BEF: #006643;  
+
+    /* CHC */
+    --CCF: #97233F;
+    --CCB: #A2AAAD;  
+
+    /* CLE */
+    --CLF: #311D00;
+    --CLB: #FB7614;
+    --CLBr: #FB4F14;
+
+    /* VIR */
+    --VRB: #b4939c;
+    --VRF: #002a5c;
+    --VRBr: #83606a;
+
+    /* SD */
+    --SDF: #001433;
+    --SDB: #F0AE00;
+
+    --LUF: #183029;
+    --LUB: #97D700;
+
+
+
+    /* COLLEGES */
+    --ALAF: #9e1b32;
+    --ALAB: #AAAAAA;
+    --ARMF: #D4BF91;
+    --ARMB: #000000;
+    --AUBF: #0C2340;
+    --AUBB: #E87722;
+    --BALF: #BA0C2F;
+    --BALB: #EEEEEE;
+    --CALF: #003262;
+    --CALB: #FDB515;
+    --CAMF: #85B09A;
+    --CAMB: #901C3B;
+    --CLMF: #F56600;
+    --CLMB: #522D80;
+    --FLOF: #0021A5;
+    --FLOB: #FA4616;
+    --FSUF: #782F40;
+    --FSUB: #CEB888;
+    --GEOF: #BA0C2F;
+    --GEOB: #000000;
+    --ILLF: #13294b;
+    --ILLB: #E84A27;
+    --IOWF: #FFCD00;
+    --IOWB: #000000;
+    --KENF: #0033a0;
+    --KENB: #EEEEEE;
+    --KCLF: #FFCD00;
+    --KCLB: #CC0033;
+    --LSUF: #461D7C;
+    --LSUB: #FDD023;
+    --MARF: #E03a3e;
+    --MARB: #ffd520;
+    --MIAF: #F47321;
+    --MIAB: #005030;
+    --MICF: #00274c;
+    --MICB: #ffcb05;
+    --MSUF: #18453B;
+    --MSUB: #EEEEEE;
+    --MINF: #7A0019;
+    --MINB: #FFCC33;
+    --MISF: #000000;
+    --MISB: #F1B82D;
+    --NAVF: #00205B;
+    --NAVB: #C5B783;
+    --NEBF: #e41c38;
+    --NEBB: #EEEEEE;
+    --NOWF: #4E2A84;
+    --NOWB: #EEEEEE;
+    --NODF: #0C2340;
+    --NODB: #c99700;
+    --OSUF: #BB0000;
+    --OSUB: #AAAAAA;
+    --OKLF: #841617;
+    --OKLB: #FDF9D8;
+    --OREF: #154733;
+    --OREB: #FEE123;
+    --PSUF: #041E42;
+    --PSUB: #EEEEEE;
+    --RUTF: #cc0033;
+    --RUTB: #AAAAAA;
+    --STAF: #8C1515;
+    --STAB: #AAAAAA;
+    --SYRF: #F76900;
+    --SYRB: #000E54;
+    --TENF: #FF8200;
+    --TENB: #EEEEEE;
+    --TAMF: #500000;
+    --TAMB: #EEEEEE;
+    --TEXF: #bf5700;
+    --TEXB: #333f48;
+    --UCLF: #2d68c4;
+    --UCLB: #f2a900;
+    --USCF: #990000;
+    --USCB: #FFC72C;
+    --WASF: #4B2E83;
+    --WASB: #b7a57a;
+    --WVUF: #002855;
+    --WVUB: #EAAA00;
+    --WISF: #c5050c;
+    --WISB: #EEEEEE;
 }
 
 body {
@@ -301,9 +414,9 @@ body {
 } 
 
 .tmPage {
-    max-width: 70%;
+    max-width: 75%;
     margin-top: 25px;
-    margin-left: 35%;
+    margin-left: 15%;
     margin-right: auto;
     padding-left: 10px;
 }
@@ -610,7 +723,7 @@ input[type=submit] {
 table {
     margin-left: auto;
     margin-right: auto;
-    font-size: 12px;
+    font-size: 11px;
 }
 
 h1 {
@@ -1272,45 +1385,45 @@ svg text {
 
 /* --- CLEMSON --- */
 #bal th {
-    background-color: var(--CLF);
-    color: var(--CLB);
+    background-color: var(--BAF);
+    color: var(--BAB);
 }
 
 #bal th a {
-    color: var(--CLB);
+    color: var(--BAB);
 }
 
 #bal td a {
-    color: var(--CLF);
+    color: var(--BAF);
 }
 
 #bal tr:nth-child(odd) {
-    background-color: var(--CLB);
+    background-color: var(--BAB);
 }
 
 #bal.career {
-    background-color: var(--CLF);
-    color: var(--CLB);
+    background-color: var(--BAF);
+    color: var(--BAB);
 }
 
 #bal input[type=submit] {
-    background-color: var(--CLF);
+    background-color: var(--BAF);
 }
 
 #bal.tmBar, #bal.tmBarMob {
-    background-color: var(--CLF) ;
+    background-color: var(--BAF) ;
 }
 
 #bal.tmBar a, #bal.tmBarMob a {
-    color: var(--CLB);
+    color: var(--BAB);
 }
 
 #bal.tmBar2 {
-    background-color: var(--CLB) ;
+    background-color: var(--BAB) ;
 }
 
 #bal.tmBar2 a {
-    color: var(--CLF);
+    color: var(--BAF);
 }
 
 
@@ -1579,47 +1692,314 @@ svg text {
 
 
 /* --- NEW YORK JETS--- */
-#nyj th {
+#nyt th {
     background-color: var(--NJF);
     color: var(--NJB);
 }
 
-#nyj th a {
+#nyt th a {
     color: var(--NJB);
 }
 
-#nyj td a {
+#nyt td a {
     color: var(--NJF);
 }
 
-#nyj tr:nth-child(odd) {
+#nyt tr:nth-child(odd) {
     background-color: var(--NJB);
 }
 
-#nyj.career {
+#nyt.career {
     background-color: var(--NJF);
     color: var(--NJB);
 }
 
-#nyj input[type=submit] {
+#nyt input[type=submit] {
     background-color: var(--NJF);
 }
 
-#nyj.tmBar, #nyj.tmBarMob {
+#nyt.tmBar, #nyt.tmBarMob {
     background-color: var(--NJF) ;
 }
 
-#nyj.tmBar a,#nyj.tmBarMob a {
+#nyt.tmBar a,#nyt.tmBarMob a {
     color: var(--NJB);
 }
 
-#nyj.tmBar2 {
+#nyt.tmBar2 {
     background-color: var(--NJB) ;
 }
 
-#nyj.tmBar2 a {
+#nyt.tmBar2 a {
     color: var(--NJF);
 }
+
+
+/* --- BERLIN THUNDER--- */
+#ber th {
+    background-color: var(--BEF);
+    color: var(--BEB);
+}
+
+#ber th a {
+    color: var(--BEB);
+}
+
+#ber td a {
+    color: var(--BEF);
+}
+
+#ber tr:nth-child(odd) {
+    background-color: var(--BEB);
+}
+
+#ber.career {
+    background-color: var(--BEF);
+    color: var(--NJB);
+}
+
+#ber input[type=submit] {
+    background-color: var(--BEF);
+}
+
+#ber.tmBar, #ber.tmBarMob {
+    background-color: var(--BEF) ;
+}
+
+#ber.tmBar a,#ber.tmBarMob a {
+    color: var(--BEB);
+}
+
+#ber.tmBar2 {
+    background-color: var(--BEB) ;
+}
+
+#ber.tmBar2 a {
+    color: var(--BEF);
+}
+
+
+/* --- CHICAGO CARDINALS--- */
+#chc th {
+    background-color: var(--CCF);
+    color: var(--CCB);
+}
+
+#chc th a {
+    color: var(--CCB);
+}
+
+#chc td a {
+    color: var(--CCF);
+}
+
+#chc tr:nth-child(odd) {
+    background-color: var(--CCB);
+}
+
+#chc.career {
+    background-color: var(--CCF);
+    color: var(--CCB);
+}
+
+#chc input[type=submit] {
+    background-color: var(--CCF);
+}
+
+#chc.tmBar, #chc.tmBarMob {
+    background-color: var(--CCF) ;
+}
+
+#chc.tmBar a, #chc.tmBarMob a {
+    color: var(--CCB);
+}
+
+#chc.tmBar2 {
+    background-color: var(--CCB) ;
+}
+
+#chc.tmBar2 a {
+    color: var(--CCF);
+}
+
+
+/* --- CLEVELAND--- */
+#cle th {
+    background-color: var(--CLF);
+    color: var(--CLB);
+}
+
+#cle th a {
+    color: var(--CLB);
+}
+
+#cle td a {
+    color: var(--CLF);
+}
+
+#cle tr:nth-child(odd) {
+    background-color: var(--CLB);
+}
+
+#cle.career {
+    background-color: var(--CLF);
+    color: var(--CLB);
+}
+
+#cle input[type=submit] {
+    background-color: var(--CLF);
+}
+
+#cle.tmBar, #cle.tmBarMob {
+    background-color: var(--CLF) ;
+}
+
+#cle.tmBar a, #cle.tmBarMob a {
+    color: var(--CLB);
+}
+
+#cle.tmBar2 {
+    background-color: var(--CLB) ;
+}
+
+#cle.tmBar2 a {
+    color: var(--CLF);
+}
+
+
+/* --- VIRGINIA--- */
+#vir th {
+    background-color: var(--VRF);
+    color: var(--VRB);
+}
+
+#vir th a {
+    color: var(--VRB);
+}
+
+#vir td a {
+    color: var(--VRF);
+}
+
+#vir tr:nth-child(odd) {
+    background-color: var(--VRB);
+}
+
+#vir.career {
+    background-color: var(--VRF);
+    color: var(--VRB);
+}
+
+#vir input[type=submit] {
+    background-color: var(--VRF);
+}
+
+#vir.tmBar, #vir.tmBarMob {
+    background-color: var(--VRF) ;
+}
+
+#vir.tmBar a, #vir.tmBarMob a {
+    color: var(--VRB);
+}
+
+#vir.tmBar2 {
+    background-color: var(--VRB) ;
+}
+
+#vir.tmBar2 a {
+    color: var(--VRF);
+}
+
+
+
+/* --- SAN DIEGO--- */
+#sd th {
+    background-color: var(--SDF);
+    color: var(--SDB);
+}
+
+#sd th a {
+    color: var(--SDB);
+}
+
+#sd td a {
+    color: var(--SDF);
+}
+
+#sd tr:nth-child(odd) {
+    background-color: var(--SDB);
+}
+
+#sd.career {
+    background-color: var(--SDF);
+    color: var(--SDB);
+}
+
+#sd input[type=submit] {
+    background-color: var(--SDF);
+}
+
+#sd.tmBar, #sd.tmBarMob {
+    background-color: var(--SDF) ;
+}
+
+#sd.tmBar a, #sd.tmBarMob a {
+    color: var(--SDB);
+}
+
+#sd.tmBar2 {
+    background-color: var(--SDB) ;
+}
+
+#sd.tmBar2 a {
+    color: var(--SDF);
+}
+
+
+/* --- LOUISVILLE--- */
+#lou th {
+    background-color: var(--LUF);
+    color: var(--LUB);
+}
+
+#lou th a {
+    color: var(--LUB);
+}
+
+#lou td a {
+    color: var(--LUF);
+}
+
+#lou tr:nth-child(odd) {
+    background-color: var(--LUB);
+}
+
+#lou.career {
+    background-color: var(--LUF);
+    color: var(--LUB);
+}
+
+#lou input[type=submit] {
+    background-color: var(--LUF);
+}
+
+#lou.tmBar, #lou.tmBarMob {
+    background-color: var(--LUF) ;
+}
+
+#lou.tmBar a, #lou.tmBarMob a {
+    color: var(--LUB);
+}
+
+#lou.tmBar2 {
+    background-color: var(--LUB) ;
+}
+
+#lou.tmBar2 a {
+    color: var(--LUF);
+}
+
+
 
 
 @media only screen and (max-width: 867px) {

@@ -12,7 +12,7 @@
 
 session_start();
 
-require('../../../sql/phpmysqlconnect.php');
+require('../sql/phpmysqlconnect.php');
 require('../ptf-services/sq-service.php');
 require('../ptf-services/player-service.php');
 require('../ptf-services/team-service.php');
@@ -53,8 +53,6 @@ $count = mysqli_fetch_assoc($result);
 
 //------------------------------------------ DONT FORGET TO UPDATE ADMIN HEADER ANYTHING BELOW THIS POINT -------------------------------------------------------//
 
-
-
 // VARIABLES //
 $leaguestmt = $connection->query("SELECT * FROM ptf_league ");
 $league = array();
@@ -64,8 +62,9 @@ while($row = $leaguestmt->fetch_assoc()) {
 
 
 // PROBABLY THE MOST IMPORTANT VARIABLES ON THE SITE //
+$isMob = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "mobile")); 
 $positionchanges =  $league[0]['value']; 
-//$thisisnothing =    $league[1]['value'];
+$tradesOpen =       $league[1]['value']; 
 $draftStart =       $league[2]['value']; // IMPORTANT!!!!   The Players file includes incoming draft class.  This is the PLAYERID number where draft picks BEGIN! //
 $leagueName =       $league[3]['value'];
 $leagueabbrev =     $league[4]['value'];
@@ -85,12 +84,23 @@ $probowlVote =      $league[17]['value'];
 $awardsVote =       $league[18]['value'];  
 $simDate =          $league[19]['value'];  
 $faday =            $league[20]['value'];
+$transPer =         $league[21]['value'];
+$altHelm =          $league[22]['value'];
+$isPlayoffs =       $league[23]['value'];
+$isPreseason =      $league[24]['value'];
+$franchiseTags =    $league[25]['value'];
+//$toogle =       $league[26]['value'];  backend use primarily
 $leaguestmt->close();
 
 // ARRAYS //
 $pastSeasons = array();
 for ($x = 1985; $x < $year; $x++) {
     array_push($pastSeasons, $x);
+}
+
+$allSeasons = array();
+for ($x = 1985; $x <= $year; $x++) {
+    array_push($allSeasons, $x);
 }
 
 $positions = array('QB','RB','FB','WR','TE','G','T','C','DT','DE','LB','CB','SS','FS','P','K');
@@ -110,12 +120,16 @@ function idToName($id) {
     return idConvert('full', $id);
 }
 
-
+function cashConvert($amt) {
+    if ($amt == 0) {
+        return '--';
+    } else {
+        return "$" . number_format($amt / 1000000, 2) . "M";
+    }
+}
 
 
 //------------------------------------------------ END OF ADMIN UPDATE AREA -----------------------------------------------------//
-
-
 
 
 // USER TEAM SALARY CAP (Doesnt need to go into admin header!) //
@@ -128,6 +142,8 @@ $totalnext4 = $salarySum['p' . $year + 4];
 $totalnext5 = $salarySum['p' . $year + 5];
 $totalnext6 = $salarySum['p' . $year + 6];
 
+
+//------------------------------------------- EVERYTHING BELOW THIS IS THE VISIBLE HEADER ---------------------------------------//
 ?>
 
 <html>
@@ -169,6 +185,12 @@ $totalnext6 = $salarySum['p' . $year + 6];
     </div>
 </div>
 <?php 
+        if ($curWeek < 1) {
+            $schedWeek = -4;
+        } else {
+            $schedWeek = $curWeek;
+        }
+
         echo '
         <nav class="navbar navbar-inverse">
           <div id="topmenu" class="container-fluid">
@@ -179,13 +201,10 @@ $totalnext6 = $salarySum['p' . $year + 6];
             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Info</a>
                 <ul class="dropdown-menu">
                     <li><a href="standings.php">Standings</a>
-                    <li><a href="schedule.php?week='.$curWeek.'">Schedule</a></li>
-                    <li><a href="translog.php">Transaction Log</a></li>
+                    <li><a href="schedule.php?week='.$schedWeek.'">Schedule</a></li>
+                    <li><a href="translog.php?team=menu&type=all">Transaction Log</a></li>
                     <li><a href="injuries.php">Injury Log</a></li>
                     <li><a href="finances.php">Team Finances</a>
-                    <li><a href="1985draft.php">Dispersal Draft</a></li>
-                    <li><a href="1986draft.php">1986 Draft</a>
-                    <li><a href="1987draft.php">1987 Draft</a>
                     <li><a href="stats.php?page=Index">Sim Export</a></li>
                     <li><a href="http://thakfu.com/ptf/export/Index.html">Sim Export Mobile</a></li>
                 </ul>
@@ -195,26 +214,30 @@ $totalnext6 = $salarySum['p' . $year + 6];
                     <li><a href="status.php">STATUS</a>
                     <li><a href="depth.php">Depth Chart</a>
                     <li><a href="edit_coach.php">Coaching Profile</a></li>
-                    <li><a href="playcalling.php">Play Calling</a></li>
                     <li><a href="gameplan.php">Game Planning</a></li>
                 </ul>
             </li>
             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Offseason</a>
                 <ul class="dropdown-menu">
                     <li><a href="upcoming-fa.php?sort=Overall&order=desc&pos=all">Upcoming Free Agents</a>
-                    <li><a href="freeagency.php?abbrev=' . $_SESSION['abbreviation'] . '">Free Agency</a>
-                    <li><a href="draftall.php?pos=all">1988 Draft Pool</a></li>
-                    <li><a href="1988draft.php">1988 Draft</a>
+                    <li><a href="freeagency.php?abbrev=' . $_SESSION['abbreviation'] . '">Free Agency</a>';
+
+            if ($draftactive == 1) {
+                echo '<li><a href="draftall.php?pos=all">' . $year . ' Draft Pool</a></li>';
+                echo '<li><a href="pastdraft.php?year=' . $year . '">' . $year . ' Draft</a>';
+            } else {
+                echo '<li><a href="draftpreview.php?pos=all">' . $year + 1 . ' Draft Preview</a></li>';
+            }
+                    echo '<li><a href="http://www.thakfu.com/ptf/combine90/Index.html">1990 Combine Stats</a>
                 </ul>
             </li>
             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Rosters</a>
                 <ul class="dropdown-menu">
-                    <li><a href="allplayers.php?sort=Overall&order=desc&pos=all">All Players</a>
+                    <li><a href="allplayers.php">All Players</a>
                     <li><a href="rosters.php?team=' . $_SESSION['TeamID'] . '&table=y&sort=Jersey&order=asc">Roster</a>
                     <li><a href="transactions.php">Transactions</a>
                     <li><a href="trades.php">Trades</a>
                     <li><a href="freeagents.php">Free Agents</a>
-                    <li><a href="retired.php">Retired Players</a>
                 </ul>
             </li>
             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Stats</a>
@@ -224,15 +247,29 @@ $totalnext6 = $salarySum['p' . $year + 6];
                     <li><a href="career_stats.php">Player Career Stats</a>
                     <li><a href="league_records.php">League Records</a>
               </ul>
-            </li>';
-            //  <li><a id="homelink" href="expansiondraft.php?pos=all">Expansion Draft Pool</a>'; 
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">History</a>
+                <ul class="dropdown-menu">
+                    <li><a href="pastdraft.php?year=' . $year . '">Draft History</a>
+                    <li><a href="retired.php">Retired Players</a>
+                </ul>';
+            echo   '</li><li><a id="homelink" href="awards.php">AWARDS VOTING</a></li>';
+            //echo '</li><li><a id="homelink" href="probowl.php">Pro Bowl VOTING</a></li>';
+            if ($_SESSION['admin'] == '2') { 
+                echo '<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">ADMIN</a>
+                <ul class="dropdown-menu">
+                    <li><a href="transactions_checker.php?team=0">Transactions</a>
+                </ul>';
+            }
+                echo '</ul>'
+          ; 
+
             } else {
                 echo
                 '<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Info</a>
                     <ul class="dropdown-menu">
                         <li><a href="standings.php">Standings</a>
-                        <li><a href="schedule.php?week='.$curWeek.'">Schedule</a></li>
-                        <li><a href="translog.php">Transaction Log</a></li>
+                        <li><a href="schedule.php?week='.$schedWeek.'">Schedule</a></li>
+                        <li><a href="translog.php?team=menu&type=all">Transaction Log</a></li>
                         <li><a href="injuries.php">Injury Log</a></li>
                         <li><a href="finances.php">Team Finances</a>
                         <li><a href="1985draft.php">Dispersal Draft</a></li>
@@ -244,10 +281,8 @@ $totalnext6 = $salarySum['p' . $year + 6];
                 <ul class="dropdown-menu">
                     <li><a href="allplayers.php?sort=Overall&order=desc&pos=all">All Players</a>
                     <li><a href="upcoming-fa.php?sort=Overall&order=desc&pos=all">Upcoming Free Agents</a>
-                    <li><a href="1987draft.php">1987 Draft</a>
-                    <li><a href="retired.php">Retired Players</a>
                 </ul>
-            </li>
+                </li>
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Stats</a>
                     <ul class="dropdown-menu">
                             <li><a href="teamstats.php">Team Stats</a>
@@ -255,32 +290,47 @@ $totalnext6 = $salarySum['p' . $year + 6];
                             <li><a href="career_stats.php">Player Career Stats</a>
                             <li><a href="league_records.php">League Records</a>
                     </ul>
+                </li>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">History</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="pastdraft.php?year=' . $year . '">Draft History</a>
+                        <li><a href="retired.php">Retired Players</a>
+                    </ul>
                 </li>';
             } 
               echo '</ul>';
             echo '</div></nav>';
+
+            if ($curWeek == 1 || $curWeek == 10) {
+                $suff = '_A';
+            } else {
+                $suff = '';
+            }
+
+            $suffm = '';
+
             echo '<div align="center" id="teammenu" class="container-fluid">
-            <a href="team.php?team=2"><img src="images/MIA_115.png" id="tmMenu"></a>
-            <a href="team.php?team=8"><img src="images/PRO_115.png" id="tmMenu"></a>
-            <a href="team.php?team=9"><img src="images/LON_115.png" id="tmMenu"></a>
-            <a href="team.php?team=18"><img src="images/BAL_115.png" id="tmMenu"></a>
-            <a href="team.php?team=20"><img src="images/NYJ_115.png" id="tmMenu"></a>
-            <a href="team.php?team=1"><img src="images/KC_115.png" id="tmMenu"></a>
-            <a href="team.php?team=4"><img src="images/OAK_115.png" id="tmMenu"></a>
-            <a href="team.php?team=5"><img src="images/BUF_115.png" id="tmMenu"></a>
-            <a href="team.php?team=7"><img src="images/CIN_115.png" id="tmMenu"></a>
-            <a href="team.php?team=19"><img src="images/SEA_115.png" id="tmMenu"></a>
-            <a href="team.php?team=6"><img src="images/NYG_115.png" id="tmMenu"></a>
-            <a href="team.php?team=10"><img src="images/IND_115.png" id="tmMenu"></a>
-            <a href="team.php?team=14"><img src="images/ATL_115.png" id="tmMenu"></a>
-            <a href="team.php?team=16"><img src="images/TB_115.png" id="tmMenu"></a>
-            <a href="team.php?team=17"><img src="images/WAS_115.png" id="tmMenu"></a>
-            <a href="team.php?team=3"><img src="images/GB_115.png" id="tmMenu"></a>
-            <a href="team.php?team=11"><img src="images/CHI_115.png" id="tmMenu"></a>
-            <a href="team.php?team=12"><img src="images/DET_115.png" id="tmMenu"></a>
-            <a href="team.php?team=13"><img src="images/MIN_115.png" id="tmMenu"></a>
-            <a href="team.php?team=15"><img src="images/SF_115.png" id="tmMenu"></a></div>'; 
-    
+            <a href="team.php?team=2"><img src="images/MIA_115' . $suff . '.png" id="tmMenu"></a>
+            <a href="team.php?team=5"><img src="images/BUF_115' . $suff . '.png" id="tmMenu"></a>
+            <a href="team.php?team=9"><img src="images/LON_115' . $suff . '.png" id="tmMenu"></a>
+            <a href="team.php?team=18"><img src="images/BAL_115' . $suff . '.png" id="tmMenu"></a>
+            <a href="team.php?team=1"><img src="images/NYT_115' . $suff . '.png" id="tmMenu"></a>
+            <a href="team.php?team=20"><img src="images/LOU_115' . $suff . '.png" id="tmMenu"></a>
+            <a href="team.php?team=4"><img src="images/OAK_115' . $suff . '.png" id="tmMenu"></a>
+            <a href="team.php?team=7"><img src="images/CIN_115' . $suff . '.png" id="tmMenu"></a>
+            <a href="team.php?team=8"><img src="images/SEA_115' . $suff . '.png" id="tmMenu"></a>
+            <a href="team.php?team=17"><img src="images/CHC_115' . $suff . '.png" id="tmMenu"></a><br>
+            <a href="team.php?team=6"><img src="images/NYG_115' . $suff . '.png" id="tmMenu"></a>
+            <a href="team.php?team=10"><img src="images/IND_115' . $suff . '.png" id="tmMenu"></a>
+            <a href="team.php?team=14"><img src="images/ATL_115' . $suff . '.png" id="tmMenu"></a>
+            <a href="team.php?team=16"><img src="images/TB_115' . $suff . '.png" id="tmMenu"></a>
+            <a href="team.php?team=19"><img src="images/WAS_115' . $suff . '.png" id="tmMenu"></a>
+            <a href="team.php?team=3"><img src="images/GB_115' . $suff . '.png" id="tmMenu"></a>
+            <a href="team.php?team=11"><img src="images/CHI_115' . $suff . '.png" id="tmMenu"></a>
+            <a href="team.php?team=12"><img src="images/DET_115' . $suff . '.png" id="tmMenu"></a>
+            <a href="team.php?team=13"><img src="images/MIN_115' . $suff . '.png" id="tmMenu"></a>
+            <a href="team.php?team=15"><img src="images/SF_115' . $suff . '.png" id="tmMenu"></a></div>'; 
+
 ?>
 
 

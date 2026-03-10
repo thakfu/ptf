@@ -8,6 +8,20 @@ while($row = $depth->fetch_assoc()) {
     array_push($chart, $row);
 }
 
+if ($curWeek < 1) {
+    $curWeek = 1;
+}
+
+
+if ($curWeek == 20) {
+    $curWeek = "20 or Week = 21";
+}
+
+if ($curWeek == 21) {
+    $curWeek = 22;
+}
+
+
 $opponent = $connection->query('SELECT HomeTeamID, AwayTeamID, Week FROM `ptf_games` WHERE (HomeTeamID = ' . $_SESSION['TeamID'] . ' OR AwayTeamID = ' . $_SESSION['TeamID'] . ') AND Week = ' . $curWeek);
 while($opp = $opponent->fetch_assoc()) {
     if($opp['HomeTeamID'] == $_SESSION['TeamID']) {

@@ -4,15 +4,16 @@ echo '<td><h1>' . $team['City'] . ' </h1></td>';
 echo '<td><img src="images/' . $team['Abbrev'] . '_word.png" id="tmLogo"></td></tr></table><br>';
 echo '<div class="tmBar" id="' . $team['Abbrev'] . '" align="center">';
 echo "
-<span><a href='rosters.php?team=" . $team['TeamID'] . "&sort=Jersey&order=asc'>Roster</a></span>  
+<span><a href='allplayers.php?team=" . $team['TeamID'] . "'>Roster</a></span>  
 <span><a href='teamschedule.php?team=" .  $team['TeamID'] . "'>Schedule</a></span>
 <span><a href='player_stats.php?team=" . $team['TeamID'] . "'>Stats</a></span>  
-<span><a href='stats.php?page=Teams/" . $team['TeamID'] . "'>Sim Page</a></span>";
+<span><a href='teamratings.php?teams=" . $team['TeamID'] . "'>Ratings</a></span>";
 echo '</div>';
 
 echo '<div class="tmBar2" id="' . $team['Abbrev'] . '" align="center">';
 echo "
-<span><a href='history.php?team=" . $team['TeamID'] . "'>History</a></span>"; 
+<span><a href='history.php?team=" . $team['TeamID'] . "'>History</a></span>
+<span><a href='stats.php?page=Teams/" . $team['TeamID'] . "'>Sim Page</a></span>"; 
 echo '</div>';
 
 
@@ -25,7 +26,7 @@ echo '<tr><td><img src="images/' . $team['Abbrev'] . '_word.png" id="tmLogo"></t
 
 echo '<div class="tmBarMob" id="' . $team['Abbrev'] . '" align="center">';
 echo "
-<span><a href='rosters.php?team=" . $team['TeamID'] . "&sort=Jersey&order=asc'>Roster</a></span>  <br><hr>
+<span><a href='allplayers.php?team=" . $team['TeamID'] . "'>Roster</a></span>  <br><hr>
 <span><a href='teamschedule.php?team=" .  $team['TeamID'] . "'>Schedule</a></span>   <br><hr>
 <span><a href='player_stats.php?team=" . $team['TeamID'] . "'>Stats</a></span>   <br><hr>
 <span><a href='stats.php?page=Teams/" . $team['TeamID'] . "'>Sim Page</a></span> <br><hr>

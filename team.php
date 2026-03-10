@@ -2,16 +2,18 @@
 
 include 'header.php';
 
-include 'nav.php'; 
+//include 'nav.php'; 
 
 $teamService = teamService($_GET['team']);
 $team = $teamService[0];
 
 $playerService = playerService($_GET['team'],0,2);
 
-usort($playerService, fn($a, $b) => $b['Overall'] <=> $a['Overall']);
 $top = 0;
 $topArray = array();
+
+usort($playerService, fn($a, $b) => $b['Overall'] <=> $a['Overall']);
+
 foreach ($playerService as $player) {
     if ($top < 10) {
         $top++;
@@ -43,48 +45,57 @@ if ($_GET['order'] == 'asc') {
 } elseif ($_GET['team'] == 14) {
     echo '<table><tr><td><img src="rb-trophy.png" title="Super Bowl - ' . $ch . '" width="75"></td></tr><tr><td>Super Bowl II - 1986</td></tr></table>';
 } */
-
 echo '<h2>' . $year . ' Roster</h2>';
 echo '<div align="center">';
-foreach ($topArray as $ta) {
-    echo '<img width="100px" title="' . $ta . '" src="export/Images/Players/' . str_replace(" ","_",$ta) . '.jpg" onerror="this.src=\'notfound.png\'">'. str_repeat('&nbsp;', 10);
+if(!$isMob) {
+    foreach ($topArray as $ta) {
+        echo '<img width="100px" title="' . $ta . '" src="export/Images/Players/' . str_replace(" ","_",$ta) . '.jpg" onerror="this.src=\'notfound.png\'">'. str_repeat('&nbsp;', 10);
+    }
 }
-echo '</div><br>';
 
-echo '<table class="roster" border=1 id="'.$team['Abbrev'].'">';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=Jersey&order=' . $sorter . '">Jersey</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=FirstName&order=' . $sorter . '">Name</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=PosSort&order=' . $sorter . '">Position</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=Age&order=' . $sorter . '">Age</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=Experience&order=' . $sorter . '">Exp</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=College&order=' . $sorter . '">College</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=Height&order=' . $sorter . '">Height</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=Weight&order=' . $sorter . '">Weight</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=Overall&order=' . $sorter . '">OVERALL</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=Overall&order=' . $sorter . '">Injury</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=Overall&order=' . $sorter . '">Traits</a></th>';
-/*echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=Strength&order=' . $sorter . '">Strength</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=Agility&order=' . $sorter . '">Agility</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=Arm&order=' . $sorter . '">Arm</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=Speed&order=' . $sorter . '">Speed</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=Hands&order=' . $sorter . '">Hands</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=Intelligence&order=' . $sorter . '">Intelligence</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=Accuracy&order=' . $sorter . '">Accuracy</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=RunBlocking&order=' . $sorter . '">Run Block</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=PassBlocking&order=' . $sorter . '">Pass Block</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=Tackling&order=' . $sorter . '">Tackling</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=Endurance&order=' . $sorter . '">Endurance</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=KickDistance&order=' . $sorter . '">Kick Dis.</a></th>';
-echo '<th><a href="team.php?team=' . $_GET['team'] . '&sort=KickAccuracy&order=' . $sorter . '">Kick Acc.</a></th>';*/
+echo '</div><br>';
+echo '<table class="sortable" border=1 id="'.$team['Abbrev'].'">';
+echo '<th>#</th>';
+echo '<th>Name</th>';
+echo '<th>Pos.</th>';
+echo '<th>Age</th>';
+echo '<th>Exp</th>';
+//echo '<th>College</th>';
+//echo '<th>Height</th>';
+//echo '<th>Weight</th>';
+echo '<th>OVR</th>';
+echo '<th>Grade</th>';
+echo '<th>Injury</th>';
+echo '<th>Traits</th>';
+echo '<th>Personality</th>';
+echo '<th>Contract</th>';
 echo '</tr>';
 
-
 foreach ($playerService as $player) {
+
+    $salary = $player[$year] + $player[$year + 1] + $player[$year + 2]  + $player[$year + 3]  + $player[$year + 4]  + $player[$year + 5];
+    if ($player[$year + 1] == 0) {
+        $left = 1;
+    } elseif ($player[$year + 2] == 0) {
+        $left = 2;
+    } elseif ($player[$year + 3] == 0) {
+        $left = 3;
+    } elseif ($player[$year + 4] == 0) {
+        $left = 4;
+    } elseif ($player[$year + 5] == 0) {
+        $left = 5;
+    } else {
+        $left = 6;
+    }
+    $salAvg = number_format($salary / $left);
+
     echo '<tr><td>'; 
-    if ($player['SquadTeam'] == $_GET['team']) {
-        echo '**' . $player['Jersey'];
-    } elseif ($player['irteam'] == $_GET['team']) {
-        echo '##' . $player['Jersey'];
+    if ($player['SquadTeam'] == $_GET['team'] && $player['TeamSlot'] < 6) {
+        echo '<b>**</b>' . $player['Jersey'];
+    } elseif ($player['SquadTeam'] == $_GET['team'] && $player['TeamSlot'] >= 6) {
+        echo '<b>$$</b>' . $player['Jersey'];
+    }elseif ($player['irteam'] == $_GET['team']) {
+        echo '<b>##</b>' . $player['Jersey'];
     }else {
         echo $player['Jersey'];
     }
@@ -96,41 +107,43 @@ foreach ($playerService as $player) {
     } else {
         echo $player['Experience'];
     }
+
+    if ($_GET['team'] == 33) {
+        $pers = $connection->query("SELECT grade, personality FROM ptf_players_extra WHERE playerID = " . $player['PlayerID']);
+        while($row = $pers->fetch_assoc()) {
+            $grade = $row['grade'];
+            $person = $row['personality'];
+        }
+    } else {
+        $grade = $person = '';
+    }
+    $t2 = !$player['trait2'] ? '' : ' - ';
+    $t3 = !$player['trait3'] ? '' : ' - ';
+    $t4 = !$player['trait4'] ? '' : ' - ';
+    $f1 = !$player['flag'] ? '' : ' - ';
     echo '</td><td>' .
-    $player['College'] . '</td><td>' .  
-    floor($player['Height'] / 12) . '\'' . ($player['Height'] % 12) . '"</td><td>' .
-    $player['Weight'] . '</td><td>' .
-    $player['Overall'] . '</td><td>' .
+    //$player['College'] . '</td><td>' .  
+    //floor($player['Height'] / 12) . '\'' . ($player['Height'] % 12) . '"</td><td>' .
+    //$player['Weight'] . '</td><td><b>' .
+    '<b>' . $player['Overall'] . '</b><td>' . $grade . '</td>' .'</td><td>' .
     $player['InjuryLength'] . '</td><td>' .
-    $player['trait1'] . '</td>' .
-    /*$player['Strength'] . '</td><td>' .
-    $player['Agility'] . '</td><td>' .
-    $player['Arm'] . '</td><td>' .
-    $player['Speed'] . '</td><td>' .
-    $player['Hands'] . '</td><td>' .
-    $player['Intelligence'] . '</td><td>' .
-    $player['Accuracy'] . '</td><td>' .
-    $player['RunBlocking'] . '</td><td>' .
-    $player['PassBlocking'] . '</td><td>' .
-    $player['Tackling'] . '</td><td>' .
-    $player['Endurance'] . '</td><td>' .
-    $player['KickDistance'] . '</td><td>' .
-    $player['KickAccuracy'] . '</td>' .*/
+    $player['trait1'] . $t2 . $player['trait2'] . $t3 . $player['trait3'] .  $t4 . $player['trait4'] .  $f1 . $player['flag'] .  '</td>' . '<td>' . $person . '</td>' .
+    '<td>' . $left . ' yrs x $' . $salAvg . '</td>' .
     '</tr>';
 }
 
-echo '</table><br><br>';
+echo '</table><br><i>## Injured Reserve -- ** Practice Squad (5) -- $$ Unprotected Practice Squad (3)</i><br><br>';
 echo '<table><tr style="background-color:white"><td valign="top">';
 echo '<h3 align="center">Owned Draft Picks</h3>';
 echo '<table id="'.$team['Abbrev'].'">';
-$picksuser = $connection->query("SELECT draftID, team, year, round, owner FROM ptf_draft_picks WHERE year >= " . $year . " AND playerID = 0 AND owner = " . $team['TeamID']);
+$picksuser = $connection->query("SELECT draftID, team, year, round, owner FROM ptf_draft_picks WHERE year >= " . $year . " AND playerID = 0 AND owner = " . $team['TeamID'] . " ORDER BY year ASC, round ASC");
 while($row = $picksuser->fetch_assoc()) {
     echo '<tr><td>' . $row['year'] . '</td><td>Round ' .  $row['round'] . '</td><td><img src="images/' . idToAbbrev($row['team']) . '_115.png" id="draftHelmet"></td></tr>'; 
 }
 echo '</table><br>';
 echo '</td><td valign="top">';
 echo '<h3 align="center">Team Information</h3>';
-echo '<ul align="left">' . 
+echo '<ul style="list-style-type: none;">' . 
     '<li><b>Owner:</b> ' . $team['first_name'] . ' ' . $team['last_name'] . 
     '<li><b>Member Since:</b> ' . $team['reg_date'] . 
     '<li><b>Stadium:</b> ' . $team['stadium'] . 
@@ -141,9 +154,12 @@ echo '<ul align="left">' .
 echo '<i><b>Last Online:</b> ' . $team['last_seen'] . '</i><br>';
 
 
-echo '</td></tr><table></div><br>';
+//echo '</td><td>';
+if(!$isMob) {
+    include 'gridtest.php'; 
+}
 
-include 'gridtest.php'; 
+echo '</td></tr><table></div><br>';
 
 
 ?>

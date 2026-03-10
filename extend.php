@@ -1,6 +1,7 @@
 <?php
 
 include 'header.php';
+include 'calculateDemand.php';
 
 $teamService = teamService($_SESSION['TeamID']);
 $team = $teamService[0];
@@ -14,17 +15,15 @@ if ($player[$year + 1] != 0) {
     echo 'This player is not eligible for a contract extension!';
 } else {
 
-    $faService = faPlayerService('extend', $_GET['player']);  //T.Greene
-
-    //$faService = faPlayerService('extend', 'all');
+    $faService = faPlayerService('extend', $_GET['player']);  
 
     $day = 1;
+    $year = 1990;
     srand($_GET['player']);
-    $rand = rand(5,25);
-    //$rand = 0;
+    $rand = rand(-5,15);
 
     srand($_GET['player'] * 2);
-    $mult = rand(25,75);
+    $mult = rand(25,50);
 
     $players = array();
     $finaloffers = array();
@@ -62,24 +61,22 @@ if ($player[$year + 1] != 0) {
 
     foreach ($allOffered as $ao) {
         echo '<table border="1">';
-        echo '<tr><th colspan="3">Data</th><th colspan="8">Demands</th><th colspan="7">Thoughts</th><th style="background-color:yellow">FINAL DEMAND</th></tr>';
+        echo '<tr><th colspan="3">Data</th><th colspan="7">Demands</th><th colspan="6">Thoughts</th><th style="background-color:yellow">FINAL DEMAND</th></tr>';
         echo '<tr>
         <th>Years</th>
         <th>Player</th>
-        <th>Team</th>
+        <th>Previous</th>
         <th style="background-color:yellow">Initial Demand</th>
         <th>Money</th>
         <th>Security</th>
         <th>Loyalty</th>
         <th>Winner</th>
         <th>Playing Time</th>
-        <th>Close Home</th>
         <th>Market</th>
         <th>Security</th>
         <th>Loyalty</th>
         <th>Winning</th>
         <th>Playing Time</th>
-        <th>Home</th>
         <th>Market</th>
         <th>Intangibles</th>
         <th style="background-color:yellow">BASED ON YOUR TEAM</th>
@@ -87,14 +84,27 @@ if ($player[$year + 1] != 0) {
 
         foreach ($faService as $fas) {
 
+            $fas['yearsOffered'] = $ao;
+
+            $calc = calculateDemand($year, $day, $fas, 'extend', $_SESSION['TeamID'], $_SESSION['state']);
+
+            //var_dump($calc);
+
             echo '<h2>' . $fas['FullName'] . ' ' . $ao . ' Year Offer</h2>';
 
-            $demand = $fas['demandAmount'];
+            if ($fas['strikes'] >= 3) {
+                echo '<br><br><b><center><h3>This player no longer wishes to negotiate with you and will test free agency!</h3></center></b><BR><BR><BR>';
+                exit;
+            }
+
+            echo '<center><h4>You have <b>' . $fas['strikes'] . '</b> failed attempts.  If this reaches 3, the player will end negotiations with you!</h4></center>';
+
+            $demand = $calc['finalAmt'];
     
             $randomValue = ($rand * $demand) / 100;
 
             // $secureMult - Multiplier given for a longer contract
-            if ($ao == 1) {
+           /* if ($ao == 1) {
                 $length = 1;
                 if ($fas['Security'] > 45) {
                     $secureMult = 0.8;
@@ -183,7 +193,7 @@ if ($player[$year + 1] != 0) {
             $wl2s = winlossService($team['TeamID'],$year-1); // CHANGE THIS TO -2 AFTER 1987
             $wl2 = $wl2s[0];
     
-            $wl3s = winlossService($team['TeamID'],$year-1);
+            $wl3s = winlossService($team['TeamID'],$year);
             $wl3 = $wl3s[0];
 
 
@@ -292,48 +302,60 @@ if ($player[$year + 1] != 0) {
                 } elseif($fas['MarketSize'] < 41) {
                     $marketBonus = 1.2;
                 }
-            }
+            } */
 
             // THE GRAND CALCULATION!!!!!!!!
-            $totalOffer = $fas['amount1'] + $fas['amount2'] + $fas['amount3'] + $fas['amount4'] + $fas['amount5'] + $fas['amount6'];
-            $m = $totalOffer / $length;
+            //var_dump($fas);
+            //$totalOffer = $fas['amount1'] + $fas['amount2'] + $fas['amount3'] + $fas['amount4'] + $fas['amount5'] + $fas['amount6'];
+            $avgOffer = $calc['finalAmt'];
             $mm = $fas['Money'];
-            $sm = $secureMult;
-            $l = $prevBonus;
-            if ($winVal < 0.8) {
-                $winVal = 0.9;
-            }
-            $w = $winVal;
+            $sm = $calc['secureMult'];
+            $l = $calc['prevBonus'];
+            $w = $calc['winVal'];
             $ww = $fas['Winning'];
-            $p = $ptBonus;
-            $h = $homeBase;
-            $km = $marketBonus;
+            $p = $calc['ptBonus'];
+            $h = $calc['homeBase'];
+            $km = $calc['marketBonus'];
             //$part1 = (($mm - 70) / 100) + 1;
-            $part1 = 1;
+            $wb = $calc['winBonus'];
 
-            $ww = 40;
-            $winBonus = $w - ($ww / 1000);
+            //echo $avgOffer . ' * ' . (1 + $rand / 100) . ' - ' . $avgOffer;
+            $randomValue = $avgOffer * (1 + $rand / 100) - $avgOffer;
+            $sAdj = $avgOffer * $sm - $avgOffer;
+            $lAdj = $avgOffer * $l - $avgOffer;
+            $wAdj = $avgOffer * $wb - $avgOffer;
+            $pAdj = $avgOffer * $p - $avgOffer;
+            $hAdj = $avgOffer * $h - $avgOffer;
+            $mAdj = $avgOffer * $km - $avgOffer;
+            $final = $avgOffer + -$sAdj + -$lAdj + -$wAdj + -$pAdj + -$mAdj;
+            $final = floor($final/50000) * 50000;
+            $grandTotal = $final + $randomValue;
 
-            if ($winBonus > 1.2) {
-                $winBonus = 1.2;
+            if ($demand > $grandTotal) {
+                $grandTotal = $demand * 0.95;
+                $newdemand = $grandTotal;
+                $bonus = '<b> - 5% Bonus!</b>';
+                $isLess = 1;
+            } else {
+                $newdemand = $demand;
+                $isLess = 0;
+                $bonus = '';
             }
-            if ($winBonus < 0.9) {
-                if ($fas['Winning'] < 50) {
-                    $winBonus = 0.9;
-                } else {
-                    $winBonus = 0.85;
-                }
-            }
+
+            $newdemand = ceil($newdemand/50000) * 50000;
+            $grandTotal = ceil($grandTotal/50000) * 50000;
+
 
             // echo 'Wins: ' . $w . ' || Value: ' . $ww / 1000 . ' || FINAL: ' . $winBonus;
 
 
             //echo $fas['FullName'] . ' - ' . $demand .' * '. $part1 .' * '. $sm .' * '. $l .' * '. round($winBonus,2) .' * '. $p .' * '. $h .' * '. $km . '<br><br>';
-            $final = $demand * $part1 * $sm * $l * round($winBonus,2) * $p * $h * $km;
-            $afterRand = $final + $randomValue;
+            //$final = $demand * $part1 * $sm * $l * round($winBonus,2) * $p * $h * $km;
 
 
             // Post Offer Denial Check
+
+            /*
             if ($afterRand < $demand) {
                 $deny = 'Deny!';
             } else {
@@ -413,129 +435,127 @@ if ($player[$year + 1] != 0) {
                 $mar = 'Lg-Mid';
             } elseif ($fas['MarketSize'] >= 61) {
                 $mar = 'Large';
-            }
+            } */
 
-            $needed = $final - $demand;
-            $grandTotal = $demand - $needed + $randomValue;
+            //$needed = $final - $demand;
+            //$grandTotal = $demand - $needed + $randomValue;
 
             $failCount = 0;
 
-            if ($secureMult == 1.2) {
+            if ($calc['secureMult'] == 1.1) {
                 $thoughtS = 'Perfect!';
-            } elseif ($secureMult >= 1.1) {
+            } elseif ($calc['secureMult'] >= 1.05) {
                 $thoughtS = 'Good';
-            } elseif ($secureMult >= 0.95 && $secureMult < 1.1) {
+            } elseif ($calc['secureMult'] >= 0.95 && $calc['secureMult'] < 1.05) {
                 $thoughtS = 'Acceptable';
-            } elseif ($secureMult < 0.95 && $secureMult >= 0.9) { 
+            } elseif ($calc['secureMult'] < 0.95 && $calc['secureMult'] > 0.9) { 
                 $thoughtS = 'Not Great';
-            } elseif ($secureMult <= 0.9) {
+            } elseif ($calc['secureMult'] <= 0.9) {
                 $thoughtS = 'FAIL';
                 $failCount++;
             }
 
-            if ($prevBonus == 1.2) {
+            if ($calc['prevBonus'] == 1.1) {
                 $thoughtL = 'Perfect!';
-            } elseif ($prevBonus >= 1.1) {
+            } elseif ($calc['prevBonus'] == 1.05) {
                 $thoughtL = 'Good';
-            } elseif ($prevBonus >= 0.95 && $prevBonus < 1.1) {
+            } elseif ($calc['prevBonus'] == 1.025) {
                 $thoughtL = 'Acceptable';
-            } elseif ($prevBonus < 0.95 && $prevBonus >= 0.9) { 
+            } elseif ($calc['prevBonus'] == 1) { 
                 $thoughtL = 'Not Great';
-            } elseif ($prevBonus <= 0.9) {
+            } elseif ($calc['prevBonus'] < 1) {
                 $thoughtL = 'FAIL';
                 $failCount++;
             }
 
-            if (round($winBonus,2) == 1.2) {
+            if (round($calc['winBonus'],2) == 1.1) {
                 $thoughtW = 'Perfect!';
-            } elseif (round($winBonus,2) >= 1.1) {
+            } elseif (round($calc['winBonus'],2) >= 1.05) {
                 $thoughtW = 'Good';
-            } elseif (round($winBonus,2) >= 0.95 && round($winBonus,2) < 1.1) {
+            } elseif (round($calc['winBonus'],2) >= 1 && round($calc['winBonus'],2) < 1.05) {
                 $thoughtW = 'Acceptable';
-            } elseif (round($winBonus,2) < 0.95 && round($winBonus,2) >= 0.9) { 
+            } elseif (round($calc['winBonus'],2) < 1 && round($calc['winBonus'],2) > 0.95) { 
                 $thoughtW = 'Not Great';
-            } elseif (round($winBonus,2) <= 0.9) {
+            } elseif (round($calc['winBonus'],2) <= 0.95) {
                 $thoughtW = 'FAIL';
                 $failCount++;
             }
 
-            if ($ptBonus == 1.2) {
+            if ($calc['ptBonus'] == 1.1) {
                 $thoughtP = 'Perfect!';
-            } elseif ($ptBonus >= 1.1) {
+            } elseif ($calc['ptBonus'] >= 1.05) {
                 $thoughtP = 'Good';
-            } elseif ($ptBonus >= 0.95 && $ptBonus < 1.1) {
+            } elseif ($calc['ptBonus'] >= 1 && $calc['ptBonus'] < 1.05) {
                 $thoughtP = 'Acceptable';
-            } elseif ($ptBonus < 0.95 && $ptBonus >= 0.9) { 
+            } elseif ($calc['ptBonus'] < 1 && $calc['ptBonus'] > 0.9) { 
                 $thoughtP = 'Not Great';
-            } elseif ($ptBonus <= 0.9) {
+            } elseif ($calc['ptBonus'] <= 0.9) {
                 $thoughtP = 'FAIL';
                 $failCount++;
             }
 
-            if ($homeBase == 1.2) {
+            if ($calc['homeBase'] == 1.1) {
                 $thoughtH = 'Perfect!';
-            } elseif ($homeBase >= 1.1) {
+            } elseif ($calc['homeBase'] >= 1.1) {
                 $thoughtH = 'Good';
-            } elseif ($homeBase >= 0.95 && $homeBase < 1.1) {
+            } elseif ($calc['homeBase'] >= 1 && $calc['homeBase'] < 1.1) {
                 $thoughtH = 'Acceptable';
-            } elseif ($homeBase < 0.95 && $homeBase >= 0.9) { 
+            } elseif ($calc['homeBase'] < 1 && $calc['homeBase'] > 0.95) { 
                 $thoughtH = 'Not Great';
-            } elseif ($homeBase <= 0.9) {
+            } elseif ($calc['homeBase'] <= 0.95) {
                 if ($fas['CloseToHome'] <= 32) {
                     $thoughtH = 'Lucky, I don\'t care!';
                 } else {
                     $thoughtH = 'FAIL';
-                    $failCount++;
                 }
             }
 
-            if ($marketBonus == 1.2) {
+            if ($calc['marketBonus'] == 1.1) {
                 $thoughtM = 'Perfect!';
-            } elseif ($marketBonus >= 1.1) {
+            } elseif ($calc['marketBonus'] >= 1.05) {
                 $thoughtM = 'Good';
-            } elseif ($marketBonus >= 0.95 && $marketBonus < 1.1) {
+            } elseif ($calc['marketBonus'] >= 1 && $calc['marketBonus'] < 1.05) {
                 $thoughtM = 'Acceptable';
-            } elseif ($marketBonus < 0.95 && $marketBonus >= 0.9) { 
+            } elseif ($calc['marketBonus'] < 1 && $calc['marketBonus'] > 0.9) { 
                 $thoughtM = 'Not Great';
-            } elseif ($marketBonus <= 0.9) {
+            } elseif ($calc['marketBonus'] <= 0.9) {
                 $thoughtM = 'FAIL';
                 $failCount++;
             }
 
-            if ($rand == 5) {
+            if ($rand > 5) {
                 $thoughtI = 'No Issues!';
-            } elseif ($rand <= 10) {
+            } elseif ($rand >= 1) {
                 $thoughtI = 'Nothing Too Major';
-            } elseif ($rand <= 15 && $rand > 10) {
+            } elseif ($rand < 1 && $rand > -5) {
                 $thoughtI = 'Gonna Need a Bit More';
-            } elseif ($rand <= 20 && $rand > 15) { 
-                $thoughtI = 'Premium to Resign';
-            } elseif ($rand <= 25) {
+            }  elseif ($rand == -5) {
                 $thoughtI = 'I want ALOT more (FAIL)';
                 $failCount++;
             }
+            //$failCount = 0;
+            //$fas['Loyalty'] = 33;
 
+                echo '<center><b>' . $fas['string'] . '</center></b>';
                 $offer = array();
                 echo '<tr>
                 <td>' . $ao . ' </td>
                 <td>' . $fas['FullName'] . '</td>
-                <td>' . $fas['TeamName'] . '</td>
+                <td>' . number_format($player[$year]) . '</td>
                 <td style="background-color:yellow">' . number_format($demand) . '</td>
                 <td>' . $fas['Money'] . '</td>
-                <td>' . $sec . '</td>
-                <td>' . $loy . '</td>
-                <td>' . $win . '</td>
-                <td>' . $pt . '</td>
-                <td>' . $cth . '</td>
-                <td>' . $mar . '</td>
+                <td>' . $calc['sec'] . '</td>
+                <td>' . $calc['loy'] . '</td>
+                <td>' . $calc['win'] . '</td>
+                <td>' . $calc['pt'] . '</td>
+                <td>' . $calc['mar'] . '</td>
                 <td>' . $thoughtS . '</td>
                 <td>' . $thoughtL . '</td>
                 <td>' . $thoughtW . '</td>
                 <td>' . $thoughtP . '</td>
-                <td>' . $thoughtH . '</td>
                 <td>' . $thoughtM . '</td>
                 <td>' . $thoughtI . '</td>
-                <td style="background-color:yellow">' . number_format($grandTotal) . '</td>
+                <td style="background-color:yellow">' . number_format($grandTotal) . ' ' . $bonus . '</td>
                 </tr></table>';
 
                 $invalid1 = "false";
@@ -544,81 +564,163 @@ if ($player[$year + 1] != 0) {
                 $invalid4 = "false";
                 $invalid5 = "false";
                 $invalid6 = "false";
+
                 $ext = 1;
-                $num = ceil($grandTotal/10000) * 10000;
+                $num = ceil($grandTotal/50000) * 50000;
+                $topnum = ceil($topSal/50000) * 50000;
                 $nodeal = 'false';
                 echo '<p><center>Your team has failed <b>' . $failCount . '</b> categories...';
                 if ($failCount == 3) {
                     echo ' this player doesnt believe your team to be a good fit for him anymore.';
                 } elseif ($failCount == 2) {
-                    echo ' this player will want more money than usual.';
+                    echo ' this player will want more money than usual or might refuse to sign.';
                 } elseif ($failCount == 1) {
                     echo ' if this player\'s loyalty is low, he will ask for more money.  If it is VERY LOW he will refuse to sign. ';
                 } else {
                     echo ' this player thinks your team is a good fit.';
                 }
                 echo '</center></p>';
-                if ($fas['Loyalty'] < 32 && ($thoughtM == 'FAIL' || $thoughtS == 'FAIL' || $thoughtL == 'FAIL' || $thoughtW == 'FAIL' || $thoughtP == 'FAIL' || $thoughtH == 'FAIL')) {
-                    echo '<p><b><center>"This type of contract is NOT acceptable to me in any way!"</center></b></p>';
-                    $nodeal = 'true';
-                    if ($ao == 1) {
-                        $invalid1 = "true";
-                    } elseif ($ao == 2) {
-                        $invalid2 = "true";
-                    } elseif ($ao == 3) {
-                        $invalid3 = "true";
-                    } elseif ($ao == 4) {
-                        $invalid4 = "true";
-                    } elseif ($ao == 5) {
-                        $invalid5 = "true";
-                    } elseif ($ao == 6) {
-                        $invalid6 = "true";
-                    }
-                } elseif ($failCount > 2) {
-                    echo '<p><b><center>"This type of contract is NOT acceptable to me in any way!"</center></b></p>';
-                    $nodeal = 'true';
-                    if ($ao == 1) {
-                        $invalid1 = "true";
-                    } elseif ($ao == 2) {
-                        $invalid2 = "true";
-                    } elseif ($ao == 3) {
-                        $invalid3 = "true";
-                    } elseif ($ao == 4) {
-                        $invalid4 = "true";
-                    } elseif ($ao == 5) {
-                        $invalid5 = "true";
-                    } elseif ($ao == 6) {
-                        $invalid6 = "true";
-                    }
-                } elseif (($fas['Loyalty'] < 39 && $failCount == 1) || $failCount == 2) {
+
+                if ($failCount >= 3) {
+                    echo '<p><b><center>"This type of contract is NOT acceptable to me in any way!  I am filing for free agency!"</center></b></p>';
+
                     $multiplier = $mult / 100;
+                    $yroffer = ($topnum + ($topnum * $multiplier));
+
+                    if ($yroffer < $player[$year] && $player['Age'] < 31) {
+                        $paycut = '  Since my contract last year was higher than the final demand, I want you to better it by 5%!  ';
+                        $yroffer = $player[$year] * 1.05;
+                    }
+
+                    if ($yroffer > $topSal) {
+                        //$yroffer = $topSal * 1.05;
+                        $highest = 'This would make me the highest paid player at my position by <b>' . $mult . ' percent</b>!!';
+                    }
+
+                    $yroffer = ceil($yroffer/50000) * 50000;
+                    $ogyo = $yroffer;
+                    
+                    echo '<p><b><center>"If you REALLY wanna bring me back, I would need MUCH MUCH MORE THAN the highest salary at my position to accept!"</center></b></p>';
+                    echo '<p><center>"I will need an minimum offer of <b>$' . number_format($yroffer) . '</b> per year to a sign an extension of this length! ' . $paycut . $highest .'"</center></p>';
+                    echo '<p><center>"If you offer less than that amount I am ending negotiations with you!"</center></p>';
+                    $killNegot = 100;
+                    //$nodeal = 'true';
+                    /*if ($ao == 1) {
+                        $invalid1 = "true";
+                    } elseif ($ao == 2) {
+                        $invalid2 = "true";
+                    } elseif ($ao == 3) {
+                        $invalid3 = "true";
+                    } elseif ($ao == 4) {
+                        $invalid4 = "true";
+                    } elseif ($ao == 5) {
+                        $invalid5 = "true";
+                    } elseif ($ao == 6) {
+                        $invalid6 = "true";
+                    }*/
+
+                } elseif ($fas['Loyalty'] <= 33 && ($thoughtM == 'FAIL' || $thoughtS == 'FAIL' || $thoughtL == 'FAIL' || $thoughtW == 'FAIL' || $thoughtP == 'FAIL')) {
+                    echo '<p><b><center>"This type of contract is NOT acceptable to me in any way!  HOWEVER...."</center></b></p>';
+                    $multiplier = $mult / 100;
+                    $yroffer = ($num + ($num * $multiplier));
+
+                    if ($yroffer < $player[$year] && $player['Age'] < 31) {
+                        $paycut = '  Since my contract last year was higher than the final demand, I want you to better it by 5%!  ';
+                        $yroffer = $player[$year] * 1.05;
+                    }
+
+                    if ($yroffer > $topSal) {
+                        $highest = 'This would make me the highest paid player at my position!!';
+                    }
+
+                    $yroffer = ceil($yroffer/50000) * 50000;
+                    $ogyo = $yroffer;
+                    
+                    echo '<p><b><center>"I was planning to test Free Agency this offseason, so I would need MUCH MUCH MORE THAN the usual amount to accept!"</center></b></p>';
+                    echo '<p><center>"I will need an minimum offer of <b>$' . number_format($yroffer) . '</b> per year to a sign an extension of this length!  This is a <b>' . $mult . ' percent</b> increase over the usual demand! ' . $paycut . $highest .'"</center></p>';
+                    echo '<p><center>"If you offer less than that amount I am ending negotiations with you!"</center></p>';
+                    $killNegot = 100;
+                    /*$nodeal = 'true';
+                    if ($ao == 1) {
+                        $invalid1 = "true";
+                    } elseif ($ao == 2) {
+                        $invalid2 = "true";
+                    } elseif ($ao == 3) {
+                        $invalid3 = "true";
+                    } elseif ($ao == 4) {
+                        $invalid4 = "true";
+                    } elseif ($ao == 5) {
+                        $invalid5 = "true";
+                    } elseif ($ao == 6) {
+                        $invalid6 = "true";
+                    }*/
+                } elseif (($fas['Loyalty'] <= 39 && $failCount == 1) || $failCount == 2) {
+                    $multiplier = $mult / 200;
+                    $ogyo = $newdemand * 1.05;
                     $yroffer = $num + ($num * $multiplier);
 
-                    if ($yroffer > $topSal) {
-                        $yroffer = $topSal * 1.05;
-                        $highest = 'In fact, I\'d like to be the highest paid player at my position!';
-                    }
-
-                    if ($yroffer < $player[$year]) {
-                        echo 'hmmm';
+                    if ($yroffer < $player[$year] && $player['Age'] < 31) {
+                        $paycut = '  Since my contract last year was higher than the final demand, I want you to better it by 5%!  ';
                         $yroffer = $player[$year] * 1.05;
                     }
+
+                    if ($yroffer > $topSal) {
+                        //$yroffer = $topSal * 1.05;
+                        $highest = 'This would make me the highest paid player at my position!!';
+                    }
+
+                    $ogyo = ceil($ogyo/50000) * 50000;
+                    $yroffer = ceil($yroffer/50000) * 50000;
                     
                     echo '<p><b><center>"I might wanna test Free Agency this offseason, so I would need MORE THAN the usual amount to accept!"</center></b></p>';
-                    echo '<p><center>"I will need an minimum offer of <b>$' . number_format($yroffer) . '</b> per year to a sign an extension of this length! ' . $highest .'"</center></p>';
-                } else {
-                    $yroffer = $num;
+                    echo '<p><center>"I will need an minimum offer of <b>$' . number_format($yroffer) . '</b> per year to a sign an extension of this length! ' . $paycut . $highest .'"</center></p>';
+                    echo '<p><center>"You can try and offer me less, BUT, if you offer below <b>$' . number_format($ogyo) . '</b> I am ending negotiations with you!"</center></p>';
+                    $killNegot = 100;
 
-                    if ($yroffer > $topSal) {
-                        $yroffer = $topSal * 1.05;
-                        $highest = 'I\'d like to be the highest paid player at my position!';
-                    }
+                } elseif ($failCount == 1) {
+                    $yroffer = $num + ($num * 0.05);
+                    $ogyo = $newdemand; 
 
-                    if ($yroffer < $player[$year]) {
+                    if ($yroffer < $player[$year] && $player['Age'] < 31) {
+                        $paycut = '  Since my contract last year was higher than the final demand, I want you to better it by 5%!  ';
                         $yroffer = $player[$year] * 1.05;
                     }
-                    echo '<p><center>"I will need an minimum offer of <b>$' . number_format($num) . '</b> per year to a sign an extension of this length! ' . $highest .'"</center></p>';
+
+                    if ($yroffer > $topSal) {
+                        //$yroffer = $topSal * 1.05;
+                        $highest = 'This would make me the highest paid player at my position!!';
+                    }
+
+                    $ogyo = ceil($ogyo/50000) * 50000;
+                    $yroffer = ceil($yroffer/50000) * 50000;
+
+                    echo '<p><center>"Not bad, but I need a bit more.  I will need an minimum offer of <b>$' . number_format($yroffer) . '</b> per year to a sign an extension of this length! ' . $paycut . $highest .'"</center></p>';
+                    echo '<p><center>"You can try and offer me less, BUT, if you offer below <b>$' . number_format($ogyo) . '</b> I am ending negotiations with you!"</center></p>';
+                    $killNegot = 100;
+                    
+                } else {
+                    $yroffer = $num;
+                    $ogyo = 0.90 * $newdemand;
+
+                     if ($yroffer < $player[$year] && $player['Age'] < 31) {
+                        $paycut = '  Since my contract last year was higher than the final demand, I want you to better it by 5%!  ';
+                        $yroffer = $player[$year] * 1.05;
+                    }
+
+                    if ($yroffer > $topSal) {
+                        //$yroffer = $topSal * 1.05;
+                        $highest = 'This would make me the highest paid player at my position!!';
+                    }
+
+                    $ogyo = ceil($ogyo/50000) * 50000;
+                    $yroffer = ceil($yroffer/50000) * 50000;
+
+                    echo '<p><center>"I like this offer alot!  I will need an minimum offer of <b>$' . number_format($yroffer) . '</b> per year to a sign an extension of this length! ' . $paycut . $highest .'"</center></p>';
+                    echo '<p><center>"You can try and offer me less, BUT, if you offer below <b>$' . number_format($ogyo) . '</b> I am ending negotiations with you!"</center></p>';
+                    $killNegot = 100;
+                    
                 }
+
 
 
 
@@ -630,7 +732,7 @@ if ($player[$year + 1] != 0) {
                     echo '<input type="hidden" id="PlayerID" name="PlayerID" value="' . $_GET['player'] . '">'; 
                     echo '<table><tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><td></td></tr>' .
                         '<tr><td>Offer:</td>
-                        <td><input type="number" min="500000" max="'. $salaryCap - $totalnext .'" id="year1" name="year1" value="' . $yroffer . '"></td>';
+                        <td><input type="number" min="250000" id="year1" name="year1" step="50000"  value="' . $yroffer . '"></td>';
                     echo '<input type="hidden" id="y1min" name="y1min" value="' . $yroffer . '">'; 
                     echo '<input type="hidden" id="y2min" name="y2min" value="999999999">'; 
                     echo '<input type="hidden" id="y3min" name="y3min" value="999999999">'; 
@@ -643,9 +745,12 @@ if ($player[$year + 1] != 0) {
                     echo '<input type="hidden" id="invalid4" name="invalid4" value="' . $invalid4 . '">'; 
                     echo '<input type="hidden" id="invalid5" name="invalid5" value="' . $invalid5 . '">'; 
                     echo '<input type="hidden" id="invalid6" name="invalid6" value="' . $invalid6 . '">'; 
+                    echo '<input type="hidden" id="ogyo" name="ogyo" value="' . $ogyo . '">'; 
+                    echo '<input type="hidden" id="try" name="try" value="' . $fas['strikes'] . '">'; 
 
                     if ($ao >= 2) {
-                        echo '<td><input type="number" min="0" max="'. $salaryCap - $totalnext2 .'" id="year2" name="year2" value="' . $yroffer . '"></td>';
+                        //max="'. $salaryCap - $totalnext2 .'"
+                        echo '<td><input type="number" min="0" id="year2" name="year2" step="50000" value="' . $yroffer . '"></td>';
                         echo '<input type="hidden" id="y2min" name="y2min" value="' . $yroffer . '">'; 
                         $ext = 2;
                     } else {
@@ -653,7 +758,7 @@ if ($player[$year + 1] != 0) {
                     }
 
                     if ($ao >= 3) {
-                        echo '<td><input type="number" min="0" max="'. $salaryCap - $totalnext3 .'" id="year3" name="year3" value="' . $yroffer . '"></td>';
+                        echo '<td><input type="number" min="0" max="'. $salaryCap - $totalnext3 .'" id="year3" name="year3" step="50000"  value="' . $yroffer . '"></td>';
                         echo '<input type="hidden" id="y2min" name="y2min" value="' . $yroffer . '">'; 
                         echo '<input type="hidden" id="y3min" name="y3min" value="' . $yroffer . '">'; 
                         $ext = 3;
@@ -662,7 +767,7 @@ if ($player[$year + 1] != 0) {
                     }
 
                     if ($ao >= 4) {
-                        echo '<td><input type="number" min="0" max="'. $salaryCap - $totalnext4 .'" id="year4" name="year4" value="' . $yroffer . '"></td>';
+                        echo '<td><input type="number" min="0" max="'. $salaryCap - $totalnext4 .'" id="year4" name="year4" step="50000"  value="' . $yroffer . '"></td>';
                         echo '<input type="hidden" id="y2min" name="y2min" value="' . $yroffer . '">'; 
                         echo '<input type="hidden" id="y3min" name="y3min" value="' . $yroffer . '">'; 
                         echo '<input type="hidden" id="y4min" name="y4min" value="' . $yroffer . '">'; 
@@ -672,7 +777,7 @@ if ($player[$year + 1] != 0) {
                     }
 
                     if ($ao >= 5) {
-                        echo '<td><input type="number" min="0" max="'. $salaryCap - $totalnext5 .'" id="year5" name="year5" value="' . $yroffer . '"></td>';
+                        echo '<td><input type="number" min="0" max="'. $salaryCap - $totalnext5 .'" id="year5" name="year5" step="50000"  value="' . $yroffer . '"></td>';
                         echo '<input type="hidden" id="y2min" name="y2min" value="' . $yroffer . '">'; 
                         echo '<input type="hidden" id="y3min" name="y3min" value="' . $yroffer . '">'; 
                         echo '<input type="hidden" id="y4min" name="y4min" value="' . $yroffer . '">'; 
@@ -683,7 +788,7 @@ if ($player[$year + 1] != 0) {
                     }
 
                     if ($ao >= 6) {
-                        echo '<td><input type="number" min="0" max="'. $salaryCap - $totalnext6 .'" id="year6" name="year6" value="' . $yroffer . '"></td>';
+                        echo '<td><input type="number" min="0" max="'. $salaryCap - $totalnext6 .'" id="year6" name="year6" step="50000"  value="' . $yroffer . '"></td>';
                         echo '<input type="hidden" id="y2min" name="y2min" value="' . $yroffer . '">'; 
                         echo '<input type="hidden" id="y3min" name="y3min" value="' . $yroffer . '">'; 
                         echo '<input type="hidden" id="y4min" name="y4min" value="' . $yroffer . '">'; 

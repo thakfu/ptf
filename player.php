@@ -25,20 +25,13 @@ if (!$team) {
     $teamName = $team['FullName'];
 }
 
-$stateService = faPlayerService('college', '0');
-            foreach ($stateService as $state) {
-                if($player['PlayerID'] == $state['PlayerID']) {
-                    $home = $state['state'];
-                }
-            }
-
 echo '<td valign="top"><h2>#'. $player['Jersey'] . ' - ' . $player['Position'] . ' - ' . $teamName . '</h2>
         <ul style="text-align:left">
             <li>Age:' . $player['Age'] . 
             '<li>Experience:' . $player['Experience'] . 
             '<li>Height:' . floor($player['Height'] / 12) . '\'' . ($player['Height'] % 12) .
             '<li>Weight:' . $player['Weight'] . 
-            '<li>College:' . $player['College'] . ' (' . $home . ')' . 
+            '<li>College:' . $player['College'] . 
         '</ul>';
 echo '<i>Drafted by ' . idToAbbrev($player['DraftedBy']) . ' in the ' . $player['DraftSeason'] . ' PTF Draft - Round ' . $player['DraftRound'] . ' Pick ' . $player['DraftPick'] . '</i>';
 echo '</td>';
@@ -46,7 +39,7 @@ echo '<td><img src="images/' . $team['Abbrev'] . '_115.png" id="tmHelmet" onerro
 if ($player['Jersey'] < 10) {
     $x = 18;
 } else {
-    $x = 8;
+    $x = 10;
 }
 
 echo '<tr><td colspan="2"><b>Team History</b><br>';
@@ -74,40 +67,39 @@ foreach ($statsServiceTotal as $sst) {
     }
 }
 $teamhistory = array();
-$stmt = $connection->query("SELECT DISTINCT (TeamID), Season from `ptf_players_game_stats_1985` where PlayerID = '" . $_GET['player'] . "' and WeekNumber <= '16'");
+$stmt = $connection->query("SELECT TeamID, WeekNumber, Season from `ptf_players_game_stats_1985` where PlayerID = '" . $_GET['player'] . "' and WeekNumber <= 16 and WeekNumber >= 1 ORDER BY Season ASC, WeekNumber ASC");
 while($row = $stmt->fetch_assoc()) {
     array_push($teamhistory, $row);
 }
 
-
+$currentTeam = '';
+$currentYear = '';
+$sequence = array();
+$xx = -1;
 foreach ($teamhistory as $teamhis) {
+    $teamColor = teamHistoryService($teamhis['TeamID'], $teamhis['Season'], 'id');
+    $year = $teamhis['Season'];
+
+    if ($teamColor != $currentTeam) {
+        array_push($sequence, $teamhis);
+        if ($xx >= 0) {
+            $sequence[$xx]['Left'] = $currentYear;
+        }
+        $xx++;
+    }
+
+    $currentTeam = $teamColor;
+    $currentYear = $year;
+}
+
+//var_dump($sequence);
+foreach ($sequence as $teamhis) {
     //$teamColor = $teamhis['TeamID'];
     if ($teamColor == NULL) {
         $teamColor = 0;
     }
-    if ($teamhis['Season'] == '1985') {
-        if ($teamhis['TeamID'] == '3') {
-            $teamColor = '52';
-        } elseif ($teamhis['TeamID'] == '10') {
-            $teamColor = '51';
-        } elseif ($teamhis['TeamID'] == '18') {
-            $teamColor = '50';
-        } elseif ($teamhis['TeamID'] == '16') {
-            $teamColor = '53';
-        } elseif ($teamhis['TeamID'] == '6') {
-            $teamColor = '54';
-        }else {
-            $teamColor = $teamhis['TeamID'];
-        }
-    } elseif ($teamhis['Season'] == '1986') {
-        if ($teamhis['TeamID'] == '6') {
-            $teamColor = '54';
-        }else {
-            $teamColor = $teamhis['TeamID'];
-        }
-    } else {
-        $teamColor = $teamhis['TeamID'];
-    }
+    $teamColor = teamHistoryService($teamhis['TeamID'], $teamhis['Season'], 'id');
+
     $teamServiceCol = teamService($teamColor);
     $teamCol = $teamServiceCol[0];
     
@@ -115,8 +107,14 @@ foreach ($teamhistory as $teamhis) {
         if(intval($teamhis['Season']) == (intval($player['DraftSeason']) - 1) || $teamColor == 0) {
             echo '';
         } else {
+            if ($teamhis['Left']) {
+                $left = " - " . $teamhis['Left'];
+            } else {
+                $left = " - Current";
+            }
+            $teamTitle = teamHistoryService($teamhis['TeamID'], $teamhis['Season'], 'name');
             echo '<svg viewBox="0,0,50,50" width="50" height="50" class="square"> 
-            <title>' . $teamCol['FullName'] . ' - Joined ' . $teamhis['Season'] . '</title>
+            <title>' . $teamTitle . ':  ' . $teamhis['Season'] . $left . '</title>
             <rect x="0" y="0" width="51" height="51" stroke="#'. $teamCol['color_2'] . '" stroke-width="1" fill="#'. $teamCol['color_2'] . '"></rect> 
             <rect x="6" y="6" width="39" height="39" stroke="#'. $teamCol['Color_1'] . '" stroke-width="1" fill="#'. $teamCol['Color_1'] . '"></rect> 
             <text x="' . $x . '" y="34" fill="#fff" >'. $player['Jersey'] .'</text> </svg>';
@@ -129,9 +127,10 @@ foreach ($teamhistory as $teamhis) {
     $teamService = teamService($teamhis['TeamID']);
     $team = $teamService[0];
 }
+
 echo '<br><br></td><td>';
 foreach ($champ as $ch) {
-    echo '<img src="rb-trophy.png" title="Super Bowl - ' . $ch . '" width="35">';
+    echo '<img src="images/super.png" title="Super Bowl - ' . $ch . '" width="35">';
 }
 foreach ($clubrus as $ch) {
     echo '<img src="1000yards.png" title="1000 Yards Rushing - ' . $ch . '" width="35">';
@@ -143,6 +142,78 @@ foreach ($clubpas as $ch) {
     echo '<img src="3000yards.png" title="3000 Yards Passing - ' . $ch . '" width="35">';
 }
 echo '</td></tr>';
+echo '<tr><td colspan="2"><h4>Important Ratings</h4>';
+echo '<table><tr><th>Overall</th><th>Speed</th><th>Pos. Skill</th><th>Work Ethic</th></tr>';
+echo '<tr><th><h4>' . $player['Overall'] . '</th>';
+echo '<th><h4>' . $player['Speed'] . '</th>';
+echo '<th><h4>' . $player[$player['Position']] . '</th>';
+echo '<th><h4>' . $player['WorkEthic'] . '</h4></th></tr></table><br>';
+echo '</td>';
+echo '<td colspan="2"><h4>Key Stats</h4>';
+
+if ($player['Position'] == 'QB') {
+    echo '<table><tr><th>Carries</th><th>Yards</th><th>TDs</th><th>INT</th></tr>';
+    echo '<tr><th><h4>' . $sst['PassPct'] . '</th>';
+    echo '<th><h4>' . $sst['PassYds'] . '</th>';
+    echo '<th><h4>' . $sst['PassTD'] . '</th>';
+    echo '<th><h4>' . $sst['PassInt'] . '</h4></th></tr></table><br>';
+} elseif ($player['Position'] == 'RB') {
+    echo '<table><tr><th>Att</th><th>Yards</th><th>TDs</th><th>YPC</th></tr>';
+    echo '<tr><th><h4>' . $sst['RushAtt'] . '</th>';
+    echo '<th><h4>' . $sst['RushYds'] . '</th>';
+    echo '<th><h4>' . $sst['RushTD'] . '</th>';
+    echo '<th><h4>' . $sst['RushAvg'] . '</h4></th></tr></table><br>';
+} elseif ($player['Position'] == 'FB') {
+    echo '<table><tr><th>Att</th><th>Yards</th><th>TDs</th><th>Pancakes</th></tr>';
+    echo '<tr><th><h4>' . $sst['RushAtt'] . '</th>';
+    echo '<th><h4>' . $sst['RushYds'] . '</th>';
+    echo '<th><h4>' . $sst['RushTD'] . '</th>';
+    echo '<th><h4>' . $sst['Pancakes'] . '</h4></th></tr></table><br>';
+} elseif ($player['Position'] == 'WR') {
+    echo '<table><tr><th>Cat</th><th>Yards</th><th>TDs</th><th>Avg</th></tr>';
+    echo '<tr><th><h4>' . $sst['Catches'] . '</th>';
+    echo '<th><h4>' . $sst['RecYds'] . '</th>';
+    echo '<th><h4>' . $sst['RecTD'] . '</th>';
+    echo '<th><h4>' . $sst['RecAvg'] . '</h4></th></tr></table><br>';
+} elseif ($player['Position'] == 'TE') {
+    echo '<table><tr><th>Cat</th><th>Yards</th><th>TDs</th><th>Pancakes</th></tr>';
+    echo '<tr><th><h4>' . $sst['Catches'] . '</th>';
+    echo '<th><h4>' . $sst['RecYds'] . '</th>';
+    echo '<th><h4>' . $sst['RecTD'] . '</th>';
+    echo '<th><h4>' . $sst['Pancakes'] . '</h4></th></tr></table><br>';
+} elseif ($player['Position'] == 'G' || $player['Position'] == 'C' || $player['Position'] == 'T') {
+    echo '<table><tr><th>Snaps</th><th>Pancakes</th><th>Sacks</th><th>Miss Blks</th></tr>';
+    echo '<tr><th><h4>' . $sst['Plays'] . '</th>';
+    echo '<th><h4>' . $sst['Pancakes'] . '</th>';
+    echo '<th><h4>' . $sst['SacksAllowed'] . '</th>';
+    echo '<th><h4>' . $sst['MissedBlocks'] . '</h4></th></tr></table><br>';
+} elseif ($player['Position'] == 'DT' || $player['Position'] == 'DE' || $player['Position'] == 'LB') {
+    echo '<table><tr><th>Tackles</th><th>Sacks</th><th>Ints</th><th>Hurries</th></tr>';
+    echo '<tr><th><h4>' . $sst['Tackles'] . '</th>';
+    echo '<th><h4>' . $sst['Sacks'] . '</th>';
+    echo '<th><h4>' . $sst['Int'] . '</th>';
+    echo '<th><h4>' . $sst['Hurries'] . '</h4></th></tr></table><br>';
+} elseif ($player['Position'] == 'CB' || $player['Position'] == 'FS' || $player['Position'] == 'SS') {
+    echo '<table><tr><th>Tackles</th><th>Sacks</th><th>Ints</th><th>Pass Def</th></tr>';
+    echo '<tr><th><h4>' . $sst['Tackles'] . '</th>';
+    echo '<th><h4>' . $sst['Sacks'] . '</th>';
+    echo '<th><h4>' . $sst['Int'] . '</th>';
+    echo '<th><h4>' . $sst['PassesDefensed'] . '</h4></th></tr></table><br>';
+} elseif ($player['Position'] == 'K') {
+    echo '<table><tr><th>XP M/A</th><th>FG M/A</th><th>Points</th><th>Long</th></tr>';
+    echo '<tr><th><h4>' . $sst['XPM'] . '/' . $sst['XPA'] . '</th>';
+    echo '<th><h4>' . $sst['FGM'] . '/' . $sst['FGA'] . '</th>';
+    echo '<th><h4>' . $sst['KickingPoints'] . '</th>';
+    echo '<th><h4>' . $sst['FGLong'] . '</h4></th></tr></table><br>';
+} elseif ($player['Position'] == 'P') {
+    echo '<table><tr><th>Punts</th><th>Avg</th><th>Inside 20</th><th>Long</th></tr>';
+    echo '<tr><th><h4>' . $sst['Punts'] . '</th>';
+    echo '<th><h4>' . $sst['PuntAvg'] . '</th>';
+    echo '<th><h4>' . $sst['PuntsInside20'] . '</th>';
+    echo '<th><h4>' . $sst['PuntLong'] . '</h4></th></tr></table><br>';
+}
+
+echo '</td></tr><br>';
 echo '<tr><td colspan="3"><h4>Career Highlights</h4>';
 $awards = explode("|",$player['Awards']);
 echo '<ul style="text-align:left; padding-left:35%">';
@@ -159,11 +230,20 @@ if ($pow > 0) {
 }
 echo '</ul>';
 echo '</td></tr>';
-echo '<tr><td colspan="3"><h4>Controls</h4></td></tr>';
+echo '<tr><td colspan="3"><h4>Controls</h4>';
+
+if ($_SESSION['TeamID'] == $player['TeamID']) {
+    echo '<a href="release.php?PlayerID=' . $player['PlayerID'] . '">Release</a> || <a href="extend.php?player=' . $player['PlayerID'] . '">Extend</a> || <a href="trades.php">Trade</a> || Nickname || Change Number || <a href="change.php?PlayerID=' . $player['PlayerID'] . '">Change Position</a> || Reward Player || Add Note';
+} else {
+    echo '<a href="trades.php">Trade For</a> || Add Scouting Note';
+}
+
+echo '<br><br></td></tr>';
+
 echo '<tr><td colspan="3"><h4>Transaction History</h4>';
 
 $transInfo = array();
-    $stmt = $connection->query("SELECT r.PlayerID, r.TeamID_Old, r.TeamID_New, r.type, p.FirstName, p.LastName, p.Position, t.City as CityOld, t.Mascot as MascotOld, tn.City as CityNew, tn.Mascot as MascotNew, r.date FROM ptf_transactions r LEFT JOIN ptf_players p ON r.PlayerID = p.PlayerID LEFT JOIN ptf_teams t ON r.TeamID_Old = t.TeamID LEFT JOIN ptf_teams tn ON r.TeamID_New = tn.TeamID WHERE r.PlayerID = " . $_GET['player'] . " ORDER by date DESC");
+    $stmt = $connection->query("SELECT r.PlayerID, r.TeamID_Old, r.TeamID_New, r.type, p.FirstName, p.LastName, p.Position, t.City as CityOld, t.Mascot as MascotOld, tn.City as CityNew, tn.Mascot as MascotNew, r.date, r.TimeFrame FROM ptf_transactions r LEFT JOIN ptf_players p ON r.PlayerID = p.PlayerID LEFT JOIN ptf_teams t ON r.TeamID_Old = t.TeamID LEFT JOIN ptf_teams tn ON r.TeamID_New = tn.TeamID WHERE r.PlayerID = " . $_GET['player'] . " ORDER by date DESC");
     
     while($row = $stmt->fetch_assoc()) {
         array_push($transInfo, $row);
@@ -171,27 +251,35 @@ $transInfo = array();
 
     foreach ($transInfo as $ti) { 
         if ($ti['type'] == 'cut') {
-            echo '<p>' . substr($ti['date'],0,-8) . ': The ' . $ti['CityOld'] . ' ' . $ti['MascotOld'] . ' release ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' to free agency!</p>';
+            echo '<p>' . $ti['TimeFrame'] . ': The ' . $ti['CityOld'] . ' ' . $ti['MascotOld'] . ' release ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' to free agency!</p>';
         } else if ($ti['type'] == 'squad') {
-            echo '<p>' .substr($ti['date'],0,-8) . ': The ' . $ti['CityOld'] . ' ' . $ti['MascotOld'] . ' have demoted ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' to the practice squad!</p>';
+            echo '<p>' .$ti['TimeFrame'] . ': The ' . $ti['CityOld'] . ' ' . $ti['MascotOld'] . ' have demoted ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' to the practice squad!</p>';
         } else if ($ti['type'] == 'sign') {
-            echo '<p>' .substr($ti['date'],0,-8) . ': The ' . $ti['CityNew'] . ' ' . $ti['MascotNew'] . ' have signed ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' from the free agent pool!</p>';
+            echo '<p>' .$ti['TimeFrame'] . ': The ' . $ti['CityNew'] . ' ' . $ti['MascotNew'] . ' have signed ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' from the free agent pool!</p>';
+        } else if ($ti['type'] == 'extend') {
+            echo '<p>' .$ti['TimeFrame'] . ': The ' . $ti['CityNew'] . ' ' . $ti['MascotNew'] . ' have signed ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' to a contract extension!</p>';
+        } else if ($ti['type'] == 'extdecline') {
+            echo '<p>' .$ti['TimeFrame'] . ': The ' . $ti['CityNew'] . ' ' . $ti['MascotNew'] . ' have had an extension declined by ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . '!</p>';
+         } else if ($ti['type'] == 'extbreak') {
+            echo '<p>' .$ti['TimeFrame'] . ': The ' . $ti['CityNew'] . ' ' . $ti['MascotNew'] . ' have had an extension declined by ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ', and future talks are broken off!</p>';
         } else if ($ti['type'] == 'promote') {
-            echo '<p>' .substr($ti['date'],0,-8) . ': The ' . $ti['CityOld'] . ' ' . $ti['MascotOld'] . ' have promoted ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' from the practice squad to the main roster!</p>';
+            echo '<p>' .$ti['TimeFrame'] . ': The ' . $ti['CityOld'] . ' ' . $ti['MascotOld'] . ' have promoted ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' from the practice squad to the main roster!</p>';
         } else if ($ti['type'] == 'change') {
-            echo '<p>' .substr($ti['date'],0,-8) . ': The ' . $ti['CityOld'] . ' ' . $ti['MascotOld'] . ' have changed ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . '\'s position!</p>';
+            echo '<p>' .$ti['TimeFrame'] . ': The ' . $ti['CityOld'] . ' ' . $ti['MascotOld'] . ' have changed ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . '\'s position!</p>';
         } else if ($ti['type'] == 'draft') {
-            echo '<p>' .substr($ti['date'],0,-8) . ': The ' . $ti['CityNew'] . ' ' . $ti['MascotNew'] . ' have drafted ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . '!</p>';
+            echo '<p>' .$ti['TimeFrame'] . ': The ' . $ti['CityNew'] . ' ' . $ti['MascotNew'] . ' have drafted ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . '!</p>';
         } else if ($ti['type'] == 'fasign') {
-            echo '<p>' .substr($ti['date'],0,-8) . ': The ' . $ti['CityNew'] . ' ' . $ti['MascotNew'] . ' have signed ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' in free agency!</p>';
+            echo '<p>' .$ti['TimeFrame'] . ': The ' . $ti['CityNew'] . ' ' . $ti['MascotNew'] . ' have signed ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' in free agency!</p>';
         } else if ($ti['type'] == 'trade') {
-            echo '<p>' .substr($ti['date'],0,-8) . ': The ' . $ti['CityOld'] . ' ' . $ti['MascotOld'] . ' have traded ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' to the ' . $ti['CityNew'] . ' ' . $ti['MascotNew'] . '!</p>';
+            echo '<p>' .$ti['TimeFrame'] . ': The ' . $ti['CityOld'] . ' ' . $ti['MascotOld'] . ' have traded ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' to the ' . $ti['CityNew'] . ' ' . $ti['MascotNew'] . '!</p>';
         } else if ($ti['type'] == 'ir') {
-            echo '<p>' .substr($ti['date'],0,-8) . ': The ' . $ti['CityOld'] . ' ' . $ti['MascotOld'] . ' have placed ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' on injured reserve!</p>';
+            echo '<p>' .$ti['TimeFrame'] . ': The ' . $ti['CityOld'] . ' ' . $ti['MascotOld'] . ' have placed ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' on injured reserve!</p>';
+        } else if ($ti['type'] == 'activate') {
+            echo '<p>' .$ti['TimeFrame'] . ': The ' . $ti['CityOld'] . ' ' . $ti['MascotOld'] . ' have activated ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' from injured reserve!</p>';
         } else if ($ti['type'] == 'expand') {
-            echo '<p>' .substr($ti['date'],0,-8) . ': The ' . $ti['CityNew'] . ' ' . $ti['MascotNew'] . ' have selected ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' in the expansion draft!</p>';
+            echo '<p>' .$ti['TimeFrame'] . ': The ' . $ti['CityNew'] . ' ' . $ti['MascotNew'] . ' have selected ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' in the expansion draft!</p>';
         } else if ($ti['type'] == 'supp') {
-            echo '<p>' .substr($ti['date'],0,-8) . ': The ' . $ti['CityNew'] . ' ' . $ti['MascotNew'] . ' have selected ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' in the 1987 Supplemental draft!</tp>';
+            echo '<p>' .$ti['TimeFrame'] . ': The ' . $ti['CityNew'] . ' ' . $ti['MascotNew'] . ' have selected ' . $ti['Position'] . ' ' . $ti['FirstName'] . ' ' . $ti['LastName'] . ' in the 1987 Supplemental draft!</tp>';
         }
     }
 

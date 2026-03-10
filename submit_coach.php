@@ -60,7 +60,7 @@ foreach($_POST as $header => $row) {
 
 $keys = array('CoachID','FirstName','LastName','Age','Experience','Job','Salary','Years','Background','Reputation','Intelligence','Discipline','Motivating','Focus','DefScheme','LBUse','DLUse','CoverPref',
 'KeyDefPos','OffScheme','PassPref','PassTargetPref','RunPref','TERole','RBRole','WRPref','FBRole','QBPref','CoachingOff','CoachingDef','Prep','AssessAbility','AssessPotential','Scouting',
-'Recruiting','Youngsters','Development','PhysicalTraining','AttentionToDetail','TrainDLine','TrainLBs','TrainSTS','TrainOL','TrainOffSkill','TrainQB','Loyalty','Leadership','Charisma','Flexibility');
+'Recruiting','Youngsters','Development','PhysicalTraining','AttentionToDetail','TrainDLine','TrainLBs','TrainSTS','TrainOL','TrainOffSkill','TrainQB','Loyalty','Leadership','Charisma','Flexibility','Trait','posdrills','phystrain','athtrain','gametape','hcfocus','ocfocus','dcfocus');
 
 foreach($keys as $key) {
     $update .= '`' . $key . '` = VALUES(`' . $key . '`),';
@@ -77,13 +77,22 @@ $upsert2 = substr($update2, 0, -1);
 $update1 = $connection->query("INSERT INTO ptf_coaches 
 (CoachID,FirstName,LastName,Age,Experience,Job,Salary,Years,Background,Reputation,Intelligence,Discipline,Motivating,Focus,DefScheme,LBUse,DLUse,CoverPref,
 KeyDefPos,OffScheme,PassPref,PassTargetPref,RunPref,TERole,RBRole,WRPref,FBRole,QBPref,CoachingOff,CoachingDef,Prep,AssessAbility,AssessPotential,Scouting,
-Recruiting,Youngsters,Development,PhysicalTraining,AttentionToDetail,TrainDLine,TrainLBs,TrainDBs,TrainSTS,TrainOL,TrainOffSkill,TrainQB,Loyalty,Leadership,Charisma,Flexibility) 
+Recruiting,Youngsters,Development,PhysicalTraining,AttentionToDetail,TrainDLine,TrainLBs,TrainDBs,TrainSTS,TrainOL,TrainOffSkill,TrainQB,Loyalty,Leadership,
+Charisma,Flexibility,Trait,posdrills,phystrain,athtrain,gametape,hcfocus,ocfocus,dcfocus) 
 VALUES (" . $_POST['CoachID'] . ",'" . $_POST['firstname'] . "','" . $_POST['lastname'] . "','" . $_POST['age'] . "','" . $_POST['experience'] . "','" . $_POST['job'] . "','" . $_POST['salary'] . "','" . $_POST['years'] . "','" . $_POST['background'] . "',
 '" . $_POST['reputation'] . "','" . $_POST['intelligence'] . "','" . $_POST['discipline'] . "','" . $_POST['motivating'] . "','" . $_POST['focus'] . "',
 '" . $_POST['DefScheme'] . "','" . $_POST['LBUse'] . "','" . $_POST['DLUse'] . "','" . $_POST['CoverPref'] . "','" . $_POST['KeyDefPos'] . "','" . $_POST['OffScheme'] . "','" . $_POST['PassPref'] . "','" . $_POST['PassTargetPref'] . "',
-'" . $_POST['RunPref'] . "','" . $_POST['TERole'] . "','" . $_POST['RBRole'] . "','" . $_POST['WRPref'] . "','" . $_POST['FBRole'] . "','" . $_POST['QBPref'] . "','" . $_POST['coachoff'] . "','" . $_POST['coachdef'] . "','" . $_POST['prep'] . "',
+'" . $_POST['RunPref'] . "','" . $_POST['TERole'] . "','" . $_POST['RBRole'] . "','" . $_POST['WRPref'] . "','" . $_POST['FBRole'] . "','" . $_POST['QBPref'] . "','" . $_POST['CoachingOff'] . "','" . $_POST['CoachingDef'] . "','" . $_POST['Prep'] . "',
 0,0,0,0,'" . $_POST['youngsters'] . "','" . $_POST['development'] . "','" . $_POST['physical'] . "','" . $_POST['detail'] . "','" . $_POST['traindl'] . "','" . $_POST['trainlb'] . "','" . $_POST['traindb'] . "','" . $_POST['trainst'] . "','" . $_POST['trainol'] . "','" . $_POST['trainskill'] . "',
-'" . $_POST['trainqb'] . "','" . $_POST['loyalty'] . "','" . $_POST['leadership'] . "','" . $_POST['charisma'] . "','" . $_POST['flexibility'] . "') ON DUPLICATE KEY UPDATE " . $upsert);
+'" . $_POST['trainqb'] . "','" . $_POST['Loyalty'] . "','" . $_POST['leadership'] . "','" . $_POST['charisma'] . "','" . $_POST['Flexibility']
+ . "','" . $_POST['trait']
+ . "','" . $_POST['posdrills'] 
+ . "','" . $_POST['phystrain'] 
+ . "','" . $_POST['athtrain'] 
+ . "','" . $_POST['gametape'] 
+ . "','" . $_POST['hcfocus'] 
+ . "','" . $_POST['ocfocus'] 
+ . "','" . $_POST['dcfocus']  . "') ON DUPLICATE KEY UPDATE " . $upsert);
 if(!$update1) {
   echo 'Upsert to ptf_coaches failed! Tell ThakFu!';
 }
@@ -97,7 +106,7 @@ if(!$update2) {
 }
 
 //echo "UPDATE ptf_users SET coach_update = '".$curTime."', CoachID =  " . $_POST['CoachID'] . ", CoachSet = 1 WHERE user_id = " . $_POST['User'];
-$update3 = $connection->query("UPDATE ptf_users SET coach_update = '".$curTime."', CoachID =  " . $_POST['CoachID'] . ", CoachSet = 1 WHERE user_id = " . $_POST['User']);
+$update3 = $connection->query("UPDATE ptf_users SET coach_update = '".$curWeek."', CoachID =  " . $_POST['CoachID'] . ", CoachSet = 1 WHERE user_id = " . $_POST['User']);
 if(!$update3) {
   echo 'Upsert to ptf_users failed! Tell ThakFu!';
 }

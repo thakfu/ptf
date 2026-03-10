@@ -2,7 +2,7 @@
 <?php
 
 session_start();
-require('../../../sql/phpmysqlconnect.php');
+require('../../sql/phpmysqlconnect.php');
 require('../../ptf-services/player-service.php');
 require('../../ptf-services/team-service.php');
 require('../../ptf-services/fa-service.php');

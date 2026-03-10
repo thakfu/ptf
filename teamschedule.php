@@ -21,7 +21,16 @@ echo '<h1>' . $year . ' Schedule</h1>
 
 $wins = 0;
 $losses = 0;
+$week = -4;
 foreach ($schedule as $game) {
+    $prevWeek = $week;
+    /*if ($game['Week'] > 10) {
+        $week = $game['Week'] - 1;
+    } else {
+        $week = $game['Week'];
+    } */
+   $week = $game['Week'];
+
     if ($game['HomeTeamID'] == $_GET['team']) {
         $opp = $game['AwayTeamID'];
         $score = $game['HomeScore'];
@@ -56,10 +65,15 @@ foreach ($schedule as $game) {
 
     }
 
+    if ($week != $prevWeek + 1 && $prevWeek > 0) {
+        echo '<tr><td>' . $week - 1 . '</td><td align="left"><b>BYE</b></td><td>---</td><td>---</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>';
 
-    echo '<tr><td>' . $game['Week'] . '</td><td align="left" bgcolor="' . $color . '"><b>' . $pre . idToName($opp) .'</b></td><td>' . $result .'</td><td>' . $score .'</td><td>' . $oscore .'</td><td>' . $wins . ' - ' . $losses . '</td><td></td><td></td></tr>';
+    }
+    $gameLine = $pre . idToName($opp);
+
+    echo '<tr><td>' . $week . '</td><td align="left" bgcolor="' . $color . '"><b>' . $gameLine .'</b></td><td>' . $result .'</td><td>' . $score .'</td><td>' . $oscore .'</td><td>' . $wins . ' - ' . $losses . '</td><td><a href="/ptf/export/Boxscores/Boxscore.html?id='.$game['GID'].'">Box Score</a></td><td><a href="/ptf/export/Logs/PBP.html?id='.$game['GID'].'">Play By Play</a></td></tr>';
 }
 
-echo '</table>';
+echo '</table><br><br>';
 
 ?>

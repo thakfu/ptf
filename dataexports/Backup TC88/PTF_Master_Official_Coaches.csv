@@ -1,0 +1,242 @@
+ID,FirstName,LastName,TeamID,Age,Exp,Background,Attitude,Style,Salary,SalaryYears,Job,HOF,Team
+507,Richard,Keeling,16,48,5,CollegeCoach,Relaxed,Balanced,0.6,0,Special Teams Coach,False,TB
+2248,Jonathan,Keeler,10,33,0,CollegeCoach,Silent,Aggressive,1.2,0,LB Coach,False,IND
+3535,Kenneth,Bates,2,48,13,CollegeCoach,Professional,Conservative,0.8,0,DB Coach,False,MIA
+3841,Ted,Lasso,7,41,4,CollegeCoach,Silent,Conservative,10,20,Head Coach,False,CIN
+4394,Ross,Taylor,17,34,0,PositionCoach,Silent,Aggressive,0.4,0,QB Coach,False,CHC
+8917,Willie,Wilks,4,39,0,CollegeCoach,Professional,Balanced,0.8,0,OL Coach,False,OAK
+9559,Juan,Epperson,14,39,4,None,Relaxed,Aggressive,1.2,7,OL Coach,False,ATL
+11355,Michael,Macleod,19,35,0,Player,Professional,Conservative,0.3,0,OL Coach,False,SEA
+18749,Kerry,Boyd,2,35,0,CollegeCoach,Volatile,Aggressive,1.2,0,Special Teams Coach,False,MIA
+21668,Terry,Reeves,16,36,0,CollegeCoach,Volatile,Conservative,2,0,Head Scout,False,TB
+23772,John,Marshall,14,43,4,None,Relaxed,Balanced,4,7,Defensive Coordinator,False,ATL
+25164,Charles,Cox,12,33,0,PositionCoach,Stern,Conservative,0.4,0,DB Coach,False,DET
+28864,Israel,Keeler,17,37,2,PositionCoach,Silent,Balanced,1.2,0,Head Scout,False,CHC
+29522,Don,Shula,2,57,4,Player,Silent,Conservative,10,20,Head Coach,False,MIA
+30170,Roger,Locklear,4,41,5,PositionCoach,Silent,Aggressive,0.8,0,RB and Receivers Coach,False,OAK
+33487,Robert,Jackson,12,33,0,CollegeCoach,Professional,Conservative,1.2,0,OL Coach,False,DET
+35601,Edward,Williams,8,36,0,PositionCoach,Professional,Balanced,0.7,0,DL Coach,False,BER
+37272,Terry,Roper,18,35,0,PositionCoach,Stern,Balanced,0.4,0,Special Teams Coach,False,BAL
+46248,George,Yarbrough,10,48,12,CollegeCoach,Relaxed,Balanced,0.4,0,DB Coach,False,IND
+46553,Casey,Torres,3,34,0,PositionCoach,Stern,Conservative,0.7,0,QB Coach,False,GB
+48597,Aaron,Golden,5,35,0,CollegeCoach,Enthusiastic,Balanced,0.8,0,OL Coach,False,BUF
+51113,Earl,Parrish,20,39,2,ProCoach,Professional,Balanced,0.6,0,Special Teams Coach,False,NYJ
+51225,Frankie,Garza,20,33,0,PositionCoach,Volatile,Balanced,1.7,0,Head Trainer,False,NYJ
+53000,Carl,Horowitz,12,34,0,PositionCoach,Professional,Conservative,0.8,0,LB Coach,False,DET
+54248,Johnny,Hutchison,12,33,0,Player,Professional,Conservative,1.2,0,Special Teams Coach,False,DET
+56262,Mike,Ditka,11,49,4,PositionCoach,Silent,Conservative,4,0,Offensive Coordinator,False,CHI
+58257,Micheal,Frye,18,39,4,CollegeCoach,Silent,Aggressive,0.8,0,DB Coach,False,BAL
+61172,Nick,Miller,12,42,4,Player,Professional,Conservative,10,20,Head Coach,False,DET
+61956,Juan,Robinson,11,34,0,PositionCoach,Professional,Balanced,1.2,0,LB Coach,False,CHI
+62351,Richard,Bender,9,38,1,CollegeCoach,Volatile,Aggressive,0.3,0,DL Coach,False,LON
+63254,Solomon,Epps,9,34,0,CollegeCoach,Stern,Aggressive,0.7,0,RB and Receivers Coach,False,LON
+67835,Bill,Walsh,15,57,4,PositionCoach,Relaxed,Balanced,4,0,Offensive Coordinator,False,SF
+68330,Solomon,Lucero,6,36,0,CollegeCoach,Relaxed,Balanced,0.3,0,QB Coach,False,NYG
+70157,Amos Alonzo,Stagg,11,28,4,Player,Professional,Balanced,10,20,Head Coach,False,CHI
+72729,Bryce,Isaacs,20,44,5,PositionCoach,Professional,Aggressive,5.5,0,Defensive Coordinator,False,NYJ
+74818,Harvey,Jones,8,33,0,PositionCoach,Relaxed,Aggressive,1.4,0,Head Trainer,False,BER
+79858,Donald,Garcia,10,33,0,PositionCoach,Silent,Conservative,0.8,0,OL Coach,False,IND
+80027,Garfield,Connor,20,40,4,CollegeCoach,Silent,Conservative,4.8,0,Offensive Coordinator,False,NYJ
+86574,Stephen,Osburn,13,38,0,CollegeCoach,Enthusiastic,Balanced,0.3,0,DB Coach,False,MIN
+89455,James,Mireles,18,38,0,CollegeCoach,Volatile,Balanced,0.4,0,RB and Receivers Coach,False,BAL
+95444,Bennett,Butcher,8,34,0,ProCoach,Enthusiastic,Conservative,1.1,0,RB and Receivers Coach,False,BER
+95660,Chip,Biggock,16,59,4,ProCoach,Enthusiastic,Balanced,10,20,Head Coach,False,TB
+96970,Harry,Augustine,6,43,0,ProCoach,Silent,Conservative,1.1,0,OL Coach,False,NYG
+98011,Daniel,Chamberlin,14,33,0,None,Relaxed,Balanced,0.8,7,Head Trainer,False,ATL
+99609,Jonathan,Young,10,44,8,PositionCoach,Enthusiastic,Balanced,2,0,Head Trainer,False,IND
+99721,Jeffrey,Mcmullen,5,37,0,ProCoach,Stern,Aggressive,0.4,0,RB and Receivers Coach,False,BUF
+105736,Matthew,Ortiz,13,38,0,ProCoach,Silent,Balanced,2.9,0,Head Scout,False,MIN
+109098,Jose,Thomas,7,38,0,PositionCoach,Stern,Balanced,3.2,0,Head Trainer,False,CIN
+111215,Tom,Luong,5,35,0,Player,Silent,Conservative,0.4,0,LB Coach,False,BUF
+111374,Douglas,Scott,10,47,4,PositionCoach,Volatile,Aggressive,0.8,0,Special Teams Coach,False,IND
+117841,Gary,Powell,2,34,0,Player,Enthusiastic,Conservative,3.2,0,Head Scout,False,MIA
+119422,Earl,Coleman,5,33,0,CollegeCoach,Relaxed,Aggressive,2,0,Head Trainer,False,BUF
+120357,Morgan,Beaver,9,46,8,ProCoach,Stern,Aggressive,0.3,0,OL Coach,False,LON
+122637,Jimmy,Conzelman,8,33,4,Player,Volatile,Conservative,10,20,Head Coach,False,BER
+123081,Barry,Mcgraw,17,35,0,CollegeCoach,Relaxed,Conservative,0.4,0,Special Teams Coach,False,CHC
+126604,Matthew,Lapointe,19,49,12,CollegeCoach,Relaxed,Conservative,5.5,1,Defensive Coordinator,False,SEA
+127300,Eddie,Turner,15,39,1,ProCoach,Volatile,Conservative,0.8,0,Head Trainer,False,SF
+129311,Richard,Snyder,13,34,0,Player,Stern,Aggressive,1.1,0,RB and Receivers Coach,False,MIN
+131985,Miguel,Marshall,9,42,4,ProCoach,Silent,Balanced,1.1,0,Special Teams Coach,False,LON
+132834,Gary,Christensen,2,38,0,CollegeCoach,Stern,Aggressive,0.8,0,DL Coach,False,MIA
+136285,Alton,Garnett,12,42,0,CollegeCoach,Silent,Balanced,1.2,0,QB Coach,False,DET
+136373,Jimmy,Johnson,18,45,4,PositionCoach,Stern,Aggressive,4,0,Defensive Coordinator,False,BAL
+137260,Jurgen,Klopp,17,59,4,Player,Professional,Balanced,10,20,Head Coach,False,CHC
+140305,Curly,Lambeau,3,24,4,ProCoach,Professional,Aggressive,10,20,Head Coach,False,GB
+140718,Harry,Homan,18,42,0,Player,Professional,Conservative,0.8,0,OL Coach,False,BAL
+144598,Warren,Ricker,4,33,0,CollegeCoach,Volatile,Conservative,0.4,0,DL Coach,False,OAK
+153662,Dick,LeBeau,7,51,4,PositionCoach,Volatile,Conservative,4,0,Defensive Coordinator,False,CIN
+155411,Micah,Huskey,13,37,2,PositionCoach,Relaxed,Conservative,0.3,0,LB Coach,False,MIN
+156310,Jerry,Burns,13,61,4,PositionCoach,Professional,Balanced,4,0,Offensive Coordinator,False,MIN
+157706,Marv,Levy,5,61,4,ProCoach,Enthusiastic,Aggressive,10,20,Head Coach,False,BUF
+158514,Carlos,Doss,19,34,0,CollegeCoach,Stern,Conservative,1,0,RB and Receivers Coach,False,SEA
+163251,Chuck,Studley,2,59,4,PositionCoach,Stern,Balanced,4,0,Defensive Coordinator,False,MIA
+164035,Andrew,Spriggs,16,38,0,ProCoach,Silent,Balanced,1,0,QB Coach,False,TB
+164940,Pete,Carroll,9,37,4,PositionCoach,Enthusiastic,Balanced,4,0,Defensive Coordinator,False,LON
+166614,Alexander,Powell,3,37,0,Player,Silent,Balanced,2.3,0,Head Trainer,False,GB
+166911,Dan,Henning,14,46,4,None,Relaxed,Balanced,4,7,Offensive Coordinator,False,ATL
+168996,Carroll,Justice,2,39,0,PositionCoach,Stern,Balanced,0.8,0,RB and Receivers Coach,False,MIA
+169029,William,Buxton,11,38,0,CollegeCoach,Silent,Conservative,1.6,0,Head Trainer,False,CHI
+169258,Eugene,Harper,7,39,0,CollegeCoach,Relaxed,Balanced,0.8,0,DB Coach,False,CIN
+170461,Dean,Clough,8,33,0,PositionCoach,Silent,Conservative,0.3,0,Special Teams Coach,False,BER
+172402,Otis,Self,13,35,0,CollegeCoach,Enthusiastic,Conservative,1.1,0,OL Coach,False,MIN
+173385,William,Pridgen,16,39,0,PositionCoach,Enthusiastic,Aggressive,0.6,0,OL Coach,False,TB
+177139,Cory,Dominguez,6,34,0,PositionCoach,Stern,Aggressive,1.1,0,DB Coach,False,NYG
+180957,Bob,Zemen,4,51,4,PositionCoach,Silent,Balanced,4,0,Defensive Coordinator,False,OAK
+180996,Andrew,Wade,20,35,0,CollegeCoach,Stern,Balanced,0.3,0,QB Coach,False,NYJ
+186804,Fred,Bruney,16,57,4,PositionCoach,Volatile,Balanced,4,0,Defensive Coordinator,False,TB
+187430,Steven,Camacho,7,39,0,Player,Enthusiastic,Aggressive,0.8,0,DL Coach,False,CIN
+192370,Carl,Lane,20,35,0,ProCoach,Volatile,Balanced,0.3,0,RB and Receivers Coach,False,NYJ
+195031,John,Mackovic,1,45,4,PositionCoach,Enthusiastic,Balanced,4,0,Offensive Coordinator,False,KC
+195505,James,Hemphill,6,39,4,ProCoach,Enthusiastic,Balanced,0.7,0,DL Coach,False,NYG
+196176,Tom,Bettis,3,55,4,PositionCoach,Stern,Conservative,4,0,Defensive Coordinator,False,GB
+200035,Danial,Lauer,1,38,3,ProCoach,Enthusiastic,Aggressive,0.7,0,QB Coach,False,KC
+200242,Raleigh,Seaton,11,47,2,ProCoach,Relaxed,Conservative,0.4,0,QB Coach,False,CHI
+202647,David,Corbett,14,46,10,None,Relaxed,Balanced,0.4,7,DB Coach,False,ATL
+203211,Jeffrey,Muse,11,37,0,CollegeCoach,Professional,Balanced,0.8,0,Special Teams Coach,False,CHI
+203670,Jed,Williams,12,38,2,Player,Volatile,Conservative,2.4,0,Head Scout,False,DET
+206137,Richard,Gonzalez,3,37,0,ProCoach,Volatile,Aggressive,0.3,0,RB and Receivers Coach,False,GB
+207369,Larry,Dyer,18,36,0,CollegeCoach,Enthusiastic,Balanced,0.8,0,Head Trainer,False,BAL
+207556,Steven,Slack,20,39,2,ProCoach,Enthusiastic,Conservative,0.3,0,DL Coach,False,NYJ
+207599,Hugh,Campbell,3,47,4,PositionCoach,Stern,Conservative,4,0,Offensive Coordinator,False,GB
+214465,Henry,Heaton,11,37,0,Player,Professional,Conservative,0.8,0,DL Coach,False,CHI
+215070,Dick,Modzelewski,10,57,4,PositionCoach,Professional,Aggressive,4,0,Defensive Coordinator,False,IND
+217664,Peter,Wilke,20,35,0,ProCoach,Relaxed,Aggressive,1.7,0,Head Scout,False,NYJ
+218827,Zapp,Rowsdower,19,51,2,None,Stern,Conservative,2.5,4,Head Coach,False,SEA
+222647,Brian,Hemphill,15,39,0,PositionCoach,Volatile,Conservative,1.2,0,RB and Receivers Coach,False,SF
+222684,Paul,Demarco,20,33,0,ProCoach,Enthusiastic,Balanced,1,0,LB Coach,False,NYJ
+224798,Jason,Martinez,4,35,0,ProCoach,Stern,Balanced,1.2,0,Special Teams Coach,False,OAK
+225997,Larry,Peccatiello,17,53,4,PositionCoach,Relaxed,Balanced,4,0,Defensive Coordinator,False,CHC
+230641,Tony,Markham,7,36,0,Player,Professional,Balanced,0.4,0,RB and Receivers Coach,False,CIN
+230675,David,Robinson,6,36,0,Player,Silent,Conservative,0.3,0,LB Coach,False,NYG
+232441,Thaddeus,Lavoie,13,38,0,PositionCoach,Professional,Conservative,0.7,0,DL Coach,False,MIN
+233999,Gregory,Helton,8,37,2,ProCoach,Volatile,Conservative,1.1,0,DB Coach,False,BER
+234798,Bob,Baker,12,61,4,PositionCoach,Volatile,Conservative,4,0,Offensive Coordinator,False,DET
+236865,James,Carl,3,34,0,ProCoach,Silent,Conservative,1.1,0,DL Coach,False,GB
+239949,Darryl,Rogers,12,54,4,PositionCoach,Professional,Conservative,4,0,Defensive Coordinator,False,DET
+242045,David,Shula,2,29,4,PositionCoach,Silent,Aggressive,4,0,Offensive Coordinator,False,MIA
+244230,Adam,Rogers,2,34,0,CollegeCoach,Silent,Aggressive,1.2,0,OL Coach,False,MIA
+246523,Joe,Gibbs,17,48,4,PositionCoach,Stern,Aggressive,4,0,Offensive Coordinator,False,CHC
+247570,Sir Matt,Busby,9,60,4,None,Enthusiastic,Balanced,10,20,Head Coach,False,LON
+248914,Dabo,Swinney,18,48,4,Player,Stern,Conservative,10,20,Head Coach,False,BAL
+249416,Mike,Shanahan,9,36,4,PositionCoach,Stern,Aggressive,4,0,Offensive Coordinator,False,LON
+254088,Porter,Scoggins,19,34,0,CollegeCoach,Professional,Balanced,0.3,0,DL Coach,False,SEA
+262205,James,Norfleet,8,35,0,ProCoach,Volatile,Conservative,0.7,0,LB Coach,False,BER
+262319,Brett,Taylor,17,39,0,PositionCoach,Volatile,Balanced,0.8,0,OL Coach,False,CHC
+262379,Jason,Moore,11,37,2,PositionCoach,Volatile,Aggressive,0.4,0,OL Coach,False,CHI
+269540,Grace,Savage,15,49,4,ProCoach,Professional,Aggressive,10,20,Head Coach,False,SF
+270723,Hank,Bullough,5,54,4,PositionCoach,Enthusiastic,Aggressive,4,0,Defensive Coordinator,False,BUF
+271598,Benito,Burns,2,43,6,CollegeCoach,Silent,Aggressive,0.8,0,QB Coach,False,MIA
+272824,Sidney,Redmond,15,38,0,Player,Enthusiastic,Conservative,2.4,0,Head Scout,False,SF
+273368,Bennie,Rodriguez,10,35,0,PositionCoach,Stern,Conservative,1.2,0,QB Coach,False,IND
+273724,Vince,Lombardi,10,48,4,ProCoach,Stern,Aggressive,10,20,Head Coach,False,IND
+274082,Justin,Coates,0,54,15,Player,Silent,Balanced,0,0,Offensive Coordinator,False,N/A
+278233,Jose,Pederson,14,39,0,None,Relaxed,Balanced,0.4,7,QB Coach,False,ATL
+281078,Jesus,Hannah,7,34,0,ProCoach,Volatile,Aggressive,1.2,0,OL Coach,False,CIN
+285007,Ray,Rhodes,15,38,4,PositionCoach,Enthusiastic,Balanced,4,0,Defensive Coordinator,False,SF
+285223,Troy,Goff,16,34,0,PositionCoach,Relaxed,Balanced,0.6,0,LB Coach,False,TB
+287146,Vicente,Wells,3,37,0,Player,Enthusiastic,Balanced,1.1,0,OL Coach,False,GB
+288420,Lewis,Gladney,8,42,4,ProCoach,Silent,Balanced,1.8,0,Head Scout,False,BER
+288554,Russell,Johnson,9,40,1,Player,Relaxed,Conservative,1.1,0,DB Coach,False,LON
+289680,Robert,Victor,19,39,0,ProCoach,Stern,Aggressive,1,0,Special Teams Coach,False,SEA
+296434,John,Madden,4,53,4,ProCoach,Enthusiastic,Balanced,10,20,Head Coach,False,OAK
+296794,Clyde,Miller,11,35,0,PositionCoach,Professional,Conservative,0.8,0,DB Coach,False,CHI
+300035,Fred,Aranda,17,33,0,Player,Silent,Aggressive,0.8,0,DL Coach,False,CHC
+301080,Robert,Samuel,1,35,0,Player,Professional,Aggressive,0.7,0,OL Coach,False,KC
+302320,Merle,Joseph,5,35,0,PositionCoach,Volatile,Balanced,0.8,0,QB Coach,False,BUF
+303602,Mike,Washington,15,47,11,CollegeCoach,Enthusiastic,Conservative,1.2,0,OL Coach,False,SF
+304289,Ernie,Toth,12,38,0,CollegeCoach,Relaxed,Conservative,0.4,0,DL Coach,False,DET
+306036,Darius,Evans,13,33,0,CollegeCoach,Volatile,Conservative,1.1,0,QB Coach,False,MIN
+306652,Jeffrey,Myrick,18,38,3,PositionCoach,Silent,Aggressive,0.8,0,LB Coach,False,BAL
+310714,Anthony,Schott,18,38,0,Player,Professional,Aggressive,1.2,0,DL Coach,False,BAL
+314578,Charles,Hernandez,9,38,3,CollegeCoach,Professional,Conservative,0.7,0,LB Coach,False,LON
+318412,Mohammad,Parker,18,33,0,CollegeCoach,Stern,Aggressive,0.4,0,QB Coach,False,BAL
+320351,Sam,Wyche,7,43,4,PositionCoach,Professional,Conservative,4,0,Offensive Coordinator,False,CIN
+322886,Robert,Hawk,15,34,0,PositionCoach,Volatile,Conservative,1.2,0,LB Coach,False,SF
+324239,James,Dixon,3,33,0,CollegeCoach,Relaxed,Balanced,1.5,0,Head Scout,False,GB
+331354,Brandon,Johnson,4,38,0,ProCoach,Volatile,Conservative,1.2,0,DB Coach,False,OAK
+331638,Richard,Williams,8,33,0,PositionCoach,Silent,Aggressive,0.3,0,OL Coach,False,BER
+332100,Juan,Jones,19,33,0,CollegeCoach,Volatile,Aggressive,2,0,Head Scout,False,SEA
+339519,Xabi,Alonso,14,43,4,None,Volatile,Conservative,10,20,Head Coach,False,ATL
+340495,Ronald,Turner,19,39,0,CollegeCoach,Relaxed,Aggressive,0.6,0,QB Coach,False,SEA
+344244,Leroy,Spear,5,44,4,Player,Stern,Conservative,0.4,0,DB Coach,False,BUF
+345085,Richard,Chang,1,33,0,CollegeCoach,Stern,Conservative,0.7,0,DB Coach,False,KC
+345942,Alfonso,Gonzalez,16,34,0,Player,Professional,Balanced,1,0,DB Coach,False,TB
+346494,Marty,Schottenheimer,6,45,4,PositionCoach,Relaxed,Balanced,4,0,Defensive Coordinator,False,NYG
+349242,James,Mayo,3,33,0,PositionCoach,Volatile,Conservative,0.7,0,DB Coach,False,GB
+351548,Adrian,Lund,19,34,0,PositionCoach,Stern,Balanced,1.3,0,Head Trainer,False,SEA
+353048,Ted,Marchibroda,16,57,4,PositionCoach,Enthusiastic,Aggressive,4,0,Offensive Coordinator,False,TB
+353782,Andrew,Johns,14,37,0,None,Relaxed,Balanced,0.4,7,RB and Receivers Coach,False,ATL
+359292,Shannon,Coates,4,44,0,Player,Stern,Conservative,1.2,0,LB Coach,False,OAK
+361299,Clarence,Hibbard,20,33,0,CollegeCoach,Relaxed,Conservative,0.6,0,DB Coach,False,NYJ
+361637,Peter,Burton,2,33,0,PositionCoach,Volatile,Aggressive,0.4,0,LB Coach,False,MIA
+362095,Jeffrey,Hill,19,37,0,Player,Volatile,Conservative,0.6,0,LB Coach,False,SEA
+367876,Russell,Barone,11,35,0,Player,Professional,Aggressive,1.2,0,RB and Receivers Coach,False,CHI
+368990,James,Currier,1,34,0,ProCoach,Silent,Conservative,0.3,0,DL Coach,False,KC
+369052,David,Coon,16,38,0,ProCoach,Stern,Conservative,1,0,RB and Receivers Coach,False,TB
+374709,Cal,Murphy,6,56,4,PositionCoach,Relaxed,Balanced,4,0,Offensive Coordinator,False,NYG
+375890,John,Anthony,1,39,0,ProCoach,Silent,Aggressive,2.9,0,Head Scout,False,KC
+377186,Lewis,Tisdale,15,34,0,Player,Professional,Aggressive,0.4,0,DB Coach,False,SF
+377626,John,Mares,1,39,0,ProCoach,Stern,Conservative,0.7,0,RB and Receivers Coach,False,KC
+378890,Richard,Morgan,14,38,0,None,Relaxed,Balanced,0.8,7,DL Coach,False,ATL
+379702,Buddy,Ryan,11,57,4,PositionCoach,Stern,Conservative,4,0,Defensive Coordinator,False,CHI
+381420,Augustus,Irvin,9,33,0,PositionCoach,Volatile,Conservative,1.1,0,QB Coach,False,LON
+383628,Alexander,Decker,15,38,3,Player,Enthusiastic,Conservative,0.4,0,Special Teams Coach,False,SF
+384316,Roberto,Gonzalez,13,33,0,PositionCoach,Silent,Conservative,2.2,0,Head Trainer,False,MIN
+386779,Gracie,Hunt,1,27,4,None,Enthusiastic,Conservative,10,20,Head Coach,False,KC
+387244,Darryl,Hernandez,17,38,0,Player,Relaxed,Aggressive,0.8,0,RB and Receivers Coach,False,CHC
+387639,Daniel,Mclean,11,37,0,ProCoach,Volatile,Balanced,2.8,0,Head Scout,False,CHI
+387897,Ronald,Grider,5,33,0,CollegeCoach,Volatile,Aggressive,2,0,Head Scout,False,BUF
+388140,Fred,Padilla,3,39,0,Player,Enthusiastic,Aggressive,1.1,0,LB Coach,False,GB
+390490,Dan,Behrens,17,41,0,Player,Stern,Balanced,2.4,0,Head Trainer,False,CHC
+396550,Donald,Gardner,4,44,7,CollegeCoach,Silent,Balanced,0.8,0,Head Scout,False,OAK
+400360,Brock,Lesnar,13,49,4,Player,Silent,Conservative,10,20,Head Coach,False,MIN
+405422,Robert,Yang,14,45,7,None,Relaxed,Balanced,1.2,7,Special Teams Coach,False,ATL
+405657,Brandon,Adams,15,33,0,PositionCoach,Enthusiastic,Balanced,1.2,0,QB Coach,False,SF
+405873,Samuel,Gonzales,20,40,5,PositionCoach,Enthusiastic,Balanced,1,0,OL Coach,False,NYJ
+406991,William,Stroud,7,36,0,CollegeCoach,Enthusiastic,Balanced,1.2,0,Head Scout,False,CIN
+408669,Carl,Houser,14,39,0,None,Relaxed,Balanced,2.4,7,Head Scout,False,ATL
+411475,Jack,Thompson,19,33,0,CollegeCoach,Relaxed,Aggressive,0.3,0,DB Coach,False,SEA
+411655,Norm,Van Brocklin,8,62,4,PositionCoach,Enthusiastic,Aggressive,4,0,Offensive Coordinator,False,BER
+413142,Gil,Mojica,12,33,0,CollegeCoach,Stern,Balanced,1.2,0,RB and Receivers Coach,False,DET
+413952,Lou,Holtz,8,51,4,PositionCoach,Enthusiastic,Balanced,4,0,Defensive Coordinator,False,BER
+414942,Gerard,Barton,5,43,4,CollegeCoach,Silent,Conservative,1.2,0,DL Coach,False,BUF
+415068,Barry,Switzer,18,41,4,PositionCoach,Professional,Aggressive,4,0,Offensive Coordinator,False,BAL
+420911,Frank,Eason,16,35,0,Player,Relaxed,Balanced,0.6,0,DL Coach,False,TB
+428297,Stephen,Schilling,6,35,0,CollegeCoach,Stern,Conservative,1.1,0,Special Teams Coach,False,NYG
+428926,Adrian,Sigler,12,43,0,Player,Professional,Balanced,2.4,0,Head Trainer,False,DET
+429774,Seymour,Butts,20,70,2,ProCoach,Professional,Aggressive,2.5,10,Head Coach,False,NYJ
+433211,Robert,Moore,10,39,0,Player,Professional,Conservative,0.8,0,Head Scout,False,IND
+433636,Ruben,Lindsay,19,53,14,CollegeCoach,Volatile,Balanced,5.5,1,Offensive Coordinator,False,SEA
+434124,John,Camacho,13,33,0,PositionCoach,Professional,Aggressive,0.3,0,Special Teams Coach,False,MIN
+437153,Kay,Stephenson,5,44,4,PositionCoach,Professional,Aggressive,4,0,Offensive Coordinator,False,BUF
+437338,Bryan,Hernandez,15,38,0,ProCoach,Professional,Aggressive,1.2,0,DL Coach,False,SF
+439372,Paul,Van,9,33,0,PositionCoach,Stern,Aggressive,2.3,0,Head Scout,False,LON
+440157,Philip,Jones,1,40,3,PositionCoach,Stern,Balanced,0.7,0,LB Coach,False,KC
+442841,Peter,Lavoie,10,39,0,ProCoach,Enthusiastic,Balanced,0.4,0,DL Coach,False,IND
+445250,Roberto,Ackerman,7,33,0,PositionCoach,Silent,Balanced,1.2,0,LB Coach,False,CIN
+447790,Robert,Ramirez,5,43,4,PositionCoach,Silent,Aggressive,0.4,0,Special Teams Coach,False,BUF
+451434,Donald,Miller,18,38,0,PositionCoach,Relaxed,Conservative,1.6,0,Head Scout,False,BAL
+456292,Dan,Daniel,1,55,4,PositionCoach,Professional,Balanced,4,0,Defensive Coordinator,False,KC
+460269,Linwood,Maness,4,39,0,PositionCoach,Silent,Conservative,1.6,0,Head Trainer,False,OAK
+461787,Chris,Hamlin,6,37,1,CollegeCoach,Professional,Aggressive,1.1,0,Head Trainer,False,NYG
+465033,Donald,Hoffman,17,39,3,Player,Relaxed,Conservative,1.2,0,DB Coach,False,CHC
+466430,William,Riggins,3,33,0,PositionCoach,Volatile,Conservative,1.1,0,Special Teams Coach,False,GB
+468831,Clayton,Bigsby,6,70,4,Player,Professional,Balanced,10,20,Head Coach,False,NYG
+470150,Felix,Hammons,6,36,0,ProCoach,Enthusiastic,Conservative,1.1,0,RB and Receivers Coach,False,NYG
+472152,George,Lankford,16,38,0,Player,Relaxed,Conservative,1.7,0,Head Trainer,False,TB
+472895,Robert,Jung,1,34,0,Player,Professional,Balanced,0.3,0,Special Teams Coach,False,KC
+474370,Harris,Gable,9,33,0,ProCoach,Silent,Balanced,0.7,0,Head Trainer,False,LON
+474993,Tom,Flores,4,51,4,PositionCoach,Stern,Aggressive,4,0,Offensive Coordinator,False,OAK
+481482,Carrol,Grove,10,34,0,Player,Volatile,Aggressive,0.8,0,RB and Receivers Coach,False,IND
+481974,Bud,Grant,13,61,4,PositionCoach,Volatile,Balanced,4,0,Defensive Coordinator,False,MIN
+483176,Oscar,Danielson,4,36,0,CollegeCoach,Stern,Aggressive,0.4,0,QB Coach,False,OAK
+483814,Dewayne,Mitchell,6,45,2,ProCoach,Professional,Balanced,2.5,0,Head Scout,False,NYG
+488885,Forrest,Gregg,10,55,4,PositionCoach,Volatile,Conservative,4,0,Offensive Coordinator,False,IND
+490408,Pete,Lo,8,50,12,Player,Volatile,Balanced,1.1,0,QB Coach,False,BER
+491478,Darryl,Saucedo,14,39,0,None,Relaxed,Balanced,0.8,7,LB Coach,False,ATL
+495715,Matthew,Stewart,7,39,0,CollegeCoach,Stern,Conservative,1.2,0,QB Coach,False,CIN
+495720,Warren,Williams,1,39,2,Player,Relaxed,Balanced,1.1,0,Head Trainer,False,KC
+497005,Clifford,Buckley,7,39,0,CollegeCoach,Stern,Balanced,0.4,0,Special Teams Coach,False,CIN
+497624,Keith,Felix,17,39,4,PositionCoach,Relaxed,Balanced,0.4,0,LB Coach,False,CHC
+497941,Steven,York,2,36,0,Player,Silent,Balanced,1.6,0,Head Trainer,False,MIA

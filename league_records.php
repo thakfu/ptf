@@ -106,7 +106,6 @@ foreach ($recordService as $record) {
         case 44: $type = 'Sacks Allowed'; break;
     }
 
-
     echo '<tr><td>' .
     $range . '</td><td>' .
     $type . '</td><td>' .

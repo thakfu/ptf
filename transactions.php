@@ -28,7 +28,7 @@ echo "<h3 id='poscat'>" . $rowcount . " players on active roster.  Limit is 53 p
 
 foreach ($positions as $pos) {
     $posCount = 0;
-    echo '<div id="poscat"><b>' . $pos . '</b> <br> Minimum - ' . $rosMin[$pos] . ' || Maximum - ' . $rosMax[$pos] . '</div><br>';
+    echo '<div id="poscat"><b>' . $pos . '</b><br><br>';
     echo '<table border=1 id="'.$_SESSION['abbreviation'].'">';
     echo '<th>Name</th>';
     echo '<th>Age</th>';
@@ -94,16 +94,12 @@ foreach ($positions as $pos) {
                 echo '<b>' . $player['KickAccuracy'] . '</td><td>';
             }
 
-
-            if ($_SESSION['admin'] != '2') {
-                if ($waivers == 0) {
-                    echo '';
-                } else {
-                    echo '<a href="release.php?PlayerID=' . $player['PlayerID'] . '">RELEASE / DEMOTE</a>';
-                }
+            if ($waivers == 0) {
+                echo '';
             } else {
                 echo '<a href="release.php?PlayerID=' . $player['PlayerID'] . '">RELEASE / DEMOTE</a>';
             }
+
             echo '</td><td> ';
 
 
@@ -115,40 +111,31 @@ foreach ($positions as $pos) {
                 echo $player['InjuryLength'] . '</td><td> ';
             }
 
-            if ($_SESSION['admin'] != '2') {
-                if ($positionchanges == 0) {
-                    echo '';
-                } else {
-                    echo '<a href="change.php?PlayerID=' . $player['PlayerID'] . '">CHANGE</a>' ;
-                }
+
+            if ($positionchanges == 0) {
+                echo '';
             } else {
                 echo '<a href="change.php?PlayerID=' . $player['PlayerID'] . '">CHANGE</a>' ;
             }
 
             echo '</td><td>';
-            if ($_SESSION['admin'] != '2') {
-                if ($extensions == 0) {
-                    echo '';
-                } else {
-                    if ($player[$year + 1] == 0) {
-                        echo '<a href="extend.php?player=' . $player['PlayerID'] . '">EXTEND</a>';
-                    }
-                }
+            if ($extensions == 0) {
+                echo '';
             } else {
                 if ($player[$year + 1] == 0) {
                     echo '<a href="extend.php?player=' . $player['PlayerID'] . '">EXTEND</a>';
                 }
             }
 
-            echo '</tr>';
+            echo '</td></tr>';
         }
         $positionCount = $posCount;
     }
     echo '</table><br>';
     if ($positionCount > $rosMax[$pos] ) {
-        echo '<div id="poswarnmuch">' . $positionCount . ' Players: Too Many Players At ABOVE Position! Please RELEASE ' . ($positionCount - $rosMax[$pos]) . ' Player(s)</div><br>';
+        echo '<div id="poswarnmuch">' . $positionCount . ' Players: Above the SUGGESTED amount!</div><br>';
     } elseif ($positionCount < $rosMin[$pos] ) {
-        echo '<div id="poswarnfew">' . $positionCount . ' Players: Too Few Players At ABOVE Position! Please SIGN ' . ($rosMin[$pos] - $positionCount) . ' Player(s)</div><br>';
+        echo '<div id="poswarnfew">' . $positionCount . ' Players: Below the SUGGESTED amount!</div><br>';
 
     }
     echo '<hr>';

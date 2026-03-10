@@ -4,7 +4,6 @@ include 'adminheader.php';
 if ($_SESSION['admin'] < 1) {
     echo 'You are not authorized to be here.';
 } else {
-
 $players = playerService(0, 0, 1);
 if ($_GET['sort'] == NULL) {
     usort($players, fn($a, $b) => $b['Overall'] <=> $a['Overall']);
@@ -19,13 +18,13 @@ if ($_GET['order'] == 'asc') {
     usort($players, fn($a, $b) => $b[$_GET['sort']] <=> $a[$_GET['sort']]);
 }
 
-$stmt2= $connection->query('SELECT * FROM ptf_draft_picks d JOIN ptf_teams t ON d.team = t.TeamID WHERE d.year = "1987" and d.current = "1" ORDER BY d.round ASC, d.pick ASC');
+$stmt2= $connection->query('SELECT * FROM ptf_draft_picks d JOIN ptf_teams t ON d.team = t.TeamID WHERE d.year = "1991" and d.current = "1" ORDER BY d.round ASC, d.pick ASC');
 $picks = array();
 while($row = $stmt2->fetch_assoc()) {
     array_push($picks, $row);
 }
 
-$stmt3= $connection->query('SELECT * FROM ptf_draft_picks d JOIN ptf_teams t ON d.team = t.TeamID WHERE d.year = "1987" ORDER BY d.round ASC, d.pick ASC');
+$stmt3= $connection->query('SELECT * FROM ptf_draft_picks d JOIN ptf_teams t ON d.team = t.TeamID WHERE d.year = "1991" ORDER BY d.round ASC, d.pick ASC');
 $picksmade = array();
 while($row = $stmt3->fetch_assoc()) {
     array_push($picksmade, $row);

@@ -8,8 +8,8 @@ foreach ($statsService as $player) {
     array_push($players,$player);
 }
 $conferences = array('AFC','NFC');
-$afc = array(1,2,3,4,5,6,7,8,9);
-$nfc = array(10,11,12,13,14,15,16,17,18);
+$afc = array(1,2,4,5,7,8,9,18,20,17);
+$nfc = array(10,11,12,13,14,15,16,19,6,3);
 
 
 echo "<h1>Pro Bowl Voting</h1>";

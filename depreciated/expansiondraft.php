@@ -98,7 +98,7 @@ foreach ($playerService as $player) {
 
         echo '<tr>'; 
         if (in_array($player['PlayerID'],$takenJ)) {
-            echo '<td bgcolor="green"><font color="white">NYJ</font>';
+            echo '<td bgcolor="green"><font color="white">NYT</font>';
         } elseif (in_array($player['PlayerID'],$takenS)) {
             echo '<td bgcolor="blue"><font color="white">SEA</font>';
         } elseif (in_array($player['PlayerID'],$returned)) {

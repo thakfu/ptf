@@ -1,0 +1,332 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+body {
+    font-family: 'Open Sans', Tahoma !important;
+    color: black;
+    font-size: 14px;
+    background-color: #eee;
+}
+
+.main_table_960 {
+    width: 960px;
+    margin: 0 auto;
+}
+
+.main_table {
+    width: 100%;
+}
+
+.menu {
+    width: 150px;
+    border-right: solid 1px black;
+    background-color: #FDF5E6;
+    padding: 3px;
+}
+
+.ml {
+    color: blue;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+a.ml:hover {
+    color: #D4A017;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+.mlt {
+    color: blue;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+a.mlt:hover {
+    color: #D4A017;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.teamheader {
+    background-color: Black;
+    color: White;
+    font-size: 14pt;
+}
+
+.Grid {
+    width: 100%;
+    background-color: #fff;
+    margin: 0;
+    border: 0;
+    border-collapse: collapse;
+}
+
+    .Grid tr {
+        border-top: 1px solid #f1f2f3;
+    }
+
+    .Grid td {
+        padding: 2px;
+        border: 1px solid #efefef;
+        color: #515151;
+        font-size: 12px;
+    }
+
+    .Grid th {
+        padding: 3px;
+        color: #fff;
+        background: #333;
+        /*border-left: solid 1px #333;*/
+        font-size: 12px;
+        text-align: left;
+    }
+
+    .Grid td:first-child {
+        border-left: #fff;
+    }
+
+    .Grid td:last-child {
+        border-right: #fff;
+    }
+
+    .Grid .left {
+        text-align: left;
+    }
+
+    .Grid .right {
+        text-align: right;
+    }
+
+    .Grid .center {
+        text-align: center;
+    }
+
+    .Grid th a {
+        color: #fff;
+    }
+
+    .Grid td a, .Grid td a:active, .Grid td a:visited {
+        color: #515151;
+    }
+
+    .Grid .alt {
+        background: #fbfbfb;
+    }
+
+    .Grid .pgr {
+        background: #333;
+    }
+
+        .Grid .pgr table {
+            margin: 5px 0;
+        }
+
+        .Grid .pgr td {
+            border-width: 0;
+            padding: 2px;
+            border-left: solid 1px #666;
+            font-weight: bold;
+            color: #fff;
+            line-height: 12px;
+            font-size: 12px;
+        }
+
+        .Grid .pgr a {
+            color: #666;
+            text-decoration: none;
+        }
+
+            .Grid .pgr a:hover {
+                color: #000;
+                text-decoration: none;
+            }
+
+.Box {
+    font-size: 14px;
+    width: 100%;
+    border-collapse: collapse;
+    border: #dcdcdc 1px solid;
+}
+
+.GrayBox {
+    border: solid 1px #d0d0d0;
+    background: #e0e0e0;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    width: 35px;
+}
+
+/* tables */
+table.tablesorter {
+    font-family: arial;
+    background-color: #CDCDCD;
+    margin: 10px 0 15px;
+    font-size: 14px;
+    width: 100%;
+    text-align: left;
+}
+
+    table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+        background-color: #e6EEEE;
+        border: 1px solid #FFF;
+        font-size: 14px;
+        padding: 4px;
+    }
+
+    table.tablesorter thead tr .header {
+        background-image: url(../Images/Styles/bg.gif);
+        background-repeat: no-repeat;
+        background-position: center right;
+        cursor: pointer;
+    }
+
+    table.tablesorter tbody td {
+        color: #3D3D3D;
+        padding: 4px;
+        background-color: #FFF;
+        vertical-align: top;
+    }
+
+    table.tablesorter tbody tr.odd td {
+        background-color: #F0F0F6;
+    }
+
+    table.tablesorter thead tr .headerSortUp {
+        background-image: url(../Images/Styles/asc.gif);
+    }
+
+    table.tablesorter thead tr .headerSortDown {
+        background-image: url(../Images/Styles/desc.gif);
+    }
+
+    table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+        background-color: #8dbdd8;
+    }
+
+th {
+    text-align: center;
+}
+
+.ui-widget {
+    font-size: 14px !important;
+}
+
+tr.hilite td {
+    font-weight: bold;
+}
+
+/* Menu CSS */
+.menucontainer {
+    white-space: nowrap;
+    background-color: #efefef;
+    width: 100%;
+    border: 1px solid #a9a9a9;
+    height: 25px;
+    margin-bottom: 15px;
+}
+
+.memu {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+
+    .memu ul {
+        list-style: none outside none;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        left: -9999px;
+        margin-left: 20px;
+        width: 150px;
+        -moz-box-shadow: 3px 2px 3px #333;
+        -webkit-box-shadow: 3px 2px 3px #333;
+        box-shadow: 3px 2px 3px #333;
+    }
+
+        .memu ul ul {
+            margin-left: -13px;
+            margin-top: 0;
+        }
+
+    .memu a {
+        background: #fff;
+        background-color: rgba(255, 255, 255, 0.98);
+        border: 1px solid #f7f7f7;
+        color: #333;
+        display: block;
+        font: bold 12px/25px segoe ui,verdana,sans-serif;
+        margin: 0 -1px -1px 0;
+        padding-left: 10px;
+        text-decoration: none;
+        width: 149px;
+        -ms-text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+    }
+
+    .memu .memu-icon {
+        position: relative;
+        width: 16px;
+        height: 16px;
+        margin: 4px 10px 0 0;
+        float: left;
+        border: 0;
+    }
+
+    .memu li.memu-root > a {
+        border-left: 0 !important;
+        border-right: 0 !important;
+        border-top: 1px solid transparent !important;
+        border-bottom: 1px solid transparent !important;
+        background: transparent !important;
+        width: 125px;
+    }
+
+    .memu li {
+        float: left;
+    }
+
+        /*
+.memu li.has-children > a {
+	background: url("arrow.png") no-repeat scroll #fff;
+	background-position: 130px center;
+	background-color: rgba(255, 255, 255, 0.98);
+}
+*/
+
+        .memu li:hover {
+            position: relative;
+            z-index: 100;
+        }
+
+            .memu li:hover > a {
+                background-color: #fff;
+                border-color: #fafafa;
+                color: #56789A;
+            }
+
+            .memu li:hover > ul {
+                left: -20px;
+                opacity: 1;
+                top: 26px;
+                z-index: -1;
+            }
+
+            .memu li:hover li:hover > ul {
+                left: 150px;
+                opacity: 1;
+                top: 0;
+                z-index: 100;
+            }
+
+.memu-current {
+    background-color: #abcdef !important;
+    background-color: rgba(235, 245, 255, 0.98) !important;
+}
+
+.ui-tabs.ui-widget .ui-tabs-nav a {
+    font-size: 12px !important;
+}

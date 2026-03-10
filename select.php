@@ -2,7 +2,7 @@
 
 include 'header.php';
 
-$year = 1987;
+$year = 1991;
 $stmt2= $connection->query('SELECT * FROM ptf_draft_picks d JOIN ptf_teams t ON d.owner = t.TeamID WHERE d.year = ' . $year . ' and d.current = "1" ORDER BY d.round ASC, d.pick ASC');
 $draftID = array();
 while($row = $stmt2->fetch_assoc()) {

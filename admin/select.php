@@ -3,7 +3,7 @@
 include 'adminheader.php';
 
 if (!isset($_POST['draft'])) {
-    $stmt2= $connection->query('SELECT * FROM ptf_draft_picks d JOIN ptf_teams t ON d.team = t.TeamID WHERE d.year = "1987" and d.current = "1" ORDER BY d.round ASC, d.pick ASC');
+    $stmt2= $connection->query('SELECT * FROM ptf_draft_picks d JOIN ptf_teams t ON d.owner = t.TeamID WHERE d.year = "1991" and d.current = "1" ORDER BY d.round ASC, d.pick ASC');
     $draftID = array();
     while($row = $stmt2->fetch_assoc()) {
         array_push($draftID, $row);
@@ -58,7 +58,7 @@ if (!isset($_POST['draft'])) {
         $curTime = date("Y-m-d H:i:s", time());
         $next = $connection->query("UPDATE ptf_draft_picks SET current = '1', `time` = '".$curTime."' WHERE round = '" . $nextround . "' AND pick = '" . $nextpick . "'");
 
-        $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date) VALUES ({$_POST['PlayerID']},0, {$_POST['TeamID']}, 'draft', NOW())");
+        $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$_POST['PlayerID']},0, {$_POST['TeamID']}, 'draft', NOW(), '')");
 
         $roster = $connection->query("UPDATE ptf_players SET TeamID = " . $_POST['TeamID'] . ", Team = '" . idToAbbrev($_POST['TeamID']) . "' WHERE PlayerID = " . $_POST['PlayerID']);
 
@@ -83,7 +83,7 @@ function draftHook($player, $team, $pick, $round, $pos) {
         $roundtag = $round;
     }
 
-    $stmt2= $connection->query('SELECT t.DiscordTag, t.DiscordUser FROM ptf_draft_picks d JOIN ptf_teams_data t ON d.team = t.TeamID WHERE d.year = "1987" and d.round = '. $round .' and d.pick = ' . $nextup);
+    $stmt2= $connection->query('SELECT t.DiscordTag, t.DiscordUser FROM ptf_draft_picks d JOIN ptf_teams_data t ON d.team = t.TeamID WHERE d.year = "1991" and d.round = '. $round .' and d.pick = ' . $nextup);
     $nextteam = array();
     while($row = $stmt2->fetch_assoc()) {
         array_push($nextteam, $row);
@@ -94,7 +94,7 @@ function draftHook($player, $team, $pick, $round, $pos) {
     $message = 'With the number ' . $pick . ' pick of round ' . $roundtag . ', the ' . $teamname['FullName'] . ' select ' . $pos . ' - ' . $player . '.  ' . $discordtag . ' - ' . $discordUser . ' is on the clock!  (Pick made by admin via list)';
 
     //$url = 'https://discord.com/api/webhooks/1208652742453624872/N9WcLuNn98u-hDWya1l8tuQRcZTBs7hluZzAG6YEzRQ4iQdwdFUOGwIND5hyomrFWplK';   - 1986
-    $url = 'https://discord.com/api/webhooks/1248126643432853505/8Qgtz_9lrOlZVTIq_7EDvRNIS7dg6ipVdSntay5FT-BMuGG1TtBwDRvVN6MXEQ2tnFeW';
+    $url = 'https://discord.com/api/webhooks/1380025021098889336/AaLw55CHmi8LkH6mRCRk_3TZZLZS4MKvbDUzNzv7j9tyu--cC0VdZCAWD8FqVT4c7ovX';
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'League Offices', 'content' => $message ];
 

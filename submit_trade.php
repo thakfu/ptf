@@ -3,6 +3,9 @@
 include 'header.php';
 
 echo "<h1>" . $_SESSION['mascot'] . " Trade Center</h1>";
+$teamServiceSesh = teamService($_SESSION['TeamID']);
+$yourteam = $teamServiceSesh[0];
+$caphit = $yourteam['caphit'];
 
 if (isset($_POST['offertrade'])) {
     echo '<br>';
@@ -12,6 +15,7 @@ if (isset($_POST['offertrade'])) {
     echo "<h3>Please Confirm the deal below!</h3>";
     $teamService = teamService($_POST['TeamOther']);
     $team = $teamService[0];
+    $caphitother = $team['caphit'];
     $useroffer = '';
     $recoffer = '';
     echo '<h4>The '. $_SESSION['mascot'] . ' Receive:</h4>';
@@ -64,7 +68,7 @@ if (isset($_POST['offertrade'])) {
         echo '</ul>';
         echo 'Total Salary Incoming: ' . number_format($totSal);
         echo '<br><br><br>';
-        $newTot = $total + $totSalOther - $totSal;
+        $newTot = $total + $totSalOther + $caphit - $totSal;
         echo $_SESSION['mascot'] . ' NEW Salary: $' . number_format($newTot) . '<br>';
         if ($salaryCap > $newTot) {
             echo 'THIS IS A VALID TRADE FOR ' . strtoupper($_SESSION['city']) . '!<br><br>';
@@ -73,11 +77,11 @@ if (isset($_POST['offertrade'])) {
             echo ' THIS TRADE IS INVALID!!!<br><br>';
             $userValid = 0;
         }
-        $stmt1 = $connection->query('SELECT sum(s.1985) as p1985, sum(s.1986) as p1986, sum(s.1987) as p1987, sum(s.1988) as p1988, sum(s.1989) as p1989, sum(s.1990) as p1990, sum(s.1991) as p1991  FROM ptf_players y LEFT JOIN ptf_players_salaries s ON y.PlayerID = s.PlayerID  WHERE y.Team = "' . $team['Abbrev'] . '"');
+        $stmt1 = $connection->query('SELECT sum(s.1988) as p1988, sum(s.1989) as p1989, sum(s.1990) as p1990, sum(s.1991) as p1991, sum(s.1992) as p1992, sum(s.1993) as p1993, sum(s.1994) as p1994     FROM ptf_players y LEFT JOIN ptf_players_salaries s ON y.PlayerID = s.PlayerID  WHERE y.Team = "' . $team['Abbrev'] . '"');
             while($sum = $stmt1->fetch_assoc()) {
                 $othertotal = $sum['p' . $year];
             }
-            $newTotOther = $othertotal + $totSal - $totSalOther;
+            $newTotOther = $othertotal + $totSal + $caphitother - $totSalOther;
         echo $team['Mascot'] . ' NEW Salary: $' . number_format($newTotOther) . '<br>';
         if ($salaryCap > $newTotOther) {
             $otherValid = 1;

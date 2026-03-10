@@ -2,6 +2,11 @@
 
 include 'header.php';
 
+if ($tradesOpen == 0) {
+    echo 'The trade deadline has passed and trades are currently closed!';
+    exit;
+}
+
 echo "<h1>" . $_SESSION['mascot'] . " Trade Center</h1>";
 
 $stmt4 = $connection->query("SELECT * FROM ptf_trade_offers WHERE recTID = ". $_SESSION['TeamID']);
@@ -12,6 +17,10 @@ while($row = $stmt4->fetch_assoc()) {
     array_push($offers, $row);
 }
 echo '<h4>You have '. $count .' trade offers!</h4><br>';
+
+$teamServiceSesh = teamService($_SESSION['TeamID']);
+$yourteam = $teamServiceSesh[0];
+$caphit = $yourteam['caphit'];
 
 foreach ($offers as $offer) {
     $teamService = teamService($offer['sentTID']);
@@ -55,7 +64,7 @@ echo '<tr>
     <td '; if($_GET['trade'] == 10) { echo 'style="background-color:red"'; } else { echo 'style="background-color:white"';}
     echo '><a href="trades.php?trade=10"><img src="/ptf/images/IND_115.png"></a></td>
     <td '; if($_GET['trade'] == 1) { echo 'style="background-color:red"'; } else { echo 'style="background-color:white"';}
-    echo '><a href="trades.php?trade=1"><img src="/ptf/images/KC_115.png"></a></td>
+    echo '><a href="trades.php?trade=1"><img src="/ptf/images/NYT_115.png"></a></td>
     <td '; if($_GET['trade'] == 9) { echo 'style="background-color:red"'; } else { echo 'style="background-color:white"';}
     echo '><a href="trades.php?trade=9"><img src="/ptf/images/LON_115.png"></a></td></tr>';
 echo '<tr>
@@ -64,20 +73,20 @@ echo '<tr>
     <td '; if($_GET['trade'] == 13) { echo 'style="background-color:red"'; } else { echo 'style="background-color:white"';}
     echo '><a href="trades.php?trade=13"><img src="/ptf/images/MIN_115.png"></a></td>
     <td '; if($_GET['trade'] == 20) { echo 'style="background-color:red"'; } else { echo 'style="background-color:white"';}
-    echo '><a href="trades.php?trade=20"><img src="/ptf/images/NYJ_115.png"></a></td>
+    echo '><a href="trades.php?trade=20"><img src="/ptf/images/SD_115.png"></a></td>
     <td '; if($_GET['trade'] == 4) { echo 'style="background-color:red"'; } else { echo 'style="background-color:white"';}
     echo '><a href="trades.php?trade=4"><img src="/ptf/images/OAK_115.png"></a></td>
     <td '; if($_GET['trade'] == 8) { echo 'style="background-color:red"'; } else { echo 'style="background-color:white"';}
-    echo '><a href="trades.php?trade=8"><img src="/ptf/images/PRO_115.png"></a></td></tr>';
+    echo '><a href="trades.php?trade=8"><img src="/ptf/images/SEA_115.png"></a></td></tr>';
 echo '<tr>
     <td '; if($_GET['trade'] == 15) { echo 'style="background-color:red"'; } else { echo 'style="background-color:white"';}
     echo '><a href="trades.php?trade=15"><img src="/ptf/images/SF_115.png"></a></td>
     <td '; if($_GET['trade'] == 19) { echo 'style="background-color:red"'; } else { echo 'style="background-color:white"';}
-    echo '><a href="trades.php?trade=19"><img src="/ptf/images/SEA_115.png"></a></td>
+    echo '><a href="trades.php?trade=19"><img src="/ptf/images/WAS_115.png"></a></td>
     <td '; if($_GET['trade'] == 16) { echo 'style="background-color:red"'; } else { echo 'style="background-color:white"';}
     echo '><a href="trades.php?trade=16"><img src="/ptf/images/TB_115.png"></a></td>
     <td '; if($_GET['trade'] == 17) { echo 'style="background-color:red"'; } else { echo 'style="background-color:white"';}
-    echo '><a href="trades.php?trade=17"><img src="/ptf/images/WAS_115.png"></a></td>
+    echo '><a href="trades.php?trade=17"><img src="/ptf/images/CHC_115.png"></a></td>
     <td '; if($_GET['trade'] == 6) { echo 'style="background-color:red"'; } else { echo 'style="background-color:white"';}
     echo '><a href="trades.php?trade=6"><img src="/ptf/images/NYG_115.png"></a></td></tr>';
 echo '</table>';
@@ -95,7 +104,7 @@ if (isset($_GET['trade'])) {
             sum(s.' . $year . ') as pyear FROM ptf_players y LEFT JOIN ptf_players_salaries s ON y.PlayerID = s.PlayerID  
             WHERE y.TeamID = "' . $team['TeamID'] . '"');
         $sum = $stmt1->fetch_assoc();
-        echo '<tr><th>$'  . number_format($total) . '</th><th>$' . number_format($sum['pyear']) . '</th></tr>';
+        echo '<tr><th>$'  . number_format($total + $caphit) . '</th><th>$' . number_format($sum['pyear'] + $team['caphit']) . '</th></tr>';
         echo '<input type="hidden" id="TeamUser" name="TeamUser" value="' . $_SESSION['TeamID'] . '">';
         echo '<input type="hidden" id="TeamOther" name="TeamOther" value="' . $_GET['trade'] . '">';
         echo '<tr><td valign="top">';
@@ -106,7 +115,7 @@ if (isset($_GET['trade'])) {
                 echo '<tr><td><a href="/ptf/player.php?player=' . $player['PlayerID'] . '">' . $player['FullName'] . '</a></td><td>' . $player['Position'] . '</td><td>' . $player['Overall'] . '</td><td>' . number_format($player[$year]) . '</td><td><input type="checkbox" id="tradeuser'.$count.'" name="tradeuser'.$count.'" value="' . $player['PlayerID'] . '"></td></tr>'; 
                 $count++;
             }
-            $picksuser = $connection->query("SELECT draftID, team, year, round, owner FROM ptf_draft_picks WHERE year >= " . $year . " AND playerID = 0 AND owner = " . $_SESSION['TeamID']);
+            $picksuser = $connection->query("SELECT draftID, team, year, round, owner FROM ptf_draft_picks WHERE year >= " . $year . " AND playerID = 0 AND owner = " . $_SESSION['TeamID'] . " order by year ASC, round ASC");
             while($row = $picksuser->fetch_assoc()) {
                 echo '<tr><td>' . $row['year'] . ' - Rd:' .  $row['round'] . '(' . idToAbbrev($row['team']) . ')</td><td></td><td></td><td></td><td><input type="checkbox" id="tradeuserpick'.$count.'" name="tradeuserpick'.$count.'" value="' . $row['draftID'] . '"></td></tr>'; 
                 $count++;
@@ -122,7 +131,7 @@ if (isset($_GET['trade'])) {
                 echo '<tr><td><a href="/ptf/player.php?player=' . $player['PlayerID'] . '">' . $player['FullName'] . '</a></td><td>' . $player['Position'] . '</td><td>' . $player['Overall'] . '</td><td>' . number_format($player[$year]) . '</td><td><input type="checkbox" id="tradeother'.$count.'" name="tradeother'.$count.'" value="' . $player['PlayerID'] . '"></td></tr>'; 
                 $count++;
             }
-            $picktrade = $connection->query("SELECT draftID, team, year, round, owner FROM ptf_draft_picks WHERE year >= " . $year . " AND playerID = 0 AND owner = " . $_GET['trade']);
+            $picktrade = $connection->query("SELECT draftID, team, year, round, owner FROM ptf_draft_picks WHERE year >= " . $year . " AND playerID = 0 AND owner = " . $_GET['trade'] . " order by year ASC, round ASC");
             while($row = $picktrade->fetch_assoc()) {
                 echo '<tr><td>' . $row['year'] . ' - Rd:' .  $row['round'] . '(' . idToAbbrev($row['team']) . ')</td><td></td><td></td><td></td><td><input type="checkbox" id="tradeotherpick'.$count.'" name="tradeotherpick'.$count.'" value="' . $row['draftID'] . '"></td></tr>'; 
                 $count++;

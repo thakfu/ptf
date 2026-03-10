@@ -11,43 +11,34 @@ $y4cap = 0;
 $y5cap = 0;
 $y6cap = 0;
 
-if ($_GET['sort'] == NULL) {
-    $_GET['sort'] = 'Jersey';
-}
 
-if ($_GET['order'] == 'asc') {
-    $sorter = 'desc';
-    usort($playerService, fn($a, $b) => $a[$_GET['sort']] <=> $b[$_GET['sort']]);
-} else {
-    $sorter = 'asc';
-    usort($playerService, fn($a, $b) => $b[$_GET['sort']] <=> $a[$_GET['sort']]);
-}
+usort($playerService, fn($a, $b) => $a['Jersey'] <=> $b['Jersey']);
 
 echo "<h1>" . $team['FullName'] . " Roster</h1>";
 echo "<p> ** - denotes Practice Squad player</p>";
 echo "<p> ## - denotes on Injured Reserve</p>";
 
 echo '<h3>' . $year . ' Salary Cap - $' . number_format($salaryCap) . '</h3>';
-echo '<table class="roster" border=1 id="'.$team['Abbrev'].'">';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=Jersey&order=' . $sorter . '">Jersey</a></th>';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=FirstName&order=' . $sorter . '">Name</a></th>';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=PosSort&order=' . $sorter . '">Position</a></th>';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=Age&order=' . $sorter . '">Age</a></th>';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=Experience&order=' . $sorter . '">Exp</a></th>';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=Overall&order=' . $sorter . '">Overall</a></th>';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=Money&order=' . $sorter . '">Money</a></th>';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=Security&order=' . $sorter . '">Secur</a></th>';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=Loyalty&order=' . $sorter . '">Loyal</a></th>';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=Winning&order=' . $sorter . '">Win</a></th>';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=PlayingTime&order=' . $sorter . '">P.Time</a></th>';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=CloseToHome&order=' . $sorter . '">Home</a></th>';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=MarketSize&order=' . $sorter . '">Market</a></th>';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=' . $year . '&order=' . $sorter . '">Year 1</a></th>';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=' . $year + 1 . '&order=' . $sorter . '">Year 2</a></th>';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=' . $year + 2 . '&order=' . $sorter . '">Year 3</a></th>';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=' . $year + 3 . '&order=' . $sorter . '">Year 4</a></th>';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=' . $year + 4 . '&order=' . $sorter . '">Year 5</a></th>';
-echo '<th><a href="rosters.php?team=' . $_GET['team'] . '&sort=' . $year + 5 . '&order=' . $sorter . '">Year 6</a></th>';
+echo '<table class="sortable" border=1 id="'.$team['Abbrev'].'">';
+echo '<th>#</a></th>';
+echo '<th>Name</a></th>';
+echo '<th>Pos</a></th>';
+echo '<th>Age</a></th>';
+echo '<th>Exp</a></th>';
+echo '<th>Overall</a></th>';
+echo '<th>Money</a></th>';
+echo '<th>Secur</a></th>';
+echo '<th>Loyal</a></th>';
+echo '<th>Win</a></th>';
+echo '<th>P.Time</a></th>';
+echo '<th>Home</a></th>';
+echo '<th>Market</a></th>';
+echo '<th>Year 1</a></th>';
+echo '<th>Year 2</a></th>';
+echo '<th>Year 3</a></th>';
+echo '<th>Year 4</a></th>';
+echo '<th>Year 5</a></th>';
+echo '<th>Year 6</a></th>';
 echo '</tr>';
 
 foreach ($playerService as $player) {
@@ -152,12 +143,14 @@ foreach ($playerService as $player) {
     $player[$year + 5] . '</td>' .
     '</tr>';
 }
+echo '<tr><td></td><td><b>CAP PENALTIES</b></td><td colspan=11></td><td>' . $team['caphit'] . '</td><td>' . $team['caphit2'] . '</td><td>' . $team['caphit3'] . '</td><td>' . $team['caphit4'] . '</td><td>' . $team['caphit5'] . '</td><td>' . $team['caphit6'] . '</td></tr>';
+    $y1cap += $team['caphit'];
+    $y2cap += $team['caphit2'];
+    $y3cap += $team['caphit3'];
+    $y4cap += $team['caphit4'];
+    $y5cap += $team['caphit5'];
+    $y6cap += $team['caphit6'];
 echo '<tr><th colspan=13></th><th>' . $y1cap . '</th><th>' . $y2cap . '</th><th>' . $y3cap . '</th><th>' . $y4cap . '</th><th>' . $y5cap . '</th><th>' . $y6cap . '</th></tr>';
-echo '</table>';
-echo '</table>';
-echo '</table>';
-echo '</table>';
-echo '</table>';
-echo '</table>';
+echo '</table><br><br>';
 
 ?>

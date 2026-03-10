@@ -3,7 +3,7 @@
 include 'adminheader.php';
 
 $transInfo = array();
-$stmt = $connection->query("SELECT r.PlayerID, r.TeamID_Old, r.TeamID_New, r.type, p.FirstName, p.LastName, p.Position, t.Abbrev, t.City, t.Mascot, s.1986, s.1987, s.1988, s.1989, s.1990, s.1991, s.1992  
+$stmt = $connection->query("SELECT r.PlayerID, r.TeamID_Old, r.TeamID_New, r.type, p.FirstName, p.LastName, p.Position, t.Abbrev, t.City, t.Mascot, s.1986, s.1987, s.1988, s.1989, s.1990, s.1991, s.1992, s.1993, s.1994      
 FROM ptf_transactions r 
 LEFT JOIN ptf_players p ON r.PlayerID = p.PlayerID 
 LEFT JOIN ptf_teams t ON r.TeamID_New = t.TeamID 

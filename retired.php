@@ -23,9 +23,7 @@ if ($_GET['order'] == 'desc') {
 
 echo "<h1>Retired Players</h1>";
 
-if ($freeagency == 1) {
-    echo 'Free Agency is active!   You can\'t sign free agents outright until it ends!';
-} else {
+
     foreach ($positions as $pos) {
         echo '<div id="poscat"><b>' . $pos . '</div><br>';
         echo '<table border=1 id="'.$_SESSION['abbreviation'].'">';
@@ -78,6 +76,6 @@ if ($freeagency == 1) {
         }
         echo '</table><br>';
     }
-}
+
 
 ?>

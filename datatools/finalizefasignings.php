@@ -1,5 +1,5 @@
 <?php
-require('../../../sql/phpmysqlconnect.php');
+require('../../sql/phpmysqlconnect.php');
 $leaguestmt = $connection->query("SELECT * FROM ptf_league ");
 $league = array();
 while($row = $leaguestmt->fetch_assoc()) {
@@ -29,7 +29,6 @@ foreach ($offers as $fas) {
     if ($fas['day'] == $day && $fas['year'] == $year ) {
         $player = $fas['PlayerID'];
         $amt = $fas['final'];
-        //var_dump($fas);
     }
     if ($player == $lastPlayer || $lastPlayer == NULL) {
         if ($lastAmt > $amt || $lastAmt == NULL) {
@@ -68,14 +67,14 @@ if ($count == $tot) {
 
 function idToAbbrev($id) {
     switch ($id) {
-       case 1: return 'KC'; break;
+       case 1: return 'NYT'; break;
        case 2: return 'MIA'; break;
        case 3: return 'GB'; break;  //HOU
        case 4: return 'OAK'; break;
        case 5: return 'BUF'; break;
        case 6: return 'NYG'; break;  //WIN
        case 7: return 'CIN'; break;
-       case 8: return 'PRO'; break;
+       case 8: return 'SEA'; break;  
        case 9: return 'LON'; break;
        case 10: return 'IND'; break;  //GB1
        case 11: return 'CHI'; break;
@@ -84,10 +83,10 @@ function idToAbbrev($id) {
        case 14: return 'ATL'; break;
        case 15: return 'SF'; break;
        case 16: return 'TB'; break;  //PHI
-       case 17: return 'WAS'; break;
+       case 17: return 'CHC'; break;
        case 18: return 'BAL'; break; //CLM
-       case 19: return 'SEA'; break; 
-       case 20: return 'NYJ'; break;  
+       case 19: return 'WAS'; break; //SEA1-CLE
+       case 20: return 'SD'; break;  
        // relocated teams for historical data 
        case 50: return 'CLM'; break;
        case 51: return 'GB1'; break;
@@ -100,7 +99,6 @@ function idToAbbrev($id) {
 foreach($finalAccepted as $facc) {
     $abbrev = idToAbbrev($facc[0]['TeamID']);
 
-    //var_dump($facc);
     if ($facc[0]['amount2'] == NULL) {
         $a2 = 0;
     } else {
@@ -143,20 +141,18 @@ foreach($finalAccepted as $facc) {
     echo $playerName . ' - ' . $abbrev . ' - ' . $a1 . ' - ' . $a2 . ' - ' . $a3 . ' - ' . $a4 . ' - ' . $a5 . ' - ' . $a6 . '<br>';
     echo '<br>';
 
-
     $update = $connection->query("UPDATE ptf_players SET TeamID = '" . $facc[0]['TeamID'] . "', Team = '" . $abbrev . "' WHERE PlayerID = " . $facc[0]['PlayerID']);
 
     $update2 = $connection->query("UPDATE ptf_players_salaries SET 
-    `1987` = '" . $a1 . "', 
-    `1988` = '" . $a2 . "', 
-    `1989` = '" . $a3 . "', 
-    `1990` = '" . $a4 . "', 
-    `1991` = '" . $a5 . "', 
-    `1992` = '" . $a6 . "',
-    `1993` = 0 
+    `1990` = '" . $a1 . "', 
+    `1991` = '" . $a2 . "', 
+    `1992` = '" . $a3 . "', 
+    `1993` = '" . $a4 . "', 
+    `1994` = '" . $a5 . "', 
+    `1995` = '" . $a6 . "'
      WHERE playerID = " . $pid); 
 
-     $translog = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date) VALUES ({$facc[0]['PlayerID']},0,{$facc[0]['TeamID']}, 'fasign', NOW())");
+     $translog = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$facc[0]['PlayerID']},0,{$facc[0]['TeamID']}, 'fasign', NOW(),'1990 Free Agency')");
     
     }
 

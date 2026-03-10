@@ -77,13 +77,9 @@ echo '<td>'.$rep.'</td></tr>';
 echo '<input type="hidden" id="reputation" name="reputation" value="' . $rep . '">';
 
 echo '<tr><th>Salary</th>';
-if(!$coach['Salary']) {
-    $sal = 10;
-    $years = 20;
-} else {
-    $sal = $coach['Salary'];
-    $years = $coach['years'];
-}
+$sal = 10;
+$years = 20;
+
 echo '<td>'.$years.' Years - $'.$sal.',000,000 per/year</td></tr>';
 echo '<input type="hidden" id="years" name="years" value="' . $years . '">';
 echo '<input type="hidden" id="salary" name="salary" value="' . $sal . '">';
@@ -110,6 +106,18 @@ echo '<td><select name="attitude" id="attitude">
 <option value="Volatile"' . ($coach['Attitude'] == "Volatile" ? "Selected" : " ") . ' >Volatile</option>
 </select></td></tr>';
 
+echo '<tr><th>Trait</th>';
+echo '<td><select name="trait" id="trait">
+<option value="None"' . ($coach['Trait'] == "None" ? "Selected" : " ") . ' >None</option>
+<option value="Motivator"' . ($coach['Trait'] == "Motivator" ? "Selected" : " ") . ' >Motivator</option>
+<option value="Tactician"' . ($coach['Trait'] == "Tactician" ? "Selected" : " ") . ' >Tactician</option>
+<option value="Developer"' . ($coach['Trait'] == "Developer" ? "Selected" : " ") . ' >Developer</option>
+<option value="Recruiter"' . ($coach['Trait'] == "Recruiter" ? "Selected" : " ") . ' >Recruiter</option>
+<option value="Tutor"' . ($coach['Trait'] == "Tutor" ? "Selected" : " ") . ' >Tutor</option>
+<option value="Networker"' . ($coach['Trait'] == "Networker" ? "Selected" : " ") . ' >Networker</option>
+<option value="Persuader"' . ($coach['Trait'] == "Persuader" ? "Selected" : " ") . ' >Persuader</option>
+</select></td></tr>';
+
 echo '<tr><th>Background</th>';
 echo '<td><select name="background" id="background">
 <option value="None"' . ($coach['Background'] == "None" ? "Selected" : " ") . ' >None</option>
@@ -122,7 +130,7 @@ echo '</table>';
 
 echo '<hr>';
 echo '<h3 align="center">Training Attributes</h3>';
-echo '<p align="center"><i>These should add up to 40 points total!</i></p>';
+echo '<p align="center"><i>These should add up to 60 points total!</i></p>';
 echo '<table></tr><th>Attribute</th><th>Rating</th><th>Usage</th></tr>';
 
 echo '<tr><th>Development</th>';
@@ -172,24 +180,6 @@ echo '<td><input type="number" min=0 max=10 id="traindb" name="traindb" value="'
 echo '</table>';
 
 echo '<hr>';
-echo '<h3 align="center">Strategy Attributes</h3>';
-echo '<p align="center"><i>These should add up to 15 points total!</i></p>';
-echo '<table></tr><th>Attribute</th><th>Rating</th><th>Usage</th></tr>';
-
-echo '<tr><th>Coach Offense</th>';
-echo '<td><input type="number" min=0 max=10 id="coachoff" name="coachoff" value="'.$coach['CoachingOff'].'"></td>
-<td>affects playcalling, training</td></tr>';
-
-echo '<tr><th>Coach Defense</th>';
-echo '<td><input type="number" min=0 max=10 id="coachdef" name="coachdef" value="'.$coach['CoachingDef'].'"></td>
-<td>affects playcalling, training</td></tr>';
-
-echo '<tr><th>Preparation</th>';
-echo '<td><input type="number" min=0 max=10 id="prep" name="prep" value="'.$coach['Prep'].'"></td>
-<td>affects playcalling and strategy</td></tr>';
-echo '</table>';
-
-echo '<hr>';
 echo '<h3 align="center">Personality Attributes</h3>';
 echo '<p align="center"><i>These should add up to 30 points total!</i></p>';
 echo '<table></tr><th>Attribute</th><th>Rating</th><th>Usage</th></tr>';
@@ -197,10 +187,6 @@ echo '<table></tr><th>Attribute</th><th>Rating</th><th>Usage</th></tr>';
 echo '<tr><th>Intelligence</th>';
 echo '<td><input type="number" min=0 max=10 id="intelligence" name="intelligence" value="'.$coach['Intelligence'].'"></td>
 <td>affects for a range of things including scouting, training, and playcalling</td></tr>';
-
-echo '<tr><th>Flexibility</th>';
-echo '<td><input type="number" min=0 max=10 id="flexibility" name="flexibility" value="'.$coach['Flexibility'].'"></td>
-<td>affects efficiency when forced to use other schemes than his preferred one</td></tr>';
 
 echo '<tr><th>Discipline</th>';
 echo '<td><input type="number" min=0 max=10 id="discipline" name="discipline" value="'.$coach['Discipline'].'"></td>
@@ -218,9 +204,6 @@ echo '<tr><th>Leadership</th>';
 echo '<td><input type="number" min=0 max=10 id="leadership" name="leadership" value="'.$coach['Leadership'].'"></td>
 <td>matters for on field performance, morale</td></tr>';
 
-echo '<tr><th>Loyalty</th>';
-echo '<td><input type="number" min=0 max=10 id="loyalty" name="loyalty" value="'.$coach['Loyalty'].'"></td>
-<td>Matters for contract extension and for the likelihood he will accept job offers from other teams (if he is a coordinator)</td></tr>';
 echo '</table>';
 
 echo '<hr>';
@@ -363,6 +346,76 @@ echo '<td><select name="CoverPref" id="CoverPref">
 </select></td></tr>';
 echo '</table>';
 
+
+
+echo '<hr>';
+echo '<h3 align="center">Training Logic</h3>';
+echo '<p align="center"><i>These should be between 20 and 22 points total!</i></p>';
+echo '<table></tr><th>Attribute</th><th>Rating</th><th>Usage</th></tr>';
+
+echo '<tr><th>Position Drills</th>';
+echo '<td><input type="number" min=0 max=10 id="posdrills" name="posdrills" value="'.$coach['posdrills'].'"></td>
+<td></td></tr>';
+
+echo '<tr><th>Physical Training</th>';
+echo '<td><input type="number" min=0 max=10 id="phystrain" name="phystrain" value="'.$coach['phystrain'].'"></td>
+<td></td></tr>';
+
+echo '<tr><th>Athletic Training</th>';
+echo '<td><input type="number" min=0 max=10 id="athtrain" name="athtrain" value="'.$coach['athtrain'].'"></td>
+<td></td></tr>';
+
+echo '<tr><th>Game Tape</th>';
+echo '<td><input type="number" min=0 max=10 id="gametape" name="gametape" value="'.$coach['gametape'].'"></td>
+<td></td></tr>';
+echo '</table>';
+
+
+
+
+echo '<hr>';
+echo '<h3 align="center">Training Focus Players</h3>';
+echo '<table></tr><th>Attribute</th><th>Player</th></tr>';
+echo '<tr><td>Head Coach</td><td>';
+echo '<select name="hcfocus" id="hcfocus">';
+$playerService = playerService($_SESSION['TeamID'],0,2);
+echo '<option value="NotSet"' . ($coach['hcfocus'] == "NotSet" ? "Selected" : " ") . ' >Not Set</option>';
+foreach ($playerService as $player) {
+    echo '<option value="' . $player['FullName'] . '"' . ($coach['hcfocus'] == $player['FullName']  ? "Selected" : " ") . ' >' . $player['FullName'] . '</option>';
+}
+echo '</select></td></tr>';
+
+echo '<tr><td>Offensive Coordinator</td><td>';
+echo '<select name="ocfocus" id="ocfocus">';
+$playerService = playerService($_SESSION['TeamID'],0,2);
+echo '<option value="NotSet"' . ($coach['ocfocus'] == "NotSet" ? "Selected" : " ") . ' >Not Set</option>';
+foreach ($playerService as $player) {
+    if (in_array($player['Position'], array('QB','HB','FB','WR','TE','C','G','T'))) {
+        echo '<option value="' . $player['FullName'] . '"' . ($coach['ocfocus'] == $player['FullName']  ? "Selected" : " ") . ' >' . $player['FullName'] . '</option>';
+    }
+}
+echo '</select></td></tr>';
+
+echo '<tr><td>Defensive Coordinator</td><td>';
+echo '<select name="dcfocus" id="dcfocus">';
+$playerService = playerService($_SESSION['TeamID'],0,2);
+echo '<option value="NotSet"' . ($coach['dcfocus'] == "NotSet" ? "Selected" : " ") . ' >Not Set</option>';
+foreach ($playerService as $player) {
+    if (in_array($player['Position'], array('DT','DE','LB','CB','FS','SS'))) {
+        echo '<option value="' . $player['FullName'] . '"' . ($coach['dcfocus'] == $player['FullName']  ? "Selected" : " ") . ' >' . $player['FullName'] . '</option>';
+    }
+}
+echo '</select></td></tr>';
+echo '</table>';
+
+echo '<input type="hidden" id="CoachingOff" name="CoachingOff" value="10">'; 
+echo '<input type="hidden" id="CoachingDef" name="CoachingDef" value="10">'; 
+echo '<input type="hidden" id="Prep" name="Prep" value="10">'; 
+echo '<input type="hidden" id="Loyalty" name="Loyalty" value="10">'; 
+echo '<input type="hidden" id="Flexibility" name="Flexibility" value="10">'; 
+
+
 echo '<br><br><p align="center"><input type="submit" value="Submit Coach"></p>';
+
 
 ?>

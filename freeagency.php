@@ -5,14 +5,14 @@ include 'calculateDemand.php';
 
 //var_dump($_SESSION);
 
-if ($_SESSION['admin'] != '2') {
+/*if ($_SESSION['admin'] != '2') {
     if ($freeagency == 0) {
         echo 'Free Agency is not currently active';
         exit;
     }
 } else {
     //echo 'ADMIN ACCESS';
-}
+}*/
 
 $day = $faday;
 
@@ -56,14 +56,11 @@ echo '<h2>'. $_SESSION['city'] . ' ' . $_SESSION['mascot'] . ' Postion Needs</h2
 echo '<table><tr><th></th><th>SUM</th><th>QB</th><th>RB</th><th>FB</th><th>WR</th><th>TE</th><th>G</th><th>T</th><th>C</th><th>DT</th><th>DE</th>
 <th>LB</th><th>CB</th><th>SS</th><th>FS</th><th>P</th><th>K</th></tr>';
 
-echo '<tr><th>MINIMUM</th><th>--</th><th>'.$rosMin['QB'].'</th><th>'.$rosMin['RB'].'</th><th>'.$rosMin['FB'].'</th><th>'.$rosMin['WR'].'</th><th>'.$rosMin['TE'].'</th><th>'.$rosMin['G'].'</th><th>'.$rosMin['T'].'</th><th>'.$rosMin['C'].'</th><th>'.$rosMin['DT'].'</th><th>'.$rosMin['DE'].'</th>
-<th>'.$rosMin['LB'].'</th><th>'.$rosMin['CB'].'</th><th>'.$rosMin['SS'].'</th><th>'.$rosMin['FS'].'</th><th>'.$rosMin['P'].'</th><th>'.$rosMin['K'].'</th></tr>';
+echo '<tr><th>SUGGESTED</th><th>53<th>3</th><th>4</th><th>2</th><th>6</th><th>3</th><th>4</th><th>4</th><th>3</th><th>4</th><th>4</th><th>6</th><th>4</th><th>2</th><th>2</th><th>1</th><th>1</th></tr>';
 
 echo '<tr style="background-color:white"><td>TEAM COUNT</td><td>'.$totalCount.'<td>'.$posCount['QB'].'</td><td>'.$posCount['RB'].'</td><td>'.$posCount['FB'].'</td><td>'.$posCount['WR'].'</td><td>'.$posCount['TE'].'</td><td>'.$posCount['G'].'</td><td>'.$posCount['T'].'</td><td>'.$posCount['C'].'</td><td>'.$posCount['DT'].'</td><td>'.$posCount['DE'].'</td>
-<td>'.$posCount['LB'].'</td><td>'.$posCount['CB'].'</td><td>'.$posCount['SS'].'</td><td>'.$posCount['FS'].'</td><td>'.$posCount['P'].'</td><td>'.$posCount['K'].'</td></tr>';
+<td>'.$posCount['LB'].'</td><td>'.$posCount['CB'].'</td><td>'.$posCount['SS'].'</td><td>'.$posCount['FS'].'</td><td>'.$posCount['P'].'</td><td>'.$posCount['K'].'</td></tr></table>';
 
-echo '<tr><th>MAXIMUM</th><th>53</th><th>'.$rosMax['QB'].'</th><th>'.$rosMax['RB'].'</th><th>'.$rosMax['FB'].'</th><th>'.$rosMax['WR'].'</th><th>'.$rosMax['TE'].'</th><th>'.$rosMax['G'].'</th><th>'.$rosMax['T'].'</th><th>'.$rosMax['C'].'</th><th>'.$rosMax['DT'].'</th><th>'.$rosMax['DE'].'</th>
-<th>'.$rosMax['LB'].'</th><th>'.$rosMax['CB'].'</th><th>'.$rosMax['SS'].'</th><th>'.$rosMax['FS'].'</th><th>'.$rosMax['P'].'</th><th>'.$rosMax['K'].'</th></tr></table>';
 
 $offerService = faPlayerService('player', 0);
 
@@ -77,6 +74,16 @@ foreach ($faService as $fas) {
     array_push($offers, $fas);
 }
 //var_dump($offers);
+
+$teamService = teamService($_SESSION['TeamID']);
+foreach ($teamService as $team) {
+    $total = $total + $team['caphit'];
+    $total2 = $total2 + $team['caphit2'];
+    $total3 = $total3 + $team['caphit3'];
+    $total4 = $total4 + $team['caphit4'];
+    $total5 = $total5 + $team['caphit5'];
+    $total6 = $total6 + $team['caphit6'];
+}
 
 echo '<h2>Cap Space</h2>';
 
@@ -134,22 +141,25 @@ echo '<table>
             <th>Loyalty</th>
             <th colspan="2">Winning</th>
             <th>PT</th>
-            <th colspan="3">Close To Home</th>
             <th colspan="2">Market Size</th>
-            <th colspan="3">Make Offer</th></tr>
-        <tr><th>Name (Pos)</th><th>Age</th><th>' . $year . ' Salary</th><th>Overall</th>
+            <th colspan="3">Make Offer</th>';
+            if ($franchiseTags == 1) {
+                echo '<th>Franchise Tag</th>';
+            }
+            echo '</tr><tr><th>Name (Pos)</th><th>Age</th><th>' . $year . ' Salary</th><th>Overall</th>
             <th style="background-color:#B0ECA0">Money</th>
             <th style="background-color:#A0CCEC">Security</th>
             <th style="background-color:#E5B5F3">Loyalty</th>
             <th style="background-color:#F0F388">Winning</th>
             <th style="background-color:#F0F388">Win Value</th>
             <th style="background-color:#F6ACC8">Playing Time</th>
-            <th style="background-color:#F6C272">Home</th>
-            <th style="background-color:#F6C272">College</th>
-            <th style="background-color:#F6C272">Loc Value</th>
             <th style="background-color:#CFCECE">Market</th>
             <th style="background-color:#CFCECE">Your Market</th>
-            <th>Initial Demand</th><th>Detailed Demand</th><th>Offer Contract</th></tr>';
+            <th>Initial Demand</th><th>Detailed Demand</th><th>Offer Contract</th>';
+            if ($franchiseTags == 1) {
+                echo '<th>Franchise Tag</th>';
+            }
+            echo '</tr>';
 foreach ($offerService as $player) {
     if ($player['RetiredSeason'] == 0 && $player['previous'] == $_SESSION['TeamID']) {
 
@@ -162,13 +172,18 @@ foreach ($offerService as $player) {
         <td style="background-color:#F0F388">' . $calc['win'] . '</td>
         <td style="background-color:#F0F388">' . number_format($calc['winVal'],2) . '</td>
         <td style="background-color:#F6ACC8">' . $calc['pt'] . '</td>
-        <td style="background-color:#F6C272">' . $calc['cth'] . '</td>
-        <td style="background-color:#F6C272">' . $player['College'] . '(' . $calc['homestate'] . ')</td>
-        <td style="background-color:#F6C272">' . $calc['homebase'] . '(' . $calc['state'] . ')</td>
         <td style="background-color:#CFCECE">' . $calc['mar']. '</td>
         <td style="background-color:#CFCECE">' . $calc['market']. '</td>
         <td>' . $calc['string'] . '</td><td>' . $calc['final'] . '</td>';
-        echo '<td><a href="negotiate.php?Tag=y&PlayerID='. $player['PlayerID'] . '&Demand=' . $calc['finalAmt']  . '">Offer Me a Deal!</a></td></tr>';
+        if ($freeagency == 1) {
+            echo '<td><a href="negotiate.php?ftag=n&PlayerID='. $player['PlayerID'] . '&Demand=' . $calc['finalAmt']  . '&UDFA=0">Offer Me a Deal!</a></td>';
+        } else {
+            echo '<td></td>';
+        }
+        if ($franchiseTags == 1) {
+            echo '<td><a href="negotiate.php?ftag=y&PlayerID='. $player['PlayerID'] . '&Demand=' . $calc['finalAmt']  . '&UDFA=0">FRANCHISE TAG</a></td>';
+        }
+        echo '</tr>';
     }
 }
 echo '</table><br>';
@@ -187,7 +202,6 @@ foreach ($positions as $position) {
             <th>Loyalty</th>
             <th colspan="2">Winning</th>
             <th>PT</th>
-            <th colspan="3">Close To Home</th>
             <th colspan="2">Market Size</th>
             <th colspan="3">Make Offer</th></tr>
     <tr><th>Name</th><th>Age</th><th>' . $year . ' Salary</th><th>Overall</th>
@@ -197,9 +211,6 @@ foreach ($positions as $position) {
     <th style="background-color:#F0F388">Winning</th>
     <th style="background-color:#F0F388">Win Value</th>
     <th style="background-color:#F6ACC8">Playing Time</th>
-    <th style="background-color:#F6C272">Home</th>
-    <th style="background-color:#F6C272">College</th>
-    <th style="background-color:#F6C272">Loc Value</th>
     <th style="background-color:#CFCECE">Market</th>
     <th style="background-color:#CFCECE">Your Market</th>
     <th>Initial Demand</th><th>Detailed Demand</th><th>Offer Contract</th></tr>';
@@ -216,13 +227,24 @@ foreach ($positions as $position) {
                 <td style="background-color:#F0F388">' . $calc['win'] . '</td>
                 <td style="background-color:#F0F388">' . number_format($calc['winVal'],2) . '</td>
                 <td style="background-color:#F6ACC8">' . $calc['pt'] . '</td>
-                <td style="background-color:#F6C272">' . $calc['cth'] . '</td>
-                <td style="background-color:#F6C272">' . $player['College'] . '(' . $calc['homestate'] . ')</td>
-                <td style="background-color:#F6C272">' . $calc['homebase'] . '(' . $calc['state'] . ')</td>
                 <td style="background-color:#CFCECE">' . $calc['mar']. '</td>
-                <td style="background-color:#CFCECE">' . $calc['market']. '</td>
-                <td>' . $calc['string'] . '</td><td>' . $calc['final'] . '</td>';
-                echo '<td><a href="negotiate.php?Tag=n&PlayerID='. $player['PlayerID'] . '&Demand=' . $calc['finalAmt']  . '">Offer Me a Deal!</a></td></tr>';
+                <td style="background-color:#CFCECE">' . $calc['market']. '</td>';
+                
+                if ($player['Experience'] == 0) {
+                    echo '<td>UNDRAFTED FREE AGENT!</td>';
+                 } else {
+                    echo '<td>' . $calc['string'] . '</td>';
+                }
+                echo '<td>' . $calc['final'] . '</td>';
+                if ($freeagency == 1) {
+                    if ($player['Experience'] == 0) {
+                        echo '<td><a href="negotiate.php?Tag=n&PlayerID='. $player['PlayerID'] . '&Demand=250000&UDFA=1">Offer Me a Deal!</a></td></tr>';
+                    } else {
+                        echo '<td><a href="negotiate.php?Tag=n&PlayerID='. $player['PlayerID'] . '&Demand=' . $calc['finalAmt']  . '&UDFA=0">Offer Me a Deal!</a></td></tr>';
+                    }
+                } else {
+                    echo '<td></td></tr>';
+                }
             }
         }
     }

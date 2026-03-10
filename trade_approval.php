@@ -3,6 +3,8 @@ include 'header.php';
 
 $hook = '';
 
+$time = "'1990 Week " . $curWeek . "'";
+
 if ($_POST['confirm'] == 'true') {
     echo "Your trade offer has been cancelled... Good day!";
     $stmt2 = $connection->query("DELETE FROM ptf_trade_offers WHERE offerID = " . $_POST['id']);
@@ -80,7 +82,7 @@ if ($_GET['cancel'] == 'true') {
             $asset = str_replace('pick:','',$i);
             $picktrade = $connection->query("UPDATE ptf_draft_picks SET owner = ". $_SESSION['TeamID'] . " WHERE draftID = " . $asset);
             echo $pick = 'p' . $asset;
-            $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date) VALUES ('{$pick}',{$offer['recTID']}, {$offer['sentTID']}, 'trade', NOW())");
+            $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ('{$pick}',{$offer['recTID']}, {$offer['sentTID']}, 'trade', NOW(), $time)");
             $stmtpick = $connection->query("SELECT * from ptf_draft_picks WHERE draftID = " . $asset);
             while($row = $stmtpick->fetch_assoc()) {
                 $pickString = $row['year'] . ' Round ' . $row['round'] . ' pick - ' . idToAbbrev($row['team']);
@@ -93,7 +95,7 @@ if ($_GET['cancel'] == 'true') {
         if ($str2 !== false) {
             $asset2 = str_replace('play:',' ',$i);
             $roster = $connection->query("UPDATE ptf_players SET TeamID = '{$_SESSION['TeamID']}', Team = '{$_SESSION['Abbreviation']}' WHERE PlayerID = " . $asset2);
-            $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date) VALUES ({$asset2},{$offer['sentTID']}, {$offer['recTID']}, 'trade', NOW())");
+            $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$asset2},{$offer['sentTID']}, {$offer['recTID']}, 'trade', NOW(), $time)");
             $playerService = playerService(0, $asset2, 0);
             $player = $playerService[0]['FullName'];
             echo 'PlayerID ' . $asset2 . ' to ' . $_SESSION['abbreviation'] . '<br>';
@@ -110,7 +112,7 @@ if ($_GET['cancel'] == 'true') {
             $asset = str_replace('pick:','',$o);
             $picktrade = $connection->query("UPDATE ptf_draft_picks SET owner = ". $offer['sentTID'] . " WHERE draftID = " . $asset);
             $pick = 'p' . $asset;
-            $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date) VALUES ('{$pick}',{$offer['sentTID']}, {$offer['recTID']}, 'trade', NOW())");
+            $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ('{$pick}',{$offer['sentTID']}, {$offer['recTID']}, 'trade', NOW(), $time)");
             $stmtpick = $connection->query("SELECT * from ptf_draft_picks WHERE draftID = " . $asset);
             while($row = $stmtpick->fetch_assoc()) {
                 $pickString = $row['year'] . ' Round ' . $row['round'] . ' pick - ' . idToAbbrev($row['team']);
@@ -122,7 +124,7 @@ if ($_GET['cancel'] == 'true') {
         if ($str2 !== false) {
             $asset2 = str_replace('play:',' ',$o);
             $roster = $connection->query("UPDATE ptf_players SET TeamID = '{$offer['sentTID']}', Team = '{$team['Abbrev']}' WHERE PlayerID = " . $asset2);
-            $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date) VALUES ({$asset2},{$offer['recTID']}, {$offer['sentTID']}, 'trade', NOW())");
+            $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$asset2},{$offer['recTID']}, {$offer['sentTID']}, 'trade', NOW(), $time)");
             $playerService = playerService(0, $asset2 ,0);
             $player = $playerService[0]['FullName'];
             echo 'PlayerID ' . $asset2 . ' to ' . $team['Abbrev'] . '<br>';
@@ -229,7 +231,7 @@ if ($_GET['cancel'] == 'true') {
                 echo ' THIS TRADE IS INVALID!!!<br><br>';
                 $userValid = 0;
             }
-            $stmt1 = $connection->query('SELECT sum(s.1985) as p1985, sum(s.1986) as p1986, sum(s.1987) as p1987, sum(s.1988) as p1988, sum(s.1989) as p1989, sum(s.1990) as p1990, sum(s.1991) as p1991  FROM ptf_players y LEFT JOIN ptf_players_salaries s ON y.PlayerID = s.PlayerID  WHERE y.Team = "' . $team['Abbrev'] . '"');
+            $stmt1 = $connection->query('SELECT sum(s.1988) as p1988, sum(s.1989) as p1989, sum(s.1990) as p1990, sum(s.1991) as p1991, sum(s.1992) as p1992, sum(s.1993) as p1993, sum(s.1994) as p1994     FROM ptf_players y LEFT JOIN ptf_players_salaries s ON y.PlayerID = s.PlayerID  WHERE y.Team = "' . $team['Abbrev'] . '"');
                 while($sum = $stmt1->fetch_assoc()) {
                     $othertotal = $sum['p' . $year];
                 }
@@ -254,8 +256,8 @@ if ($_GET['cancel'] == 'true') {
 function tradeHook($message) {
     //global $connection;
 
-
-    $url = 'https://discord.com/api/webhooks/1174883663457046569/bGRKx88xeep7TZePOMjE5W4zbHM1L5rlPRLhQkKBBSdL237XJleNwTVG4beYUSHmHrtq';
+    $url = 'https://discord.com/api/webhooks/1331306239623434312/e4KJkCcCF_MadaS_AWyhvGMbPlhCs-f5dLlDxKXvWwU1BqG2pWngZKpqfMNCY3I9n3Rl';
+   // $url = 'https://discord.com/api/webhooks/1174883663457046569/bGRKx88xeep7TZePOMjE5W4zbHM1L5rlPRLhQkKBBSdL237XJleNwTVG4beYUSHmHrtq';
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'League Offices', 'content' => $message ];
 

@@ -9,8 +9,8 @@ foreach ($statsService as $player) {
 }
 usort($players, fn($a, $b) => $b['Overall'] <=> $a['Overall']);
 $conferences = array('AFC','NFC');
-$afc = array(1,2,3,4,5,6,7,8,9);
-$nfc = array(10,11,12,13,14,15,16,17,18);
+$afc = array(1,2,4,5,7,8,9,18,19,20);
+$nfc = array(10,11,12,13,14,15,16,17,3,6);
 
 
 echo "<h1>End of Season Award Voting</h1>";
@@ -347,7 +347,7 @@ echo '<br><br><br>';
 echo '<br><br><br>';
 
 
-
+/*
 $improveService = array();
 $improvestmt = $connection->query(
     'SELECT y.PlayerID, y.Jersey, y.FirstName, y.LastName, CONCAT(y.FirstName," ",y.LastName) as FullName,y.College, y.Age, y.Experience, y.Height, y.Weight, g.TeamID, y.DraftedBy, y.DraftRound, y.DraftPick, y.DraftSeason, 
@@ -367,6 +367,7 @@ $improvestmt = $connection->query(
 while($row = $improvestmt->fetch_assoc()) {
     array_push($improveService,$row);
 }
+
 
     echo '<div align="center"><h3>Surprise Player of the Year <br>(Pick 1 ONLY)</h3></div>';
     echo '<table class="sortable" border=1 id="'.$team['Abbrev'].'">';
@@ -431,6 +432,7 @@ while($row = $improvestmt->fetch_assoc()) {
     echo '</table>';
 
 echo '<br><br><br>';
+*/
 
 
 
@@ -448,13 +450,13 @@ echo '<br><br><br>';
     echo '</tr>';
 
     $teamsLast = array();
-    $teamsltmt = $connection->query("SELECT Team, TeamOwner, Wins, Losses FROM `ptf_teams_season_stats` where season = " . $year - 1);
+    $teamsltmt = $connection->query("SELECT Team, TeamOwner, Wins, Losses FROM `ptf_teams_season_stats` where season = " . $year);
     while($row = $teamsltmt->fetch_assoc()) {
         array_push($teamsLast,$row);
     }
 
     $teams = array();
-    $teamstmt = $connection->query("SELECT Team, TeamOwner, Wins, Losses, Round2Losses, Round3Losses, ChampionshipWins, ChampionshipLosses FROM `ptf_teams_season_stats` where season = " . $year);
+    $teamstmt = $connection->query("SELECT Team, TeamOwner, Wins, Losses, Round1Losses, Round2Losses, Round3Losses, ChampionshipWins, ChampionshipLosses FROM `ptf_teams_season_stats` where season = " . $year);
     while($row = $teamstmt->fetch_assoc()) {
         array_push($teams,$row);
     }
@@ -464,6 +466,8 @@ echo '<br><br><br>';
             if ($team['Team'] == $teamLast['Team']) {
                 if($team['Round2Losses'] == 1) {
                     $result = 'Lost Divisional Playoffs';
+                } elseif($team['Round1Losses'] == 1) {
+                    $result = 'Lost Wildcard Playoffs';
                 } elseif($team['Round3Losses'] == 1) {
                     $result = 'Lost Conference Championship';
                 } elseif($team['ChampionshipLosses'] == 1) {

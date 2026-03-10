@@ -8,11 +8,11 @@ $teamService = teamService('all');
 
 echo '<table class="sortable"><tr><th>Team</th><th>Total Salary</th><th>Cap Room</th><th>Roster</th><th>Squad</th><th>IR</th><th>ALL</th>
 <th>Franchise</th><th>Extensions</th><th>Market Size</th><th>Win Rating (3yr)</th>
-<th>1988</th><th>1989</th><th>1990</th><th>1991</th><th>1992</th></tr>';
+<th>1992</th><th>1993</th><th>1994</th><th>1995</th><th>1996</th></tr>';
 foreach ($teamService as $team) {
     if ($team['TeamID'] <= 20) {
         $stmt1 = $connection->query('SELECT 
-        sum(s.' . $year . ') as pyear, sum(s.' . $year + 1 . ') as pyear1, sum(s.' . $year + 2 . ') as pyear2, sum(s.' . $year + 3 . ') as pyear3, sum(s.' . $year + 4 . ') as pyear4, sum(s.' . $year + 5 . ') as pyear5
+        sum(s.' . $year . ') as pyear, sum(s.' . $year + 1 . ') as pyear1, sum(s.' . $year + 2 . ') as pyear2, sum(s.' . $year + 3 . ') as pyear3, sum(s.' . $year + 4 . ') as pyear4, sum(s.' . $year + 5 . ') as pyear5 
          FROM ptf_players y LEFT JOIN ptf_players_salaries s ON y.PlayerID = s.PlayerID  
         WHERE y.TeamID = "' . $team['TeamID'] . '"');
 
@@ -39,10 +39,10 @@ foreach ($teamService as $team) {
             $tag = 'USED';
         }
 
-        $wl1s = winlossService($team['TeamID'],$year-2); // CHANGE THIS TO -2 AFTER 1987
+        $wl1s = winlossService($team['TeamID'],$year-3); 
         $wl1 = $wl1s[0];
 
-        $wl2s = winlossService($team['TeamID'],$year-1); // CHANGE THIS TO -2 AFTER 1987
+        $wl2s = winlossService($team['TeamID'],$year-2); 
         $wl2 = $wl2s[0];
 
         $wl3s = winlossService($team['TeamID'],$year-1);
@@ -54,13 +54,16 @@ foreach ($teamService as $team) {
         $winValY1 = $wl1['Wins'] * 0.5;
         // $winVal - Bonus given for a team's wins over the previous 3 seasons
         $winVal = ($winValY1 + $winValY2 + $winValY3) / 24;
-        if ($team['TeamID'] >= 19) {
+        if ($winVal < 0.75) {
             $winVal = 0.75;
+        }
+        if ($winVal > 1.5) {
+            $winVal = 1.5;
         }
 
         echo '<tr style="background-color:#'.$team['Color_1']. ';color:#'.$team['color_2'].'"><td>' . $team['FullName'] . '</td>
-                <td>' . number_format($sum['pyear']) . '</td>
-                <td>' . number_format($salaryCap - $sum['pyear']) . '</td>
+                <td>' . cashConvert($sum['pyear'] + $team['caphit2']) . '</td>
+                <td>' . cashConvert($salaryCap - $sum['pyear'] - $team['caphit2']) . '</td>
                 <td>' . $rowcount . '</td>
                 <td>' . $squadcount . '</td>
                 <td>' . $ircount . '</td>
@@ -69,16 +72,16 @@ foreach ($teamService as $team) {
                 <td>' . $allow[0]['Extensions'] . '</td>
                 <td>' . $allow[0]['market'] . '</td>
                 <td>' . number_format($winVal, 2) . '</td>
-                <td>' . number_format($sum['pyear1']) . '</td>
-                <td>' . number_format($sum['pyear2']) . '</td>
-                <td>' . number_format($sum['pyear3']) . '</td>
-                <td>' . number_format($sum['pyear4']) . '</td>
-                <td>' . number_format($sum['pyear5']) . '</td>
+                <td>' . cashConvert($sum['pyear1'] + $team['caphit3']) . '</td>
+                <td>' . cashConvert($sum['pyear2'] + $team['caphit4']) . '</td>
+                <td>' . cashConvert($sum['pyear3'] + $team['caphit5']) . '</td>
+                <td>' . cashConvert($sum['pyear4'] + $team['caphit6']) . '</td>
+                <td>' . cashConvert($sum['pyear5'] + $team['caphit7']) . '</td>
                 </tr>';
     }
 }
 
-echo '</table>';
+echo '</table><br><br>';
 
 
 

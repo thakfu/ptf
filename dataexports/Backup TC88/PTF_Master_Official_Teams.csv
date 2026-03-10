@@ -1,0 +1,21 @@
+TeamID,City,Mascot,Abbrev,CPU,HeadCoach,Conference,Division,ELO,PowerRanking,HomeWins,HomeLosses,HomeTies,AwayWins,AwayLosses,AwayTies,ConfWins,ConfLosses,ConfTies,DivWins,DivLosses,DivTies,Owner,OwnerAIM,OwnerEmail,Wins,Losses,Ties,WinPct,Streak,Games,PointsFor,PointsAgainst,RushYdsFor,RushYdsAgainst,PassYdsFor,PassYdsAgainst,TotalYdsFor,TotalYdsAgainst,TeamSalary,AvailableSalary,NextYearTeamSalary
+1,Kansas City,Chiefs,KC,False,,AFC,West,1497,2.88,0,0,0,0,0,0,0,0,0,0,0,0,Joe Satre,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,56229000,53771000,23250000
+2,Miami,Dolphins,MIA,False,,AFC,East,1567,2.4,0,0,0,0,0,0,0,0,0,0,0,0,Malinda Gates,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,65930700,44069300,24730700
+3,Green Bay,Packers,GB,False,,NFC,West,1481,3.3600000000000003,0,0,0,0,0,0,0,0,0,0,0,0,Mike Kent,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,65410000,44590000,38250000
+4,Oakland,Raiders,OAK,False,,AFC,West,1519,1.44,0,0,0,0,0,0,0,0,0,0,0,0,Ross Tirona,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,53400000,56600000,23700000
+5,Buffalo,Bills,BUF,False,,AFC,West,1517,4.319999999999999,0,0,0,0,0,0,0,0,0,0,0,0,Mike Ngo,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,72241900,37758100,37917900
+6,New York,Giants,NYG,False,,NFC,East,1482,1.6800000000000002,0,0,0,0,0,0,0,0,0,0,0,0,Chance Loock,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,77649324,32350676,39120724
+7,Cincinnati,Bengals,CIN,False,,AFC,West,1582,3.84,0,0,0,0,0,0,0,0,0,0,0,0,Ross Gates,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,58235000,51765000,31295000
+8,Berlin,Thunder,BER,False,,AFC,East,1501,1.2,0,0,0,0,0,0,0,0,0,0,0,0,Johnny McKeever,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,68328100,41671900,38715800
+9,London,Monarchs,LON,False,,AFC,East,1498,2.6399999999999997,0,0,0,0,0,0,0,0,0,0,0,0,Charlie B,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,63988500,46011500,44388500
+10,Indianapolis,Colts,IND,False,,NFC,East,1508,3.12,0,0,0,0,0,0,0,0,0,0,0,0,Chris Schoen,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,70755000,39245000,38515000
+11,Chicago,Bears,CHI,False,,NFC,West,1478,4.08,0,0,0,0,0,0,0,0,0,0,0,0,Matt Patterson,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,61283740,48716260,31863740
+12,Detroit,Lions,DET,False,,NFC,West,1571,3.6,0,0,0,0,0,0,0,0,0,0,0,0,Nick Miller,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,83977500,26022500,54727500
+13,Minnesota,Vikings,MIN,False,,NFC,West,1438,2.1599999999999997,0,0,0,0,0,0,0,0,0,0,0,0,River Foster,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,58679700,51320300,35229700
+14,Atlanta,Falcons,ATL,False,,NFC,East,1517,4.8,0,0,0,0,0,0,0,0,0,0,0,0,Patrick Abrams,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,67460300,42539700,37855200
+15,San Francisco,49ers,SF,False,,NFC,West,1546,0.96,0,0,0,0,0,0,0,0,0,0,0,0,Mel Baltazar,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,76111500,33888500,47131500
+16,Tampa Bay,Buccaneers,TB,False,,NFC,East,1463,0.48,0,0,0,0,0,0,0,0,0,0,0,0,Blake Hall,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,70999500,39000500,39659500
+17,Chicago,Cardinals,CHC,False,,NFC,East,1497,0.24,0,0,0,0,0,0,0,0,0,0,0,0,Eric Potempa,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,75064200,34935800,40465600
+18,Baltimore,Ravens,BAL,False,,AFC,East,1441,4.5600000000000005,0,0,0,0,0,0,0,0,0,0,0,0,Andre Ivarsson,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,68557500,41442500,42002500
+19,Seattle,Seahawks,SEA,False,,AFC,West,1415,0.72,0,0,0,0,0,0,0,0,0,0,0,0,David Britz,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,47436400,62563600,35140000
+20,New York,Jets,NYJ,False,,AFC,East,1482,1.92,0,0,0,0,0,0,0,0,0,0,0,0,Gil Santos,,,0,0,0,0,--,0,0,0,0,0,0,0,0,0,27670000,82330000,14170000

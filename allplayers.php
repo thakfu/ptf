@@ -2,79 +2,84 @@
 
 include 'header.php';
 
-$playerService = playerService(0,0,0);
-
-usort($playerService, fn($a, $b) => $b['Overall'] <=> $a['Overall']);
-$top = 0;
-$topArray = array();
-foreach ($playerService as $player) {
-    if ($top < 10) {
-        $top++;
-        array_push($topArray, $player['FullName']);
-    }
-}
-if ($_GET['pos'] == NULL) {
-    if ($_GET['sort'] == 'all');
-}
-
-if ($_GET['sort'] == NULL) {
-    $_GET['sort'] = 'PosSort';
-    $_GET['order'] = 'asc';
-}
-
-if ($_GET['order'] == 'asc') {
-    $sorter = 'desc';
-    usort($playerService, fn($a, $b) => $a[$_GET['sort']] <=> $b[$_GET['sort']]);
+if ($_GET['team']) {
+    $team = $_GET['team'];
+    $col1 = '#';
+    $sort = 'Jersey';
 } else {
-    $sorter = 'asc';
-    usort($playerService, fn($a, $b) => $b[$_GET['sort']] <=> $a[$_GET['sort']]);
+    $team = 0;
+    $col1 = 'Team';
+    $sort = 'Overall';
 }
 
-echo '<h2>' . $year . ' All Players</h2>';
-echo '<div align="center">';
-echo '<a href="allplayers.php?pos=all">ALL</a>';
-foreach($positions as $pos) {
-    echo ' - <a href="allplayers.php?pos='. $pos .'">'. $pos .'</a>';
-}
-echo '</div><br>';
+$playerService = newPlayerService($team,0,'pro');
 
-echo '<table class="roster" border=1 id="'.$team['Abbrev'].'">';
-echo '<th><a href="allplayers.php?sort=TeamID&order=' . $sorter . '&pos='. $_GET['pos']  .'">Team</a></th>';
-echo '<th><a href="allplayers.php?sort=FirstName&order=' . $sorter . '&pos='. $_GET['pos']  .'">Name</a></th>';
-echo '<th><a href="allplayers.php?sort=PosSort&order=' . $sorter . '&pos='. $_GET['pos']  .'">Position</a></th>';
-echo '<th><a href="allplayers.php?sort=Age&order=' . $sorter . '&pos='. $_GET['pos']  .'">Age</a></th>';
-//echo '<th><a href="allplayers.php?sort=Experience&order=' . $sorter . '">Exp</a></th>';
-//echo '<th><a href="allplayers.php?sort=College&order=' . $sorter . '">College</a></th>';
-echo '<th><a href="allplayers.php?sort=Height&order=' . $sorter . '&pos='. $_GET['pos']  .'">Height</a></th>';
-echo '<th><a href="allplayers.php?sort=Weight&order=' . $sorter . '&pos='. $_GET['pos']  .'">Weight</a></th>';
-echo '<th><a href="allplayers.php?sort=Overall&order=' . $sorter . '&pos='. $_GET['pos']  .'">OVERALL</a></th>';
-echo '<th><a href="allplayers.php?sort=Strength&order=' . $sorter . '&pos='. $_GET['pos']  .'">Strength</a></th>';
-echo '<th><a href="allplayers.php?sort=Agility&order=' . $sorter . '&pos='. $_GET['pos']  .'">Agility</a></th>';
-echo '<th><a href="allplayers.php?sort=Arm&order=' . $sorter . '&pos='. $_GET['pos']  .'">Arm</a></th>';
-echo '<th><a href="allplayers.php?sort=Speed&order=' . $sorter . '&pos='. $_GET['pos']  .'">Speed</a></th>';
-echo '<th><a href="allplayers.php?sort=Hands&order=' . $sorter . '&pos='. $_GET['pos']  .'">Hands</a></th>';
-echo '<th><a href="allplayers.php?sort=Intelligence&order=' . $sorter . '&pos='. $_GET['pos']  .'">Intelligence</a></th>';
-echo '<th><a href="allplayers.php?sort=Accuracy&order=' . $sorter . '&pos='. $_GET['pos']  .'">Accuracy</a></th>';
-echo '<th><a href="allplayers.php?sort=RunBlocking&order=' . $sorter . '&pos='. $_GET['pos']  .'">Run Block</a></th>';
-echo '<th><a href="allplayers.php?sort=PassBlocking&order=' . $sorter . '&pos='. $_GET['pos']  .'">Pass Block</a></th>';
-echo '<th><a href="allplayers.php?sort=Tackling&order=' . $sorter . '&pos='. $_GET['pos']  .'">Tackling</a></th>';
-echo '<th><a href="allplayers.php?sort=Endurance&order=' . $sorter . '&pos='. $_GET['pos']  .'">Endurance</a></th>';
-echo '<th><a href="allplayers.php?sort=KickDistance&order=' . $sorter . '&pos='. $_GET['pos']  .'">Kick Dis.</a></th>';
-echo '<th><a href="allplayers.php?sort=KickAccuracy&order=' . $sorter . '&pos='. $_GET['pos']  .'">Kick Acc.</a></th>';
+if ($_GET['team']) {
+    usort($playerService, fn($a, $b) => $a['Jersey'] <=> $b['Jersey']);
+} else {
+    usort($playerService, fn($a, $b) => $b['Overall'] <=> $a['Overall']);
+}
+
+if ($_GET['pos'] == NULL) {
+    $_GET['pos'] = 'all';
+}
+
+if (!$_GET['team']) {
+    echo '<h2>All Players</h2>';
+    echo '<div align="center">';
+    echo '<a href="allplayers.php?pos=all">ALL</a>';
+    foreach($positions as $pos) {
+        echo ' - <a href="allplayers.php?pos='. $pos .'">'. $pos .'</a>';
+    }
+    echo '<br><br>';
+    echo '<a href="allplayers.php">Attributes</a> - <a href="allplayersper.php">Personality</a> - <a href="allplayerssal.php">Salary</a></div><br>';
+} else {
+    echo '<h2>' . idToName($team) . ' Roster</h2>';
+    echo '<div align="center">';
+    echo '<a href="allplayers.php?team=' . $team . '">Attributes</a> - <a href="allplayersper.php?team=' . $team . '">Personality</a> - <a href="allplayerssal.php?team=' . $team . '">Salary</a></div><br>';
+}
+
+echo '<table class="sortable" border=1 id="'.idToAbbrev($team).'"><tr style="background-color:#FFFFFF">';
+echo '<th>' . $col1 . '</th>';
+echo '<th>Name</th>';
+echo '<th title="Position">Pos</th>';
+echo '<th>Age</th>';
+echo '<th title="Experience">Exp</th>';
+echo '<th title="Height">Hgt</th>';
+echo '<th title="Weight">Wgt</th>';
+echo '<th title="OVERALL">OVR</th>';
+echo '<th title="Strength">Str</th>';
+echo '<th title="Agility">Agl</th>';
+echo '<th title="Arm Strength">Arm</th>';
+echo '<th title="Speed">Spd</th>';
+echo '<th title="Hands">Hnd</th>';
+echo '<th title="Intelligence">Int</th>';
+echo '<th title="Throw Accuracy">Acc</th>';
+echo '<th title="Run Blocking">RBlk</th>';
+echo '<th title="Pass Blocking">PBlk</th>';
+echo '<th title="Tackling">Tac</th>';
+echo '<th title="Endurance">End</th>';
+echo '<th title="Kick Distance">KDis</th>';
+echo '<th title="Kick Accuracy">KAcc</th>';
 echo '</tr>';
 
-
 foreach ($playerService as $player) {
-    if (($player['Position'] == $_GET['pos'] || $_GET['pos'] == 'all') && $player['RetiredSeason'] == 0) {
+    if (($player['Position'] == $_GET['pos'] || $_GET['pos'] == 'all') && $player['ProRetire'] == 0) {
 
-        echo '<tr><td>'; 
-        echo idToAbbrev($player['TeamID']);
-        echo '</td><td><a href="/ptf/player.php?player=' . $player['PlayerID'] . '">' . $player['FullName'] . '</a></td><td>' .
+        if ($_GET['team']) {
+            echo '<tr><td class="career"><b>'; 
+            echo $player['Jersey'];
+        } else {
+            echo '<tr><td class="career" id="'.idToAbbrev($player['TeamID']).'"><b>';
+            echo idToAbbrev($player['TeamID']); 
+        }
+        echo '</b></td><td><a href="/ptf/player.php?player=' . $player['PlayerID'] . '">' . $player['FullName'] . '</a></td><td>' .
         $player['Position'] . '</td><td>' .
         $player['Age'] . '</td><td>' .
+        $player['Experience'] . '</td><td>' .
         floor($player['Height'] / 12) . '\'' . ($player['Height'] % 12) . '"</td><td>' .
-        $player['Weight'] . '</td><td>' .
-        $player['Overall'] . '</td><td>' .
+        $player['Weight'] . '</td><td><b>' .
+        $player['Overall'] . '</b></td><td>' .
         $player['Strength'] . '</td><td>' .
         $player['Agility'] . '</td><td>' .
         $player['Arm'] . '</td><td>' .

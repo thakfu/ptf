@@ -1,6 +1,6 @@
 <?php
-
-$seasons = array_reverse($pastSeasons);
+$allSeasons = array(1985,1986,1987,1988,1989, 1990);
+$seasons = array_reverse($allSeasons);
 
 function winCalc(&$wins, &$losses, $player, $isHome) {
     if ($isHome == 1) {
@@ -26,7 +26,7 @@ function winCalc(&$wins, &$losses, $player, $isHome) {
 foreach ($seasons as $season) {
     echo '<h2>' .  $player['FullName'] . ' ' . $season . ' Game Log</h2>';
 
-    $statsServiceTotal = statsService(0,$_GET['player'],'season');
+    $statsServiceTotal = statsService(0,$_GET['player'],'ppseason');
     $playerSeason = array();
     foreach ($statsServiceTotal as $sst) {
         if ($sst['Season'] == $season) {
@@ -45,6 +45,7 @@ foreach ($seasons as $season) {
         echo '<table class="roster" border=1 id="'.$curteam.'">';
         echo '<tr>';
         echo '<th>Week</th>';
+        echo '<th>Team</th>';
         echo '<th>Opponent</th>';
         echo '<th>Result</th>';
         echo '<th>Start</th>';
@@ -65,10 +66,11 @@ foreach ($seasons as $season) {
         echo '</tr>';
 
         $wins = $losses = 0;
-        $statsService = statsService(0,$_GET['player'],'game');
+        $statsService = playerStatsService(0,0,$_GET['player'],'pro');
+        //$statsService = statsService(0,$_GET['player'],'game');
         usort($statsService, fn($a, $b) => $a['WeekNumber'] <=> $b['WeekNumber']);
         foreach ($statsService as $player) {
-            if ($player['PlayerID'] == $_GET['player'] && $player['Season'] == $season && $player['WeekNumber'] > 0 && $player['WeekNumber'] < 17) {
+            if ($player['PlayerID'] == $_GET['player'] && $player['Season'] == $season && $player['WeekNumber'] > 0 && $player['WeekNumber'] < 19) {
                 if ($player['HomeTeamID'] == $player['TeamID']) {
                     $game = 'at ' . idToAbbrev($player['AwayTeamID']);
                     $isHome = 1;
@@ -79,6 +81,7 @@ foreach ($seasons as $season) {
                 $result = winCalc($wins, $losses, $player, $isHome);
                 echo '<tr><td>' . 
                 $player['WeekNumber'] . '</td><td>' . 
+                idToAbbrev($player['TeamID']) . '</td><td>' . 
                 $game . '</td><td>' .
                 $result . '</td><td>' . 
                 $player['GS'] . '</td><td>' .
@@ -104,7 +107,7 @@ foreach ($seasons as $season) {
             if ($player['PlayerID'] == $_GET['player'] && $player['Season'] == $season) {
                 echo '<tr>' .
                 '<th>TOTAL</th><th>' . 
-                '</th><th>' . 
+                '</th><th></th><th>' . 
                 $wins . ' - ' . $losses .'</th><th>' .
                 $player['GS'] . '</th><th>' .
                 $player['Plays'] . '</th><th>' .
@@ -152,10 +155,11 @@ foreach ($seasons as $season) {
         echo '</tr>';
 
         $wins = $losses = 0;
-        $statsService = statsService(0,$_GET['player'],'game');
+        $statsService = playerStatsService(0,0,$_GET['player'],'pro');
+        //$statsService = statsService(0,$_GET['player'],'game');
         usort($statsService, fn($a, $b) => $a['WeekNumber'] <=> $b['WeekNumber']);
         foreach ($statsService as $player) {
-            if ($player['PlayerID'] == $_GET['player'] && $player['Season'] == $season && $player['WeekNumber'] > 0 && $player['WeekNumber'] < 17) {
+            if ($player['PlayerID'] == $_GET['player'] && $player['Season'] == $season && $player['WeekNumber'] > 0 && $player['WeekNumber'] < 19) {
                 if ($player['HomeTeamID'] == $player['TeamID']) {
                     $game = 'at ' . idToAbbrev($player['AwayTeamID']);
                     $isHome = 1;
@@ -231,10 +235,11 @@ foreach ($seasons as $season) {
         echo '</tr>';
 
         $wins = $losses = 0;
-        $statsService = statsService(0,$_GET['player'],'game');
+        $statsService = playerStatsService(0,0,$_GET['player'],'pro');
+        //$statsService = statsService(0,$_GET['player'],'game');
         usort($statsService, fn($a, $b) => $a['WeekNumber'] <=> $b['WeekNumber']);
         foreach ($statsService as $player) {
-            if ($player['PlayerID'] == $_GET['player'] && $player['Season'] == $season && $player['WeekNumber'] > 0 && $player['WeekNumber'] < 17) {
+            if ($player['PlayerID'] == $_GET['player'] && $player['Season'] == $season && $player['WeekNumber'] > 0 && $player['WeekNumber'] < 19) {
                 if ($player['HomeTeamID'] == $player['TeamID']) {
                     $game = 'at ' . idToAbbrev($player['AwayTeamID']);
                     $isHome = 1;
@@ -308,10 +313,11 @@ foreach ($seasons as $season) {
         echo '</tr>';
 
         $wins = $losses = 0;
-        $statsService = statsService(0,$_GET['player'],'game');
+        $statsService = playerStatsService(0,0,$_GET['player'],'pro');
+        //$statsService = $_GET['player'],'game');
         usort($statsService, fn($a, $b) => $a['WeekNumber'] <=> $b['WeekNumber']);
         foreach ($statsService as $player) {
-            if ($player['PlayerID'] == $_GET['player'] && $player['Season'] == $season && $player['WeekNumber'] > 0 && $player['WeekNumber'] < 17) {
+            if ($player['PlayerID'] == $_GET['player'] && $player['Season'] == $season && $player['WeekNumber'] > 0 && $player['WeekNumber'] < 19) {
                 if ($player['HomeTeamID'] == $player['TeamID']) {
                     $game = 'at ' . idToAbbrev($player['AwayTeamID']);
                     $isHome = 1;
@@ -383,10 +389,11 @@ foreach ($seasons as $season) {
         echo '</tr>';
 
         $wins = $losses = 0;
-        $statsService = statsService(0,$_GET['player'],'game');
+        $statsService = playerStatsService(0,0,$_GET['player'],'pro');
+        //$statsService = statsService(0,$_GET['player'],'game');
         usort($statsService, fn($a, $b) => $a['WeekNumber'] <=> $b['WeekNumber']);
         foreach ($statsService as $player) {
-            if ($player['PlayerID'] == $_GET['player'] && $player['Season'] == $season && $player['WeekNumber'] > 0 && $player['WeekNumber'] < 17) {
+            if ($player['PlayerID'] == $_GET['player'] && $player['Season'] == $season && $player['WeekNumber'] > 0 && $player['WeekNumber'] < 19) {
                 if ($player['HomeTeamID'] == $player['TeamID']) {
                     $game = 'at ' . idToAbbrev($player['AwayTeamID']);
                     $isHome = 1;
@@ -474,10 +481,11 @@ foreach ($seasons as $season) {
         echo '</tr>';
 
         $wins = $losses = 0;
-        $statsService = statsService(0,$_GET['player'],'game');
+        $statsService = playerStatsService(0,0,$_GET['player'],'pro');
+        //$statsService = statsService(0,$_GET['player'],'game');
         usort($statsService, fn($a, $b) => $a['WeekNumber'] <=> $b['WeekNumber']);
         foreach ($statsService as $player) {
-            if ($player['PlayerID'] == $_GET['player'] && $player['Season'] == $season && $player['WeekNumber'] > 0 && $player['WeekNumber'] < 17) {
+            if ($player['PlayerID'] == $_GET['player'] && $player['Season'] == $season && $player['WeekNumber'] > 0 && $player['WeekNumber'] < 19) {
                 if ($player['HomeTeamID'] == $player['TeamID']) {
                     $game = 'at ' . idToAbbrev($player['AwayTeamID']);
                     $isHome = 1;
@@ -556,10 +564,11 @@ foreach ($seasons as $season) {
         echo '</tr>';
 
         $wins = $losses = 0;
-        $statsService = statsService(0,$_GET['player'],'game');
+        $statsService = playerStatsService(0,0,$_GET['player'],'pro');
+        //$statsService = statsService(0,$_GET['player'],'game');
         usort($statsService, fn($a, $b) => $a['WeekNumber'] <=> $b['WeekNumber']);
         foreach ($statsService as $player) {
-            if ($player['PlayerID'] == $_GET['player'] && $player['Season'] == $season && $player['WeekNumber'] > 0 && $player['WeekNumber'] < 17) {
+            if ($player['PlayerID'] == $_GET['player'] && $player['Season'] == $season && $player['WeekNumber'] > 0 && $player['WeekNumber'] < 19) {
                 if ($player['HomeTeamID'] == $player['TeamID']) {
                     $game = 'at ' . idToAbbrev($player['AwayTeamID']);
                     $isHome = 1;

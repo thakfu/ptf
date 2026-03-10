@@ -1,13 +1,27 @@
 <?php
 
-require('../../../sql/phpmysqlconnect.php');
+require('../../sql/phpmysqlconnect.php');
 
 
 //REMOVE BEFORE RUNNING!!!!!
 //exit;
 //REMOVE BEFORE RUNNING!!!!!
+/*
+$stmt = $connection->query('SELECT playerID FROM `ptf_players` WHERE playerID > 8696 and TeamID = 0');
 
-$stmt = $connection->query('SELECT round, pick, playerID FROM `ptf_draft_picks` WHERE playerID != 0 and year = "1987" and round = 7');
+$players = array();
+while($row = $stmt->fetch_assoc()) {
+    array_push($players, $row);
+}
+
+foreach ($players as $player) {
+    $insert = $connection->query("INSERT INTO `ptf_players_salaries` (PlayerID,`1991`,`1992`,`1993`,`1994`,`1995`,`1996`,`1997`,`1985`,`1986`,`1987`,`1988`,`1989`,`1990`) VALUES 
+            ({$player['playerID']},0,0,0,0,0,0,0,0,0,0,0,0,0)"); 
+}
+
+exit;
+*/
+$stmt = $connection->query('SELECT round, pick, playerID FROM `ptf_draft_picks` WHERE playerID != 0 and year = "1991" and round < 4');
 $players = array();
 while($row = $stmt->fetch_assoc()) {
     array_push($players, $row);
@@ -87,17 +101,17 @@ foreach ($players as $player) {
     //("UPDATE `ptf_players_salaries` SET contract_length = {$yrs} WHERE {$player['PlayerID']} = player_id");
     echo     "INSERT INTO `ptf_players_salaries` 
     (PlayerID,
-    `1987`,
-    `1988`,
-    `1989`,
-    `1990`)
+    `1990`,
+    `1991`,
+    `1992`,
+    `1993`)
     VALUES 
     ({$player['playerID']},
     {$sal1},
     {$sal2},
     {$sal3},
     {$sal4})" . '<br>';
-    $insert = $connection->query("INSERT INTO `ptf_players_salaries` (PlayerID,`1987`,`1988`,`1989`,`1990`,`1991`,`1992`,`1993`,`1994`,`1995`,`1996`,`1997`,`1985`,`1986`) VALUES 
+    $insert = $connection->query("INSERT INTO `ptf_players_salaries` (PlayerID,`1991`,`1992`,`1993`,`1994`,`1995`,`1996`,`1997`,`1985`,`1986`,`1987`,`1988`,`1989`,`1990`) VALUES 
             ({$player['playerID']},{$sal1},{$sal2},{$sal3},{$sal4},0,0,0,0,0,0,0,0,0)"); 
     }
 

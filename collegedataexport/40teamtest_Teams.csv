@@ -1,0 +1,41 @@
+ELO,TeamID,School,Mascot,Abbrev,Prestige,Conference,Division,TeamRank,CPU,Owner,OwnerAIM,OwnerEmail,HomeWins,HomeLosses,HomeTies,AwayWins,AwayLosses,AwayTies,ConfWins,ConfLosses,ConfTies,DivWins,DivLosses,DivTies,Wins,Losses,Ties,WinPct,Streak,Games,PointsFor,PointsAgainst,RushYdsFor,RushYdsAgainst,PassYdsFor,PassYdsAgainst,TotalYdsFor,TotalYdsAgainst
+1555,1,Navy,Midshipmen,NAVY,54,Atlantic Coast Conference,Division,8,True,,,,5,1,0,4,2,0,8,1,0,8,1,0,9,3,0,0.75,L1,12,403,267,2568,1992,2803,1896,5371,3888
+1442,2,Clemson,Tigers,CLEM,61,Southeastern Conference,Division,34,True,,,,2,4,0,1,5,0,2,7,0,2,7,0,3,9,0,0.25,L4,12,209,342,2046,1770,1487,2681,3533,4451
+1486,3,Stanford,Cardinal,STAN,65,Pacific 10 Conference,Division,19,True,,,,3,4,0,2,3,0,4,5,0,4,5,0,5,7,0,0.417,W1,12,266,286,1689,2221,1998,2325,3687,4546
+1454,4,Oklahoma,Sooners,OK,71,Pacific 10 Conference,Division,37,True,,,,2,4,0,1,5,0,1,8,0,1,8,0,3,9,0,0.25,L5,12,269,307,1833,1831,2043,2763,3876,4594
+1580,5,Notre Dame,Fighting Irish,NTDM,72,Big Ten Conference,Division,3,True,,,,6,1,0,4,1,0,7,2,0,7,2,0,10,2,0,0.833,L1,12,340,260,1944,1852,3243,1866,5187,3718
+1497,6,Rutgers,Scarlet Knights,RUT,52,Atlantic Coast Conference,Division,18,True,,,,3,2,0,3,4,0,5,4,0,5,4,0,6,6,0,0.5,W2,12,328,299,1886,1576,2905,2363,4791,3939
+1423,7,Kings College London,Regents,KCL,60,Atlantic Coast Conference,Division,38,True,,,,1,4,0,1,6,0,1,8,0,1,8,0,2,10,0,0.167,L3,12,139,305,1256,2237,849,1671,2105,3908
+1476,8,Iowa,Hawkeyes,IOWA,60,Big Ten Conference,Division,25,True,,,,3,3,0,2,4,0,3,6,0,3,6,0,5,7,0,0.417,W1,12,260,354,1569,1917,2358,2860,3927,4777
+1463,9,Northwestern,Wildcats,NWST,55,Big Ten Conference,Division,31,True,,,,3,3,0,1,5,0,2,7,0,2,7,0,4,8,0,0.333,L7,12,174,289,1354,2136,1560,2186,2914,4322
+1502,10,Penn State,Nittany Lions,PENNST,66,Atlantic Coast Conference,Division,29,True,,,,3,3,0,3,3,0,5,4,0,5,4,0,6,6,0,0.5,W1,12,251,263,1826,1942,1539,2168,3365,4110
+1460,11,Maryland,Terrapins,MD,56,Atlantic Coast Conference,Division,32,True,,,,1,4,0,3,4,0,4,5,0,4,5,0,4,8,0,0.333,W1,12,162,290,1162,1822,1491,2134,2653,3956
+1466,12,Kentucky,Wildcats,KY,60,Southeastern Conference,Division,30,True,,,,2,3,0,2,5,0,3,6,0,3,6,0,4,8,0,0.333,L4,12,170,257,1251,1299,2228,2225,3479,3524
+1449,13,Nebraska,Cornhuskers,NEB,69,Big Ten Conference,Division,36,True,,,,2,4,0,1,5,0,3,6,0,3,6,0,3,9,0,0.25,L1,12,193,266,1402,1626,2571,2030,3973,3656
+1423,14,Boston College,Eagles,BST,62,Atlantic Coast Conference,Division,40,True,,,,2,4,0,0,6,0,2,7,0,2,7,0,2,10,0,0.167,L5,12,134,256,1551,1806,674,1989,2225,3795
+1496,15,Alabama,Crimson Tide,BAMA,65,Southeastern Conference,Division,21,True,,,,5,1,0,1,5,0,4,5,0,4,5,0,6,6,0,0.5,L1,12,258,263,1144,1460,2115,2464,3259,3924
+1516,16,Ohio State,Buckeyes,OHST,71,Big Ten Conference,Division,17,True,,,,2,5,0,5,0,0,6,3,0,6,3,0,7,5,0,0.583,W1,12,198,169,1497,1203,1875,1948,3372,3151
+1469,17,California,Golden Bears,CAL,67,Pacific 10 Conference,Division,33,True,,,,2,5,0,2,3,0,3,6,0,3,6,0,4,8,0,0.333,L2,12,203,260,2099,1904,2185,1806,4284,3710
+1512,18,Minnesota,Golden Gophers,MINN,61,Big Ten Conference,Division,15,True,,,,3,3,0,4,2,0,5,4,0,5,4,0,7,5,0,0.583,L1,12,288,260,2011,1559,2205,2229,4216,3788
+1488,19,Cambridge,Blues,CU,57,Atlantic Coast Conference,Division,20,True,,,,4,1,0,1,6,0,5,4,0,5,4,0,5,7,0,0.417,W3,12,238,243,1919,1353,2152,1938,4071,3291
+1483,20,LSU,Tigers,LSU,67,Southeastern Conference,Division,26,True,,,,3,2,0,2,5,0,2,7,0,2,7,0,5,7,0,0.417,L3,12,225,279,1636,1430,2142,2359,3778,3789
+1562,21,Miami (FL),Hurricanes,MIAFL,70,Southeastern Conference,Division,5,True,,,,6,0,0,3,3,0,7,2,0,7,2,0,9,3,0,0.75,W3,12,333,251,1974,1510,2017,2006,3991,3516
+1552,22,Texas AM,Aggies,TEXAM,65,Pacific 10 Conference,Division,10,True,,,,4,3,0,4,1,0,6,3,0,6,3,0,8,4,0,0.667,W1,12,355,251,1957,1531,2542,2040,4499,3571
+1491,23,Army,Black Knights,ARMY,60,Atlantic Coast Conference,Division,28,True,,,,4,2,0,1,5,0,5,4,0,5,4,0,5,7,0,0.417,W2,12,230,276,2099,1815,1754,1840,3853,3655
+1537,24,Michigan State,Spartans,MIST,60,Big Ten Conference,Division,13,True,,,,4,3,0,3,2,0,6,3,0,6,3,0,7,5,0,0.583,W2,12,288,238,1126,1716,3006,2325,4132,4041
+1476,25,Oregon,Ducks,OR,67,Pacific 10 Conference,Division,22,True,,,,4,2,0,1,5,0,2,7,0,2,7,0,5,7,0,0.417,L3,12,255,265,2216,1450,1550,2678,3766,4128
+1510,26,Florida,Gators,FL,65,Southeastern Conference,Division,16,True,,,,4,1,0,2,5,0,4,5,0,4,5,0,6,6,0,0.5,W3,12,276,267,1499,1912,2325,1945,3824,3857
+1536,27,Washington,Huskies,WASH,63,Pacific 10 Conference,Division,9,True,,,,6,1,0,2,3,0,6,3,0,6,3,0,8,4,0,0.667,W4,12,287,234,1883,1645,2548,1921,4431,3566
+1546,28,Wisconsin,Badgers,WIS,60,Big Ten Conference,Division,7,True,,,,6,1,0,3,2,0,7,2,0,7,2,0,9,3,0,0.75,W3,12,333,170,2268,1551,2299,2194,4567,3745
+1578,29,Georgia,Bulldogs,GEO,70,Southeastern Conference,Division,2,True,,,,6,0,0,4,2,0,8,1,0,8,1,0,10,2,0,0.833,W7,12,475,295,1877,1374,3677,2468,5554,3842
+1410,30,Michigan,Wolverines,MICH,69,Big Ten Conference,Division,39,True,,,,1,6,0,0,5,0,1,8,0,1,8,0,1,11,0,0.083,L6,12,105,320,1354,1718,1569,2714,2923,4432
+1545,31,Florida State,Seminoles,FLST,65,Southeastern Conference,Division,6,True,,,,4,1,0,5,2,0,6,3,0,6,3,0,9,3,0,0.75,L3,12,336,216,2198,1680,2282,1946,4480,3626
+1622,32,UCLA,Bruins,UCLA,70,Pacific 10 Conference,Division,1,True,,,,6,0,0,6,0,0,9,0,0,9,0,0,12,0,0,1,W12,12,467,216,1785,1750,3560,2370,5345,4120
+1570,33,Virginia,Cavaliers,VA,65,Southeastern Conference,Division,4,True,,,,5,0,0,4,3,0,7,2,0,7,2,0,9,3,0,0.75,W5,12,348,226,1382,1972,2931,1509,4313,3481
+1464,34,Missouri,Tigers,MIZZOU,62,Pacific 10 Conference,Division,27,True,,,,2,4,0,2,4,0,3,6,0,3,6,0,4,8,0,0.333,W1,12,202,289,1662,1630,1997,2089,3659,3719
+1491,35,West Virginia,Mountaineers,WVA,60,Atlantic Coast Conference,Division,23,True,,,,4,2,0,2,4,0,5,4,0,5,4,0,6,6,0,0.5,L2,12,263,245,2120,1474,2062,2075,4182,3549
+1520,36,Illinois,Fighting Illini,ILL,62,Big Ten Conference,Division,14,True,,,,4,2,0,3,3,0,5,4,0,5,4,0,7,5,0,0.583,W1,12,241,210,1592,1444,2029,2338,3621,3782
+1495,37,Syracuse,Orange,SYR,59,Atlantic Coast Conference,Division,24,True,,,,4,1,0,2,5,0,5,4,0,5,4,0,6,6,0,0.5,L1,12,284,324,1564,2014,2178,2301,3742,4315
+1468,38,Auburn,Tigers,AUB,71,Southeastern Conference,Division,35,True,,,,3,3,0,0,6,0,2,7,0,2,7,0,3,9,0,0.25,W1,12,268,360,1152,2207,2060,2422,3212,4629
+1538,39,USC,Trojans,USC,72,Pacific 10 Conference,Division,12,True,,,,4,2,0,4,2,0,5,4,0,5,4,0,8,4,0,0.667,L1,12,269,190,1201,1790,1909,2132,3110,3922
+1537,40,Texas,Longhorns,TX,68,Pacific 10 Conference,Division,11,True,,,,5,2,0,3,2,0,6,3,0,6,3,0,8,4,0,0.667,L2,12,359,324,2476,1909,3130,2634,5606,4543
