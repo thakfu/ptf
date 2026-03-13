@@ -62,8 +62,8 @@ foreach ($teamService as $team) {
         }
 
         echo '<tr style="background-color:#'.$team['Color_1']. ';color:#'.$team['color_2'].'"><td>' . $team['FullName'] . '</td>
-                <td>' . cashConvert($sum['pyear'] + $team['caphit2']) . '</td>
-                <td>' . cashConvert($salaryCap - $sum['pyear'] - $team['caphit2']) . '</td>
+                <td>' . '$' . cashConvert($sum['pyear'] + $team['caphit2']) . '</td>
+                <td>' . '$' . cashConvert($salaryCap - $sum['pyear'] - $team['caphit2']) . '</td>
                 <td>' . $rowcount . '</td>
                 <td>' . $squadcount . '</td>
                 <td>' . $ircount . '</td>
@@ -72,11 +72,11 @@ foreach ($teamService as $team) {
                 <td>' . $allow[0]['Extensions'] . '</td>
                 <td>' . $allow[0]['market'] . '</td>
                 <td>' . number_format($winVal, 2) . '</td>
-                <td>' . cashConvert($sum['pyear1'] + $team['caphit3']) . '</td>
-                <td>' . cashConvert($sum['pyear2'] + $team['caphit4']) . '</td>
-                <td>' . cashConvert($sum['pyear3'] + $team['caphit5']) . '</td>
-                <td>' . cashConvert($sum['pyear4'] + $team['caphit6']) . '</td>
-                <td>' . cashConvert($sum['pyear5'] + $team['caphit7']) . '</td>
+                <td>' . '$' . cashConvert($sum['pyear1'] + $team['caphit3']) . '</td>
+                <td>' . '$' . cashConvert($sum['pyear2'] + $team['caphit4']) . '</td>
+                <td>' . '$' . cashConvert($sum['pyear3'] + $team['caphit5']) . '</td>
+                <td>' . '$' . cashConvert($sum['pyear4'] + $team['caphit6']) . '</td>
+                <td>' . '$' . cashConvert($sum['pyear5'] + $team['caphit7']) . '</td>
                 </tr>';
     }
 }

@@ -124,7 +124,8 @@ function cashConvert($amt) {
     if ($amt == 0) {
         return '--';
     } else {
-        return "$" . number_format($amt / 1000000, 2) . "M";
+        //return  number_format($amt / 1000000, 2) ;
+        return  number_format($amt) ;
     }
 }
 
@@ -252,7 +253,7 @@ $totalnext6 = $salarySum['p' . $year + 6];
                     <li><a href="pastdraft.php?year=' . $year . '">Draft History</a>
                     <li><a href="retired.php">Retired Players</a>
                 </ul>';
-            echo   '</li><li><a id="homelink" href="awards.php">AWARDS VOTING</a></li>';
+            //echo   '</li><li><a id="homelink" href="awards.php">AWARDS VOTING</a></li>';
             //echo '</li><li><a id="homelink" href="probowl.php">Pro Bowl VOTING</a></li>';
             if ($_SESSION['admin'] == '2') { 
                 echo '<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">ADMIN</a>

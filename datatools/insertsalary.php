@@ -21,7 +21,7 @@ foreach ($players as $player) {
 
 exit;
 */
-$stmt = $connection->query('SELECT round, pick, playerID FROM `ptf_draft_picks` WHERE playerID != 0 and year = "1991" and round < 4');
+$stmt = $connection->query('SELECT round, pick, playerID FROM `ptf_draft_picks` WHERE playerID != 0 and year = "1991" and round >= 4');
 $players = array();
 while($row = $stmt->fetch_assoc()) {
     array_push($players, $row);
