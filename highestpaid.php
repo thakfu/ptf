@@ -10,13 +10,13 @@ if (true != true) {
 
     $stmt = $connection->query('SELECT * FROM ptf_players y 
         LEFT JOIN ptf_players_salaries s ON y.PlayerID = s.playerID  
-        WHERE y.PlayerID < ' . $draftStart . ' and y.TeamID <> 0 and s.1990 <> 0 ORDER BY s.1990 DESC');
+        WHERE y.PlayerID < ' . $draftStart . ' and y.TeamID <> 0 and s.' . $year - 1 . ' <> 0 ORDER BY s.' . $year - 1 . ' DESC');
     $players = array();
     while($row = $stmt->fetch_assoc()) {
         array_push($players, $row);
     }
 
-    echo '<h3>1990 Salary Cap - $' . number_format($salaryCap) . '</h3>';
+    echo '<h3>' . $year . ' Salary Cap - $' . number_format($salaryCap) . '</h3>';
     echo '<a href="league-pay-averages.csv">The League Averages report file can be downloaded HERE.</a><br>' ;
     echo '<h2>The Highest Paid Players by Position</h2>';
     $positionAverages = array();
@@ -28,7 +28,7 @@ if (true != true) {
         $posAvg = 0;
         $pos5Avg = 0;
         foreach ($players as $player) {
-            $topSal = max($player['1989'], $player['1990']);
+            $topSal = max($player[$year - 2], $player[$year - 1]);
             if ($player['Position'] == $pos) {
                 echo '<li>' . $player['FirstName'] . ' ' . $player['LastName'] . ' - ' . number_format($topSal);
                 $top5++;

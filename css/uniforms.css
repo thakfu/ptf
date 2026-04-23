@@ -196,31 +196,31 @@
 }
 
 #t-helmet-cin {
-    background-color: white;
+    background-color: black;
 }
 #t-helmetlogo-cin {
-    background-color: var(--CIF);
+    background-color: white;
 }
 #t-facemask-cin {
     background-color: var(--CIF);
 }
 #t-jersey-cin {
-    background-color: white;
+    background-color: red;
 }
 #t-jerseystripe-cin {
-    background-color: var(--CIF);
+    background-color: black;
 }
 #t-pants-cin {
-    background-color: white;
+    background-color: red;
 }
 #t-pantsstripe-cin {
-    background-color: var(--CIF);
+    background-color: white;
 }
 #t-sockhigh-cin {
-    background-color: white;
+    background-color: black;
 }
 #t-socklow-cin {
-    background-color: white;
+    background-color: red;
 }
 
 
@@ -1338,16 +1338,16 @@
     background-color: var(--ATFr);
 }
 #t-facemask-atl {
-    background-color: black;
+    background-color: yellow;
 }
 #t-jersey-atl {
-    background-color: white
+    background-color: c1d32f;
 }
 #t-jerseystripe-atl {
     background-color: black;
 }
 #t-pants-atl {
-    background-color: white;
+    background-color: c1d32f;
 }
 #t-pantsstripe-atl {
     background-color: var(--ATFr);
@@ -1959,7 +1959,7 @@
     background-color: black;
 }
 #t-jersey-nyg {
-    background-color: white;
+    background-color: c3d6fc;
 }
 #t-jerseystripe-nyg {
     background-color: var(--NYF);

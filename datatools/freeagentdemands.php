@@ -11,7 +11,7 @@ require('../../ptf-services/player-service.php');
 
 // VARIABLES //
 $draftStart = 10261; // IMPORTANT!!!!   The Players file includes incoming draft class.  This is the PLAYERID number where draft picks BEGIN! //
-$salaryCap = 140000000;
+$salaryCap = 150000000;
 
 //$var = 'ext';
 $var = 'fa';

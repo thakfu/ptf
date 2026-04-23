@@ -305,7 +305,7 @@ if ($_SESSION['admin'] !== '2') {
                     $color = 'style="background-color:#B0ECA0"';
                 }
 
-                if ($day == 7) {
+                if ($day == 5) {
                     if ($demand == 250000) {
                         $deny = 'Accept!';
                         $color = 'style="background-color:#B0ECA0"';
@@ -653,19 +653,19 @@ echo 'end';
 
 if ($_GET['final'] == 'true')
 {
-    foreach ($finaloffers as $fo) {https://www.espn.com/mlb/game/_/gameId/401809274
+    foreach ($finaloffers as $fo) {
         if($fo[14] == 'Deny!') {
             $offerresult = 0;
         } else {
             $offerresult = 1;
         }
         //echo 'INSERT INTO ptf_fa_offers_accepted(OfferID, PlayerID, TeamID, year, amount1, amount2, amount3, amount4, amount5, amount6, total, demand, result, randomizer, valuation, day, final) VALUES (' . $fo[0] . ',' . $fo[2] . ',' . $fo[3] . ',1987,' . $fo[5] . ',' . $fo[6] . ',' . $fo[7] . ',' . $fo[8] . ',' . $fo[9] . ',' . $fo[10] . ',' . $fo[11] . ',' . $fo[4] . ',' . $offerresult . ',' . $fo[12] . ',' . $fo[13] . ',' . $fo[1] . ',' . $fo[15] . ')';
-        $offer = $connection->query("INSERT INTO ptf_fa_offers_accepted(OfferID, PlayerID, TeamID, year, amount1, amount2, amount3, amount4, amount5, amount6, total, demand, result, randomizer, valuation, day, final) VALUES ({$fo[0]},{$fo[2]},{$fo[3]},1990,{$fo[5]},{$fo[6]},{$fo[7]},{$fo[8]},{$fo[9]},{$fo[10]},{$fo[11]},{$fo[4]},{$offerresult},{$fo[12]},{$fo[13]},{$fo[1]},{$fo[15]})");
+        $offer = $connection->query("INSERT INTO ptf_fa_offers_accepted(OfferID, PlayerID, TeamID, year, amount1, amount2, amount3, amount4, amount5, amount6, total, demand, result, randomizer, valuation, day, final) VALUES ({$fo[0]},{$fo[2]},{$fo[3]},1991,{$fo[5]},{$fo[6]},{$fo[7]},{$fo[8]},{$fo[9]},{$fo[10]},{$fo[11]},{$fo[4]},{$offerresult},{$fo[12]},{$fo[13]},{$fo[1]},{$fo[15]})");
     }
 
     foreach ($finalofferu as $fo) {
         //echo 'INSERT INTO ptf_fa_offers_accepted(OfferID, PlayerID, TeamID, year, amount1, amount2, amount3, amount4, amount5, amount6, total, demand, result, randomizer, valuation, day, final) VALUES (' . $fo[0] . ',' . $fo[1] . ',' . $fo[2] . ',1988,250000,250000,0,0,0,0,500000,500000,1,0,500000,' . $day . ',500000)';
-        $offer = $connection->query("INSERT INTO ptf_fa_offers_accepted(OfferID, PlayerID, TeamID, year, amount1, amount2, amount3, amount4, amount5, amount6, total, demand, result, randomizer, valuation, day, final) VALUES ({$fo[0]},{$fo[1]},{$fo[2]},1990,250000,250000,0,0,0,0,500000,500000,1,0,500000,{$day},500000)");
+        $offer = $connection->query("INSERT INTO ptf_fa_offers_accepted(OfferID, PlayerID, TeamID, year, amount1, amount2, amount3, amount4, amount5, amount6, total, demand, result, randomizer, valuation, day, final) VALUES ({$fo[0]},{$fo[1]},{$fo[2]},1991,250000,250000,0,0,0,0,500000,500000,1,0,500000,{$day},500000)");
     }
 }
 

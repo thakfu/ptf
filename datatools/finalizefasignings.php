@@ -144,15 +144,15 @@ foreach($finalAccepted as $facc) {
     $update = $connection->query("UPDATE ptf_players SET TeamID = '" . $facc[0]['TeamID'] . "', Team = '" . $abbrev . "' WHERE PlayerID = " . $facc[0]['PlayerID']);
 
     $update2 = $connection->query("UPDATE ptf_players_salaries SET 
-    `1990` = '" . $a1 . "', 
-    `1991` = '" . $a2 . "', 
-    `1992` = '" . $a3 . "', 
-    `1993` = '" . $a4 . "', 
-    `1994` = '" . $a5 . "', 
-    `1995` = '" . $a6 . "'
+    `1991` = '" . $a1 . "', 
+    `1992` = '" . $a2 . "', 
+    `1993` = '" . $a3 . "', 
+    `1994` = '" . $a4 . "', 
+    `1995` = '" . $a5 . "', 
+    `1996` = '" . $a6 . "'
      WHERE playerID = " . $pid); 
 
-     $translog = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$facc[0]['PlayerID']},0,{$facc[0]['TeamID']}, 'fasign', NOW(),'1990 Free Agency')");
+     $translog = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$facc[0]['PlayerID']},0,{$facc[0]['TeamID']}, 'fasign', NOW(),'1991 Free Agency')");
     
     }
 

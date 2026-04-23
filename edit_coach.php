@@ -390,7 +390,7 @@ echo '<select name="ocfocus" id="ocfocus">';
 $playerService = playerService($_SESSION['TeamID'],0,2);
 echo '<option value="NotSet"' . ($coach['ocfocus'] == "NotSet" ? "Selected" : " ") . ' >Not Set</option>';
 foreach ($playerService as $player) {
-    if (in_array($player['Position'], array('QB','HB','FB','WR','TE','C','G','T'))) {
+    if (in_array($player['Position'], array('QB','RB','HB','FB','WR','TE','C','G','T'))) {
         echo '<option value="' . $player['FullName'] . '"' . ($coach['ocfocus'] == $player['FullName']  ? "Selected" : " ") . ' >' . $player['FullName'] . '</option>';
     }
 }

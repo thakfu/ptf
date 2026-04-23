@@ -73,7 +73,7 @@ echo '<tr>
     <td '; if($_GET['trade'] == 13) { echo 'style="background-color:red"'; } else { echo 'style="background-color:white"';}
     echo '><a href="trades.php?trade=13"><img src="/ptf/images/MIN_115.png"></a></td>
     <td '; if($_GET['trade'] == 20) { echo 'style="background-color:red"'; } else { echo 'style="background-color:white"';}
-    echo '><a href="trades.php?trade=20"><img src="/ptf/images/SD_115.png"></a></td>
+    echo '><a href="trades.php?trade=20"><img src="/ptf/images/LOU_115.png"></a></td>
     <td '; if($_GET['trade'] == 4) { echo 'style="background-color:red"'; } else { echo 'style="background-color:white"';}
     echo '><a href="trades.php?trade=4"><img src="/ptf/images/OAK_115.png"></a></td>
     <td '; if($_GET['trade'] == 8) { echo 'style="background-color:red"'; } else { echo 'style="background-color:white"';}

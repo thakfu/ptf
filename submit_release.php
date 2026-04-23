@@ -1,6 +1,7 @@
 <?php
 
 include 'header.php';
+include('../sql/webhooks.php');
 
 $time = "'1991 Week " . $curWeek . "'";
 
@@ -19,7 +20,7 @@ if (isset($_POST['demote'])) {
             echo '<br><br><b>IMPORTANT: This player can be signed by other teams!</b>';
         }
     }
-    //transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['Pos'], 'demote');
+    //transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['Pos'], 'demote', $transact);
 } elseif (isset($_POST['promote'])) {
     $promoteCheck1 = $connection->query("SELECT count(squadTeam) as 'check' FROM `ptf_players_squad` where squadTeam = {$_POST['TeamID']}");
     $check1 = $promoteCheck1->fetch_assoc();
@@ -33,7 +34,7 @@ if (isset($_POST['demote'])) {
     echo $_POST['Player'] . ' has been promoted from your Practice Squad.  Let\'s go!';
     $squad = $connection->query("UPDATE ptf_players_squad SET PlayerID = 0 WHERE PlayerID = " . $_POST['PlayerID']);
     //$log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$_POST['PlayerID']},{$_POST['TeamID']},{$_POST['TeamID']}, 'promote', NOW(), $time)");
-    //transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['Pos'], 'promote');
+    //transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['Pos'], 'promote', $transact);
 } elseif (isset($_POST['IR'])) {
     $irCheck = $connection->query("SELECT InjuryLength as 'check' FROM `ptf_players` where PlayerID = {$_POST['PlayerID']}");
     $check = $irCheck->fetch_assoc();
@@ -45,7 +46,7 @@ if (isset($_POST['demote'])) {
         $roster = $connection->query("INSERT INTO ptf_players_ir (PlayerID, squadTeam, start) VALUES ({$_POST['PlayerID']},{$_POST['TeamID']},{$curWeek})");
         $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$_POST['PlayerID']},{$_POST['TeamID']},{$_POST['TeamID']}, 'ir', NOW(), $time)");
     } 
-    transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['Pos'], 'IR');
+    transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['Pos'], 'IR', $transact);
 } elseif (isset($_POST['activate'])) {
     $irCheck = $connection->query("SELECT start as 'check' FROM `ptf_players_ir` where PlayerID = {$_POST['PlayerID']}");
     $check = $irCheck->fetch_assoc();
@@ -57,7 +58,7 @@ if (isset($_POST['demote'])) {
         $squad = $connection->query("DELETE FROM ptf_players_ir WHERE PlayerID = " . $_POST['PlayerID']);
         $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$_POST['PlayerID']},{$_POST['TeamID']},{$_POST['TeamID']}, 'activate', NOW(), $time)");
     }
-    transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['Pos'], 'activate');
+    transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['Pos'], 'activate', $transact);
 }elseif (isset($_POST['release'])) {
     echo $_POST['Player'] . ' has been released and should now appear in the free agency pool.  I hope your happy.';
 
@@ -82,14 +83,14 @@ if (isset($_POST['demote'])) {
 
     $squad = $connection->query("DELETE FROM ptf_players_squad WHERE PlayerID = " . $_POST['PlayerID']);
 
-    transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['Pos'], 'release');
+    transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['Pos'], 'release', $transact);
 } elseif (isset($_POST['change'])) {
     echo $_POST['Player'] . ' has changed his position to ' . $_POST['pos'] . '.  Get that man a new playbook!';
 
     $roster = $connection->query("UPDATE ptf_players SET Position = '{$_POST['pos']}' WHERE PlayerID = " . $_POST['PlayerID']);
 
     $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$_POST['PlayerID']},{$_POST['TeamID']},{$_POST['TeamID']}, 'change', NOW(), {$time})");
-    transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['pos'], 'change');
+    transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['pos'], 'change', $transact);
 } elseif (isset($_POST['sign'])) {
     echo $_POST['Player'] . ' has been signed and should now appear on your roster.  Go on, give him a hug!';
 
@@ -97,7 +98,7 @@ if (isset($_POST['demote'])) {
     $roster = $connection->query("UPDATE ptf_players_salaries SET `" . $year . "` = '250000' WHERE PlayerID = " . $_POST['PlayerID']);
 
     $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$_POST['PlayerID']},0, {$_POST['TeamID']}, 'sign', NOW(), {$time})");
-    transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['Pos'], 'sign');
+    transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['Pos'], 'sign', $transact);
 } elseif (isset($_POST['revoke'])) {
     echo $_POST['Player'] . '\'s offer has been revoked.  Try again... or don\'t.  I don\'t care.';
 
@@ -117,7 +118,7 @@ if (isset($_POST['demote'])) {
         echo $player['FullName'] . ' considers your offer an insult!  There will be no further extension negotiations and he will go to free agency in the offseason!  He will also be angry should you try to franchise tag him!';
         $strikes = $connection->query("UPDATE ptf_extend_demands SET strikes = 5 WHERE PlayerID = " . $_POST['PlayerID']);
         $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$_POST['PlayerID']},0, {$_SESSION['TeamID']}, 'extbreak', NOW(), $time)");
-        transactionHook($player['FullName'], $_SESSION['TeamID'], '', 'extbreak');
+        transactionHook($player['FullName'], $_SESSION['TeamID'], '', 'extbreak', $transact);
         exit;
     }
     
@@ -256,7 +257,7 @@ if (isset($_POST['demote'])) {
             echo '<br><br><a href="transactions.php">Go Back to Transactions</a>'; 
             $strikes = $connection->query("UPDATE ptf_extend_demands SET strikes = 3 WHERE PlayerID = " . $_POST['PlayerID']);
             $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$_POST['PlayerID']},0, {$_SESSION['TeamID']}, 'extbreak', NOW(), $time)");
-            transactionHook($player['FullName'], $_SESSION['TeamID'], '', 'extbreak');
+            transactionHook($player['FullName'], $_SESSION['TeamID'], '', 'extbreak', $transact);
             exit;
         } elseif ($checksum < $finalTarget) {
             $tries = $_POST['try'] . ' = ';
@@ -267,14 +268,14 @@ if (isset($_POST['demote'])) {
                 echo '<br><br><a href="transactions.php">Go Back to Transactions</a>'; 
                 $strikes = $connection->query("UPDATE ptf_extend_demands SET strikes = 3 WHERE PlayerID = " . $_POST['PlayerID']);
                 $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$_POST['PlayerID']},0, {$_SESSION['TeamID']}, 'extbreak', NOW(), $time)");
-                transactionHook($player['FullName'], $_SESSION['TeamID'], '', 'extbreak');
+                transactionHook($player['FullName'], $_SESSION['TeamID'], '', 'extbreak', $transact);
                 exit;
             } else {
                 echo $player['FullName'] . ' does not accept your offer.  You can try again ' . $try . ' more times!';
                 echo '<br><br><a href="transactions.php">Go Back to Transactions</a>'; 
                 $strikes = $connection->query("UPDATE ptf_extend_demands SET strikes = " . $strikes . " WHERE PlayerID = " . $_POST['PlayerID']);
                 $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$_POST['PlayerID']},0, {$_SESSION['TeamID']}, 'extdecline', NOW(), $time)");
-                transactionHook($player['FullName'], $_SESSION['TeamID'], '', 'extdecline');
+                transactionHook($player['FullName'], $_SESSION['TeamID'], '', 'extdecline', $transact);
                 exit;
             }
 
@@ -320,7 +321,7 @@ if (isset($_POST['demote'])) {
     $extension = $connection->query("UPDATE ptf_teams_data SET Extensions = Extensions - 1 WHERE TeamID = " . $_SESSION['TeamID']);
     $roster = $connection->query("UPDATE ptf_players_salaries SET " . $string . " WHERE PlayerID = " . $_POST['PlayerID']);
     $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$_POST['PlayerID']},0, {$_SESSION['TeamID']}, 'extend', NOW(), $time)");
-    transactionHook($player['FullName'], $_SESSION['TeamID'], '', 'extend');
+    transactionHook($player['FullName'], $_SESSION['TeamID'], '', 'extend', $transact);
     echo $player['FullName'] . ' has accepted your offer of ' . $_POST['extat'] . ' years at a total of ' . number_format($sum) . '.';
 
 
@@ -348,7 +349,7 @@ if (isset($_POST['demote'])) {
     if ($_POST['year6'] > 0) $years++;
     if ($_POST['year7'] > 0) $years++;
 
-    if ($_POST['PlayerID'] >= 8358) {
+    if ($_POST['PlayerID'] >= 12391) {
         $result = 2;
     } elseif ($sum / $years >= $demand) {
         $result = 1;
@@ -366,7 +367,7 @@ if (isset($_POST['demote'])) {
 
     echo ' ' . $years . ' years at a total of ' . number_format($sum) . '.';
 
-    $offer = $connection->query("INSERT INTO ptf_fa_offers (playerID, teamID, year, amount1, amount2, amount3, amount4, amount5, amount6, total, demand, result) VALUES ({$_POST['PlayerID']},{$_POST['TeamID']},1989,{$year1},{$year2},{$year3},{$year4},{$year5},{$year6},{$sum},{$demand},{$result})");
+    $offer = $connection->query("INSERT INTO ptf_fa_offers (playerID, teamID, year, amount1, amount2, amount3, amount4, amount5, amount6, total, demand, result) VALUES ({$_POST['PlayerID']},{$_POST['TeamID']},1991,{$year1},{$year2},{$year3},{$year4},{$year5},{$year6},{$sum},{$demand},{$result})");
     offerHook($_POST['Player'], $_SESSION['TeamID'], $years, number_format($sum));
 
 } elseif (isset($_POST['tag'])) {
@@ -382,7 +383,7 @@ if (isset($_POST['demote'])) {
     
     $playerService = playerService(0,$_POST['PlayerID'],0);
     $player = $playerService[0];
-    transactionHook($player['FullName'], $_SESSION['TeamID'], '', 'tag');
+    transactionHook($player['FullName'], $_SESSION['TeamID'], '', 'tag', $transact);
 
 } elseif (isset($_POST['draft'])) {
     $nextpick = $_POST['pick'] + 1;
@@ -421,7 +422,7 @@ if (isset($_POST['offer']) || isset($_POST['revoke'])) {
     echo '<br><br><a href="transactions.php">Go Back to Transactions</a>'; 
 }
 
-function transactionHook($player, $team, $pos, $type) {
+function transactionHook($player, $team, $pos, $type, $transact) {
     //global $connection;
     $teamService = teamService($team);
     $teamname = $teamService[0];
@@ -450,7 +451,7 @@ function transactionHook($player, $team, $pos, $type) {
         $message = 'The ' . $teamname['FullName'] . ' have activated ' . $player . ' from Injured Reserve!';
     }
 
-    $url = 'https://discord.com/api/webhooks/1331306239623434312/e4KJkCcCF_MadaS_AWyhvGMbPlhCs-f5dLlDxKXvWwU1BqG2pWngZKpqfMNCY3I9n3Rl';
+    $url = $transact;
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'League Offices', 'content' => $message ];
 
@@ -473,7 +474,7 @@ function offerHook($player, $team, $years, $sum) {
     $message = 'The ' . $teamname['FullName'] . ' have made a free agency offer!';
     $privatemessage = 'The ' . $teamname['FullName'] . ' have offered ' . $player . ' : ' . $years . ' years, $' . $sum . '.';
 
-    $url = 'https://discordapp.com/api/webhooks/1317257489871278091/4tG3jEXwyyxlGStrd6lhQCGFF0i37jyszErRWCHkd5UW5zd2vw8LlYaooqc-PHDTwCd3';
+    $url = $faoffer;
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'Free Agent Rumors', 'content' => $message ];
 
@@ -487,7 +488,7 @@ function offerHook($player, $team, $years, $sum) {
     $response   = curl_exec($ch);
 
 
-    $url = 'https://discordapp.com/api/webhooks/1317258182971756614/5m9SbqGASgpbpSlWaYQIOpU9sCbw571OFZd3mRTgn16_H6L0vYdRjiAwZEhprnKYSxxs';
+    $url = $farumor;
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'Free Agent Rumors', 'content' => $privatemessage ];
 
@@ -528,10 +529,7 @@ function draftHook($player, $team, $pick, $round, $pos) {
 
     $message = 'With the number ' . $pick . ' pick of round ' . $roundtag . ', the ' . $teamname['FullName'] . ' select ' . $pos . ' - ' . $player . '.  ' . $discordtag . ' - ' . $discordUser . ' is on the clock!';
 
-    //$url = 'https://discord.com/api/webhooks/1208652742453624872/N9WcLuNn98u-hDWya1l8tuQRcZTBs7hluZzAG6YEzRQ4iQdwdFUOGwIND5hyomrFWplK';   - 1986
-    //$url = 'https://discord.com/api/webhooks/1248126643432853505/8Qgtz_9lrOlZVTIq_7EDvRNIS7dg6ipVdSntay5FT-BMuGG1TtBwDRvVN6MXEQ2tnFeW';   - 1987
-    //$url = 'https://discord.com/api/webhooks/1305272197438378046/V8GTP3eWZh49F0kB6Iixq9qx1IH7S-ug2Zio227jAUMD7pPSRwQSs3ldjurTbG0P3aah';   - 1988
-    $url = 'https://discord.com/api/webhooks/1380025021098889336/AaLw55CHmi8LkH6mRCRk_3TZZLZS4MKvbDUzNzv7j9tyu--cC0VdZCAWD8FqVT4c7ovX';
+    $url = $draft;
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'League Offices', 'content' => $message ];
 

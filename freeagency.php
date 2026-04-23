@@ -230,7 +230,7 @@ foreach ($positions as $position) {
                 <td style="background-color:#CFCECE">' . $calc['mar']. '</td>
                 <td style="background-color:#CFCECE">' . $calc['market']. '</td>';
                 
-                if ($player['Experience'] == 0) {
+                if ($player['PlayerID'] >= 12391) {
                     echo '<td>UNDRAFTED FREE AGENT!</td>';
                  } else {
                     echo '<td>' . $calc['string'] . '</td>';

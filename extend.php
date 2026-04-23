@@ -18,7 +18,6 @@ if ($player[$year + 1] != 0) {
     $faService = faPlayerService('extend', $_GET['player']);  
 
     $day = 1;
-    $year = 1990;
     srand($_GET['player']);
     $rand = rand(-5,15);
 

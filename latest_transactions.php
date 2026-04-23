@@ -1,7 +1,7 @@
 <?php
 
 $transInfo = transService('old','','');
-$curyear = 1990;
+$curyear = $year;
 $pastyears = array(1990,1989,1988,1987,1986,1985);
 $masterarray = array();
 foreach ($pastyears as $y) {

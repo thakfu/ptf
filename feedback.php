@@ -290,9 +290,11 @@ if ($_POST['tag'] == 'tag') {
         } elseif ($type == 'tag') {
             $message = 'The ' . $teamname['FullName'] . ' have franchise tagged ' . $player . '!';
         }
+
+        require('../sql/webhooks.php');
     
     
-        $url = 'https://discord.com/api/webhooks/1331306239623434312/e4KJkCcCF_MadaS_AWyhvGMbPlhCs-f5dLlDxKXvWwU1BqG2pWngZKpqfMNCY3I9n3Rl';
+        $url = $feedback;
         $headers = [ 'Content-Type: application/json; charset=utf-8' ];
         $POST = [ 'username' => 'League Offices', 'content' => $message ];
     
