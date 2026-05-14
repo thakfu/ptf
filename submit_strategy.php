@@ -10,6 +10,7 @@ foreach($_POST as $header => $row) {
 
 $date = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $_POST['Time'])));
 
+
 if($_POST['Type'] == 'playcalling') {
     $update1 = $connection->query('UPDATE ptf_playcalling SET last_pc = "'.$date.'", offUseCoach = "'.$_POST["offUseCoach"].'", defUseCoach = "'.$_POST["defUseCoach"].'", o1st10 = '.$_POST["o1st10"].', o1stSh = '.$_POST["o1stSh"].', o1stMd = '.$_POST["o1stMd"].', 
     o1stLg = '.$_POST["o1stLg"].', o2ndSh = '.$_POST["o2ndSh"].', o2ndMd = '.$_POST["o2ndMd"].',
@@ -117,7 +118,7 @@ echo 'Depth Chart submitted successfully!';
         $message .= $cha . "\n";
     }
     require('../sql/webhooks.php');
-    $url = $depthcha
+    $url = $depthcha;
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'League Offices', 'content' => $message ];
 

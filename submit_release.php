@@ -5,14 +5,41 @@ include('../sql/webhooks.php');
 
 $time = "'1991 Week " . $curWeek . "'";
 
+$slots = array();
 if (isset($_POST['demote'])) {
-    $demoteCheck = $connection->query("SELECT count(squadTeam) as 'check' FROM `ptf_players_squad` where PlayerID != 0 and squadTeam = {$_POST['TeamID']}");
-    $check = $demoteCheck->fetch_assoc();
+    $stmt = $connection->query("SELECT TeamSlot FROM `ptf_players_squad` where PlayerID = 0 and squadTeam = {$_POST['TeamID']}");
 
-    if ($check['check'] >= 8) {
+    while($row = $stmt->fetch_assoc()) {
+        array_push($slots, $row);
+    }
+
+    $intSlots = array_map('intval', $slots);
+    sort($intSlots);
+
+    $slot = 0;
+
+    foreach ($slots as $s) {
+        if ($s['TeamSlot']  == 1) {
+            $slot = 1;
+        }
+        if ($s['TeamSlot']  == 2) {
+            $slot = 2;
+        }
+        if ($s['TeamSlot']  == 3) {
+            $slot = 3;
+        }
+        if ($s['TeamSlot']  == 4) {
+            $slot = 4;
+        }
+        if ($s['TeamSlot']  == 5) {
+            $slot = 5;
+        }
+
+    }
+
+    if ($slot == 0) {
         echo 'Your Practice Squad is already full!';
     } else {
-        $slot = $check['check'] + 1;
         echo $_POST['Player'] . ' has been demoted to your Practice Squad.  He\'s gonna prove you wrong!';
         $roster = $connection->query("UPDATE ptf_players_squad SET PlayerID = {$_POST['PlayerID']} WHERE squadTeam = {$_POST['TeamID']} and TeamSlot = {$slot}");
         //$log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$_POST['PlayerID']},{$_POST['TeamID']},{$_POST['TeamID']}, 'squad', NOW(), $time)");

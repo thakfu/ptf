@@ -20,6 +20,7 @@ require('../ptf-services/stats-service.php');
 require('../ptf-services/voting-service.php');
 require('../ptf-services/fa-service.php');
 require('../ptf-services/transaction-service.php');
+
 date_default_timezone_set('America/Chicago');
 
 $username = $_SESSION['user_id'];
