@@ -5,6 +5,14 @@
 
 ---
 
+# PTF 2.0
+
+Mission:
+
+Create the best football league management platform we can, while making the league easier to run, easier to maintain, and more enjoyable for everyone involved.
+
+Every improvement should reduce manual work, increase reliability, or improve the league experience.
+
 # Phase 1 - Foundation (Current)
 
 ## Infrastructure
