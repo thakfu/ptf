@@ -1,6 +1,17 @@
  PTF Development Log
 
 ---
+# Phase 0 - Preserve the League
+
+Goal:
+Keep PTF enjoyable to run.
+
+Success means:
+
+- Mike doesn't dread sim nights.
+- Missing a weekend doesn't create a crisis.
+- Trusted helpers can safely assist.
+- The league survives even when life gets busy.
 
 # SESSION 001 - 2026-07-03 - Project Kickoff / Infrastructure Cleanup
 
