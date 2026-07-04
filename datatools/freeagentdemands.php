@@ -10,11 +10,11 @@ require('../../ptf-services/player-service.php');
 //REMOVE BEFORE RUNNING!!!!!
 
 // VARIABLES //
-$draftStart = 10261; // IMPORTANT!!!!   The Players file includes incoming draft class.  This is the PLAYERID number where draft picks BEGIN! //
+$draftStart = 12694; // IMPORTANT!!!!   The Players file includes incoming draft class.  This is the PLAYERID number where draft picks BEGIN! //
 $salaryCap = 150000000;
 
-//$var = 'ext';
-$var = 'fa';
+$var = 'ext';
+//$var = 'fa';
 
 if($var == 'ext') {
     $playerService = playerService(0,0,0);
@@ -43,7 +43,7 @@ if(isset($_POST['finalize'])){
 
     $passed_array = unserialize($_POST['datatable']);
     foreach ($passed_array as $row) {
-        $values .=  '(' . $row[0] . ',"' . $row[1] . '",' . $row[2] . ',' . $row[3] . ',' . $row[4] . ',' . $row[5] . ',"' . $row[6] . '"),';
+        $values .=  '(' . $row[0] . ',"' . $row[1] . '",' . $row[2] . ',' . $row[3] . ',' . $row[4] . ',' . $row[5] . ',"' . $row[6] . '", 0),';
     }
     $values = substr($values, 0, -1);
 
@@ -54,10 +54,10 @@ if(isset($_POST['finalize'])){
     }
     $upsert2 = substr($update2, 0, -1);
 
-    //echo 'INSERT INTO `ptf_fa_demands` (PlayerID, Position, year, amount, tier, previous, string) VALUES ' . $values;
+    //echo 'INSERT INTO `ptf_extend_demands` (PlayerID, Position, year, amount, tier, previous, string, strikes) VALUES ' . $values . ' ON DUPLICATE KEY UPDATE ' . $upsert2; exit;
 
     if($var == 'ext') {
-        $write = $connection->query('INSERT INTO `ptf_extend_demands` (PlayerID, Position, year, amount, tier, previous, string) VALUES ' . $values . ' ON DUPLICATE KEY UPDATE ' . $upsert2 . ';');
+        $write = $connection->query('INSERT INTO `ptf_extend_demands` (PlayerID, Position, year, amount, tier, previous, string, strikes) VALUES ' . $values . ' ON DUPLICATE KEY UPDATE ' . $upsert2 . ';');
     } else {
         $write = $connection->query('INSERT INTO `ptf_fa_demands` (PlayerID, Position, year, amount, tier, previous, string) VALUES ' . $values . ';');
     }
