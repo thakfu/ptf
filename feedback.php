@@ -294,7 +294,15 @@ if ($_POST['tag'] == 'tag') {
         require('../sql/webhooks.php');
     
     
-        $url = $feedback;
+        require_once '../includes/secrets.php';
+
+        $url = getSecret($pdo, 'discord_transactions_webhook');
+
+        if (!$url) {
+            throw new RuntimeException('Missing Discord webhook: discord_transactions_webhook');
+        }
+
+
         $headers = [ 'Content-Type: application/json; charset=utf-8' ];
         $POST = [ 'username' => 'League Offices', 'content' => $message ];
     

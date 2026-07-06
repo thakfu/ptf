@@ -254,10 +254,15 @@ if ($_GET['cancel'] == 'true') {
 }
 
 function tradeHook($message) {
-    //global $connection;
 
-    require('../sql/webhooks.php');
-    $url = $tradeapp;
+    require_once 'includes/secrets.php';
+
+    $url = getSecret('discord_transactions_webhook');
+
+    if (!$url) {
+            throw new RuntimeException('Missing Discord webhook: discord_transactions_webhook');
+    }
+
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'League Offices', 'content' => $message ];
 

@@ -93,8 +93,13 @@ function draftHook($player, $team, $pick, $round, $pos) {
 
     $message = 'With the number ' . $pick . ' pick of round ' . $roundtag . ', the ' . $teamname['FullName'] . ' select ' . $pos . ' - ' . $player . '.  ' . $discordtag . ' - ' . $discordUser . ' is on the clock!  (Pick made by admin via list)';
 
-    //$url = 'https://discord.com/api/webhooks/1208652742453624872/N9WcLuNn98u-hDWya1l8tuQRcZTBs7hluZzAG6YEzRQ4iQdwdFUOGwIND5hyomrFWplK';   - 1986
-    $url = 'https://discord.com/api/webhooks/1380025021098889336/AaLw55CHmi8LkH6mRCRk_3TZZLZS4MKvbDUzNzv7j9tyu--cC0VdZCAWD8FqVT4c7ovX';
+    require_once 'includes/secrets.php';
+
+    $url = getSecret('discord_draft_webhook');
+
+    if (!$url) {
+            throw new RuntimeException('Missing Discord webhook: discord_draft_webhook');
+    }
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'League Offices', 'content' => $message ];
 

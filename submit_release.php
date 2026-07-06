@@ -477,8 +477,14 @@ function transactionHook($player, $team, $pos, $type, $transact) {
     } elseif ($type == 'activate') {
         $message = 'The ' . $teamname['FullName'] . ' have activated ' . $player . ' from Injured Reserve!';
     }
+    require_once 'includes/secrets.php';
 
-    $url = $transact;
+    $url = getSecret('discord_transactions_webhook');
+
+    if (!$url) {
+            throw new RuntimeException('Missing Discord webhook: discord_transactions_webhook');
+    }
+
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'League Offices', 'content' => $message ];
 
@@ -493,6 +499,7 @@ function transactionHook($player, $team, $pos, $type, $transact) {
 }
 
 function offerHook($player, $team, $years, $sum) {
+    echo 'in';
 
     //global $connection;
     $teamService = teamService($team);
@@ -501,7 +508,14 @@ function offerHook($player, $team, $years, $sum) {
     $message = 'The ' . $teamname['FullName'] . ' have made a free agency offer!';
     $privatemessage = 'The ' . $teamname['FullName'] . ' have offered ' . $player . ' : ' . $years . ' years, $' . $sum . '.';
 
-    $url = $faoffer;
+    require_once 'includes/secrets.php';
+
+    $url = getSecret('discord_transactions_webhook');
+
+    if (!$url) {
+            throw new RuntimeException('Missing Discord webhook: discord_transactions_webhook');
+    }
+
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'Free Agent Rumors', 'content' => $message ];
 
@@ -514,13 +528,17 @@ function offerHook($player, $team, $years, $sum) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($POST));
     $response   = curl_exec($ch);
 
+    $url2 = getSecret('discord_rumor_webhook');
 
-    $url = $farumor;
+    if (!$url2) {
+            throw new RuntimeException('Missing Discord webhook: discord_rumor_webhook');
+    }
+
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'Free Agent Rumors', 'content' => $privatemessage ];
 
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_URL, $url2);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -556,7 +574,14 @@ function draftHook($player, $team, $pick, $round, $pos) {
 
     $message = 'With the number ' . $pick . ' pick of round ' . $roundtag . ', the ' . $teamname['FullName'] . ' select ' . $pos . ' - ' . $player . '.  ' . $discordtag . ' - ' . $discordUser . ' is on the clock!';
 
-    $url = $draft;
+    require_once 'includes/secrets.php';
+
+    $url = getSecret('discord_draft_webhook');
+
+    if (!$url) {
+            throw new RuntimeException('Missing Discord webhook: discord_draft_webhook');
+    }
+
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'League Offices', 'content' => $message ];
 

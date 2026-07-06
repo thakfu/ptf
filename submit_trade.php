@@ -110,8 +110,14 @@ function offerHook($team) {
 
     $message = 'The ' . $team . ' have sent you a trade offer!';
 
-    require('../sql/webhooks.php');
-    $url = $subtrade;
+    require_once 'includes/secrets.php';
+
+    $url = getSecret('discord_trade_webhook');
+
+    if (!$url) {
+            throw new RuntimeException('Missing Discord webhook: discord_trade_webhook');
+    }
+
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'League Offices', 'content' => $message ];
 
