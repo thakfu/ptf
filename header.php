@@ -12,7 +12,7 @@
 
 session_start();
 
-require('../sql/phpmysqlconnect.php');
+require('../sql-stage/phpmysqlconnect.php');
 require('../ptf-services/sq-service.php');
 require('../ptf-services/player-service.php');
 require('../ptf-services/team-service.php');
