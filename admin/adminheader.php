@@ -3,10 +3,10 @@
 
 session_start();
 require('../../sql/phpmysqlconnect.php');
-require('../../ptf-services/player-service.php');
-require('../../ptf-services/team-service.php');
-require('../../ptf-services/fa-service.php');
-require('../../ptf-services/sq-service.php');
+require('../../ptf-services-stage/player-service.php');
+require('../../ptf-services-stage/team-service.php');
+require('../../ptf-services-stage/fa-service.php');
+require('../../ptf-services-stage/sq-service.php');
 
 
 

@@ -2,7 +2,7 @@
 
 //require('../header.php');
 require('../../sql/phpmysqlconnect.php');
-require('../../ptf-services/player-service.php');
+require('../../ptf-services-stage/player-service.php');
 //require('../../ptf-services/team-service.php');
 
 //REMOVE BEFORE RUNNING!!!!!

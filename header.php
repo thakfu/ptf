@@ -13,13 +13,13 @@
 session_start();
 
 require('../sql-stage/phpmysqlconnect.php');
-require('../ptf-services/sq-service.php');
-require('../ptf-services/player-service.php');
-require('../ptf-services/team-service.php');
-require('../ptf-services/stats-service.php');
-require('../ptf-services/voting-service.php');
-require('../ptf-services/fa-service.php');
-require('../ptf-services/transaction-service.php');
+require('../ptf-services-stage/sq-service.php');
+require('../ptf-services-stage/player-service.php');
+require('../ptf-services-stage/team-service.php');
+require('../ptf-services-stage/stats-service.php');
+require('../ptf-services-stage/voting-service.php');
+require('../ptf-services-stage/fa-service.php');
+require('../ptf-services-stage/transaction-service.php');
 date_default_timezone_set('America/Chicago');
 
 $username = $_SESSION['user_id'];
