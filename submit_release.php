@@ -449,8 +449,14 @@ function transactionHook($player, $team, $pos, $type) {
     } elseif ($type == 'activate') {
         $message = 'The ' . $teamname['FullName'] . ' have activated ' . $player . ' from Injured Reserve!';
     }
+    require_once 'includes/secrets.php';
 
-    $url = 'https://discord.com/api/webhooks/1331306239623434312/e4KJkCcCF_MadaS_AWyhvGMbPlhCs-f5dLlDxKXvWwU1BqG2pWngZKpqfMNCY3I9n3Rl';
+    $url = getSecret('discord_transactions_webhook');
+
+    if (!$url) {
+            throw new RuntimeException('Missing Discord webhook: discord_transactions_webhook');
+    }
+
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'League Offices', 'content' => $message ];
 
@@ -465,6 +471,7 @@ function transactionHook($player, $team, $pos, $type) {
 }
 
 function offerHook($player, $team, $years, $sum) {
+    echo 'in';
 
     //global $connection;
     $teamService = teamService($team);
@@ -473,7 +480,14 @@ function offerHook($player, $team, $years, $sum) {
     $message = 'The ' . $teamname['FullName'] . ' have made a free agency offer!';
     $privatemessage = 'The ' . $teamname['FullName'] . ' have offered ' . $player . ' : ' . $years . ' years, $' . $sum . '.';
 
-    $url = 'https://discordapp.com/api/webhooks/1317257489871278091/4tG3jEXwyyxlGStrd6lhQCGFF0i37jyszErRWCHkd5UW5zd2vw8LlYaooqc-PHDTwCd3';
+    require_once 'includes/secrets.php';
+
+    $url = getSecret('discord_transactions_webhook');
+
+    if (!$url) {
+            throw new RuntimeException('Missing Discord webhook: discord_transactions_webhook');
+    }
+
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'Free Agent Rumors', 'content' => $message ];
 
@@ -486,13 +500,17 @@ function offerHook($player, $team, $years, $sum) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($POST));
     $response   = curl_exec($ch);
 
+    $url2 = getSecret('discord_rumor_webhook');
 
-    $url = 'https://discordapp.com/api/webhooks/1317258182971756614/5m9SbqGASgpbpSlWaYQIOpU9sCbw571OFZd3mRTgn16_H6L0vYdRjiAwZEhprnKYSxxs';
+    if (!$url2) {
+            throw new RuntimeException('Missing Discord webhook: discord_rumor_webhook');
+    }
+
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'Free Agent Rumors', 'content' => $privatemessage ];
 
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_URL, $url2);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -528,10 +546,14 @@ function draftHook($player, $team, $pick, $round, $pos) {
 
     $message = 'With the number ' . $pick . ' pick of round ' . $roundtag . ', the ' . $teamname['FullName'] . ' select ' . $pos . ' - ' . $player . '.  ' . $discordtag . ' - ' . $discordUser . ' is on the clock!';
 
-    //$url = 'https://discord.com/api/webhooks/1208652742453624872/N9WcLuNn98u-hDWya1l8tuQRcZTBs7hluZzAG6YEzRQ4iQdwdFUOGwIND5hyomrFWplK';   - 1986
-    //$url = 'https://discord.com/api/webhooks/1248126643432853505/8Qgtz_9lrOlZVTIq_7EDvRNIS7dg6ipVdSntay5FT-BMuGG1TtBwDRvVN6MXEQ2tnFeW';   - 1987
-    //$url = 'https://discord.com/api/webhooks/1305272197438378046/V8GTP3eWZh49F0kB6Iixq9qx1IH7S-ug2Zio227jAUMD7pPSRwQSs3ldjurTbG0P3aah';   - 1988
-    $url = 'https://discord.com/api/webhooks/1380025021098889336/AaLw55CHmi8LkH6mRCRk_3TZZLZS4MKvbDUzNzv7j9tyu--cC0VdZCAWD8FqVT4c7ovX';
+    require_once 'includes/secrets.php';
+
+    $url = getSecret('discord_draft_webhook');
+
+    if (!$url) {
+            throw new RuntimeException('Missing Discord webhook: discord_draft_webhook');
+    }
+
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'League Offices', 'content' => $message ];
 

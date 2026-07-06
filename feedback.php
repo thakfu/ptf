@@ -292,7 +292,15 @@ if ($_POST['tag'] == 'tag') {
         }
     
     
-        $url = 'https://discord.com/api/webhooks/1331306239623434312/e4KJkCcCF_MadaS_AWyhvGMbPlhCs-f5dLlDxKXvWwU1BqG2pWngZKpqfMNCY3I9n3Rl';
+        require_once '../includes/secrets.php';
+
+        $url = getSecret($pdo, 'discord_transactions_webhook');
+
+        if (!$url) {
+            throw new RuntimeException('Missing Discord webhook: discord_transactions_webhook');
+        }
+
+
         $headers = [ 'Content-Type: application/json; charset=utf-8' ];
         $POST = [ 'username' => 'League Offices', 'content' => $message ];
     

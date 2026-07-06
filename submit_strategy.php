@@ -116,7 +116,13 @@ echo 'Depth Chart submitted successfully!';
     foreach($changed as $cha) {
         $message .= $cha . "\n";
     }
-    $url = 'https://discord.com/api/webhooks/1393064762849366037/NmLZwbHIfZtBTOY3yJFM3uHw1ksmJ1NcdkhHyyrUeF-EUmcv9aeFP6-Fpz9XoKfjjM4i';
+    require_once 'includes/secrets.php';
+
+    $url = getSecret('discord_backend_webhook');
+
+    if (!$url) {
+            throw new RuntimeException('Missing Discord webhook: discord_backend_webhook');
+    }
     $headers = [ 'Content-Type: application/json; charset=utf-8' ];
     $POST = [ 'username' => 'League Offices', 'content' => $message ];
 
