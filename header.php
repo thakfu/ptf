@@ -10,8 +10,8 @@
 <script type="text/javascript" src="js/sort.js"></script>
 <?php
 
-session_start();
-require_once '/var/www/ptf-services-stage/vendor/autoload.php';
+require_once __DIR__ . '/bootstrap.php';
+
 require('../sql-stage/phpmysqlconnect.php');
 require('../ptf-services-stage/sq-service.php');
 //require('../ptf-services-stage/player-service.php');
