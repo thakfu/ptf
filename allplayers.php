@@ -2,6 +2,12 @@
 
 include 'header.php';
 
+use App\Repositories\PlayerRepository;
+use App\Services\PlayerService;
+
+$PlayerRepository = new PlayerRepository();
+$PlayerService = new PlayerService();
+
 if ($_GET['team']) {
     $team = $_GET['team'];
     $col1 = '#';
@@ -11,13 +17,13 @@ if ($_GET['team']) {
     $col1 = 'Team';
     $sort = 'Overall';
 }
-
-$playerService = newPlayerService($team,0,'pro');
+$players = $PlayerService->getAll();
+//$playerService = newPlayerService($team,0,'pro');
 
 if ($_GET['team']) {
-    usort($playerService, fn($a, $b) => $a['Jersey'] <=> $b['Jersey']);
+    usort($players, fn($a, $b) => $a->Jersey <=> $b->Jersey);
 } else {
-    usort($playerService, fn($a, $b) => $b['Overall'] <=> $a['Overall']);
+    usort($players, fn($a, $b) => $b->Overall <=> $a->Overall);
 }
 
 if ($_GET['pos'] == NULL) {
@@ -63,36 +69,36 @@ echo '<th title="Kick Distance">KDis</th>';
 echo '<th title="Kick Accuracy">KAcc</th>';
 echo '</tr>';
 
-foreach ($playerService as $player) {
-    if (($player['Position'] == $_GET['pos'] || $_GET['pos'] == 'all') && $player['ProRetire'] == 0) {
+foreach ($players as $player) {
+    if (($player->Position == $_GET['pos'] || $_GET['pos'] == 'all') && $player->ProRetire == 0) {
 
         if ($_GET['team']) {
             echo '<tr><td class="career"><b>'; 
-            echo $player['Jersey'];
+            echo $player->Jersey ;
         } else {
-            echo '<tr><td class="career" id="'.idToAbbrev($player['TeamID']).'"><b>';
-            echo idToAbbrev($player['TeamID']); 
+            echo '<tr><td class="career" id="'.idToAbbrev($player->TeamID).'"><b>';
+            echo idToAbbrev($player->TeamID); 
         }
-        echo '</b></td><td><a href="/ptf/player.php?player=' . $player['PlayerID'] . '">' . $player['FullName'] . '</a></td><td>' .
-        $player['Position'] . '</td><td>' .
-        $player['Age'] . '</td><td>' .
-        $player['Experience'] . '</td><td>' .
-        floor($player['Height'] / 12) . '\'' . ($player['Height'] % 12) . '"</td><td>' .
-        $player['Weight'] . '</td><td><b>' .
-        $player['Overall'] . '</b></td><td>' .
-        $player['Strength'] . '</td><td>' .
-        $player['Agility'] . '</td><td>' .
-        $player['Arm'] . '</td><td>' .
-        $player['Speed'] . '</td><td>' .
-        $player['Hands'] . '</td><td>' .
-        $player['Intelligence'] . '</td><td>' .
-        $player['Accuracy'] . '</td><td>' .
-        $player['RunBlocking'] . '</td><td>' .
-        $player['PassBlocking'] . '</td><td>' .
-        $player['Tackling'] . '</td><td>' .
-        $player['Endurance'] . '</td><td>' .
-        $player['KickDistance'] . '</td><td>' .
-        $player['KickAccuracy'] . '</td>' .
+        echo '</b></td><td><a href="/ptf/player.php?player=' . $player->PlayerID . '">' . $player->FullName . '</a></td><td>' .
+        $player->Position . '</td><td>' .
+        $player->Age . '</td><td>' .
+        $player->Experience . '</td><td>' .
+        floor($player->Height / 12) . '\'' . ($player->Height % 12) . '"</td><td>' .
+        $player->Weight . '</td><td><b>' .
+        $player->Overall . '</b></td><td>' .
+        $player->Strength . '</td><td>' .
+        $player->Agility . '</td><td>' .
+        $player->Arm . '</td><td>' .
+        $player->Speed . '</td><td>' .
+        $player->Hands . '</td><td>' .
+        $player->Intelligence . '</td><td>' .
+        $player->Accuracy . '</td><td>' .
+        $player->RunBlocking . '</td><td>' .
+        $player->PassBlocking . '</td><td>' .
+        $player->Tackling . '</td><td>' .
+        $player->Endurance . '</td><td>' .
+        $player->KickDistance . '</td><td>' .
+        $player->KickAccuracy . '</td>' .
         '</tr>';
     }
 }

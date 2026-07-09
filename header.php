@@ -14,7 +14,7 @@ session_start();
 require_once '/var/www/ptf-services-stage/vendor/autoload.php';
 require('../sql-stage/phpmysqlconnect.php');
 require('../ptf-services-stage/sq-service.php');
-require('../ptf-services-stage/player-service.php');
+//require('../ptf-services-stage/player-service.php');
 //require('../ptf-services-stage/team-service.php');
 require('../ptf-services-stage/stats-service.php');
 require('../ptf-services-stage/voting-service.php');
