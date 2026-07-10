@@ -224,13 +224,15 @@
 }
 
 body {
-    font-family: Verdana, Geneva, Tahoma,sans-serif !important;
+    font-family: Open Sans !important;
+
 }
 
 @media only screen and (max-width: 600px) {
     .navbar-nav {
         text-align: center;
         padding-left: 10px;
+        
     }
 
     body #homelink {
@@ -450,7 +452,7 @@ body {
 }
 
 #teammenu {
-    background-color: #555555;
+    background-color: #eef1f5;
     padding-top: 5px;
     padding-bottom: 5px;
     margin-top: 0;
@@ -460,6 +462,7 @@ body {
 #teammenu img {
     width: 50px;
     margin-left: 20px;
+    filter: drop-shadow(3px 4px 6px rgba(0,0,0,.40));
 }
 
 .navbar {
@@ -496,7 +499,7 @@ body {
 
 
 body {
-    background-color: #bbbbbb; 
+    background-color: #eef1f5; 
     /*background-image: url("84toppsbg.jpg");*/
     margin: auto;
 }
@@ -507,7 +510,11 @@ body {
 }
 
 #topmenu {
-    background-color: #222222;
+        background: linear-gradient(
+    to bottom,
+#555,
+    #3a3a3a
+);
     color: white;
     padding-left: 0;
     padding-top: 0px;
@@ -557,7 +564,7 @@ body {
 }
 
 #homelink {
-    background-color: #fd031c;
+    background-color: #c28f94;
     padding: 15px 40px;
     margin-right: 10px;
     margin-left: 0;
@@ -626,6 +633,7 @@ body {
 
 #navstand {
     font-size: 11px;
+    border: 0px;
 }
 
 #navstand th {
@@ -728,22 +736,22 @@ table {
 
 h1 {
     text-transform: uppercase;
-    font-family: 'Verdana';
+    font-family: 'Bebas Neue';
     text-align: center;
-    font-size: 36px;
+    font-size: 48px;
 }
 
 h2 {
     text-transform: uppercase;
-    font-family: 'Verdana';
+    font-family: 'Bebas Neue';
     text-align: center;
-    font-size: 24px;
+    font-size: 36px;
 }
 
 h3 {
     text-transform: uppercase;
-    font-family: 'Verdana';
-    font-size: 18px;
+    font-family: 'Bebas Neue';
+    font-size: 24px;
 }
 
 hr {
