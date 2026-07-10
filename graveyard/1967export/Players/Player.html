@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html ng-app="myApp"><head><title>Draft Day Sports: Professional Football</title><meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" >
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" title=master href="../Styles/Default.css"><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script><script type="text/javascript" src="../Scripts/jquery.tablesorter.min.js"></script><link rel="stylesheet" type="text/css" title="master" href="../Styles/jquery-ui.custom.css"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script><script type="text/javascript" src="../Scripts/lz-string.js"></script><script type="text/javascript">$(function() {$("#tabs").tabs();});</script><script type="text/javascript">
+    'use strict';
+
+// Declare app level module which depends on views, and components
+angular.module('myApp', [])
+.filter('zero', function() {
+    return function(input) {
+        if (angular.isUndefined(input) || input === null || input === '') {
+            return 0;
+        }
+
+        return input;
+    }
+})
+.filter('ceil', function() {
+    return function(input) {
+        return Math.ceil(input);
+    };
+})
+.filter('floor', function() {
+    return function(input) {
+        return Math.floor(input);
+    };
+})
+.controller('mainController', ['$http', '$scope', '$filter', function ($http, $scope, $filter) {
+    $scope.player = null;
+
+    var lzw_decode = function (compressed) {
+        var i,
+               dictionary = [],
+               w,
+               result,
+               k,
+               entry = "",
+               dictSize = 256;
+        for (i = 0; i < 256; i += 1) {
+            dictionary[i] = String.fromCharCode(i);
+        }
+
+        w = String.fromCharCode(compressed[0]);
+        result = w;
+        for (i = 1; i < compressed.length; i += 1) {
+            k = compressed[i];
+            if (dictionary[k]) {
+                entry = dictionary[k];
+            } else {
+                if (k === dictSize) {
+                    entry = w + w.charAt(0);
+                } else {
+                    return null;
+                }
+            }
+
+            result += entry;
+
+            // Add w+entry[0] to the dictionary.
+            dictionary[dictSize++] = w + entry.charAt(0);
+
+            w = entry;
+        }
+        return result;
+    }
+
+    var getParameterByName = function (name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    var playerId = getParameterByName('id');
+    playerId = parseInt(playerId);
+
+    var url = "playerData" + (1 + (playerId % 10)) + ".txt";
+
+    $http({ method: 'GET', url: url }).then(function successCallback(response) {
+
+        var output = LZString.decompressFromEncodedURIComponent(response.data);
+        var data = JSON.parse(output);
+        $scope.player = $filter('filter')(data, { "id": playerId }, true)[0];
+
+    }, function errorCallback(response) {
+        console.log(response);
+        $scope.player = null;
+    });
+
+
+}]);
+
+</script>
+
+<link rel="stylesheet" type="text/css" title=master href="../Styles/Custom.css"></head><body><table class="main_table_960" cellpadding="0" cellspacing="0"><tr><td style="border: 1px solid black; background-color: white; padding: 3px;"><div class="menucontainer"><ul class="memu"><li class="memu-root"><a href="#">League</a><ul><li><a class=ml target="_top" href="../Index.html">Home</a></li><li><a class=ml target="_top" href="../Transactions.html">Transactions</a></li><li><a class=ml target="_top" href="../Newspaper.html">Newspaper</a></li><li><a class=ml target="_top" href="../TrainingCampResults.html">Training Camps</a></li><li><a class=ml target="_top" href="../Standings.html">Standings</a></li><li><a class=ml target="_top" href="../GameResults.html">Weekly Results</a></li><li><a class=ml target="_top" href="../PlayoffResults.html">Playoff Results</a></li><li><a class=ml target="_top" href="../ProBowlRosters.html">Pro Bowl Rosters</a></li><li><a class=ml target="_top" href="../Boxscores/Boxscore.html?id=1280">Pro Bowl Boxscore</a></li><li><a class=ml target="_top" href="../LeagueLeaders.html">League Leaders</a></li><li><a class=ml target="_top" href="../LeagueAwards.html">League Awards</a></li><li><a class=ml target="_top" href="../TopPerformances.html">Top Performances</a></li><li><a class=ml target="_top" href="../TeamPowerRankings.html">Team Power Rankings</a></li><li><a class=ml target="_top" href="../LeagueOwners.html">League Owners</a></li><li><a class=ml target="_top" href="../TeamInfo.html">Team Info</a></li><li><a class=ml target="_top" href="../TeamSalaries.html">Team Salaries</a></li></ul></li><li class="memu-root"><a href="#">Records</a><ul><li><a class=ml target="_top" href="../LeagueGameRecords.html">Records - Game</a></li><li><a class=ml target="_top" href="../LeagueSeasonRecords.html">Records - Season</a></li><li><a class=ml target="_top" href="../LeaguePlayoffRecords.html">Records - Playoffs</a></li><li><a class=ml target="_top" href="../Top10Career.html">Top 10 Career</a></li><li><a class=ml target="_top" href="../Top10Season.html">Top 10 Season</a></li><li><a class=ml target="_top" href="../Top10Playoff.html">Top 10 Career Playoff</a></li></ul></li><li class="memu-root"><a href="#">Players</a><ul><li><a class=ml target="_top" href="../FreeAgents.html">Free Agents</a></li><li><a class=ml target="_top" href="../RetiredPlayers.html">Retired Players</a></li><li><a class=ml target="_top" href="../DraftPool.html">Current Draft Pool</a></li><li><a class=ml target="_top" href="../UpcomingDraftPool.html">Upcoming Draft Pool</a></li></ul></li><li class="memu-root"><a href="#">Player Stats</a><ul><li><a class=ml target="_top" href="../LeaguePassingStats.html">Passing</a></li><li><a class=ml target="_top" href="../LeagueRushingStats.html">Rushing</a></li><li><a class=ml target="_top" href="../LeagueReceivingStats.html">Receiving</a></li><li><a class=ml target="_top" href="../LeagueDefensiveStats.html">Defense</a></li><li><a class=ml target="_top" href="../LeagueKickingStats.html">Kicking</a></li><li><a class=ml target="_top" href="../LeaguePuntingStats.html">Punting</a></li><li><a class=ml target="_top" href="../LeagueOffensiveLineStats.html">Offensive Line</a></li><li><a class=ml target="_top" href="../LeagueSpecialTeamsStats.html">Special Teams</a></li></ul></li><li class="memu-root"><a href="#">Team Stats</a><ul><li><a class=ml target="_top" href="../TeamLeaguePassingStats.html">Passing</a></li><li><a class=ml target="_top" href="../TeamLeagueRushingStats.html">Rushing</a></li><li><a class=ml target="_top" href="../TeamLeagueReceivingStats.html">Receiving</a></li><li><a class=ml target="_top" href="../TeamLeagueDefensiveStats.html">Defense</a></li><li><a class=ml target="_top" href="../TeamLeagueKickingStats.html">Kicking</a></li><li><a class=ml target="_top" href="../TeamLeaguePuntingStats.html">Punting</a></li><li><a class=ml target="_top" href="../TeamLeagueOffensiveLineStats.html">Offensive Line</a></li><li><a class=ml target="_top" href="../TeamLeagueSpecialTeamsStats.html">Special Teams</a></li></ul></li><li class="memu-root"><a href="#">NFL</a><ul><li><a class=mlt target="_top" href="../Teams/29.html"><img class="memu-icon" src='../Images/Logos/29_s.png' />49ers</a></li><li><a class=mlt target="_top" href="../Teams/22.html"><img class="memu-icon" src='../Images/Logos/22_s.png' />Bears</a></li><li><a class=mlt target="_top" href="../Teams/8.html"><img class="memu-icon" src='../Images/Logos/8_s.png' />Browns</a></li><li><a class=mlt target="_top" href="../Teams/36.html"><img class="memu-icon" src='../Images/Logos/36_s.png' />Cardinals</a></li><li><a class=mlt target="_top" href="../Teams/40.html"><img class="memu-icon" src='../Images/Logos/40_s.png' />Colts</a></li><li><a class=mlt target="_top" href="../Teams/19.html"><img class="memu-icon" src='../Images/Logos/19_s.png' />Cowboys</a></li><li><a class=mlt target="_top" href="../Teams/17.html"><img class="memu-icon" src='../Images/Logos/17_s.png' />Eagles</a></li><li><a class=mlt target="_top" href="../Teams/41.html"><img class="memu-icon" src='../Images/Logos/41_s.png' />Falcons</a></li><li><a class=mlt target="_top" href="../Teams/18.html"><img class="memu-icon" src='../Images/Logos/18_s.png' />Giants</a></li><li><a class=mlt target="_top" href="../Teams/23.html"><img class="memu-icon" src='../Images/Logos/23_s.png' />Lions</a></li><li><a class=mlt target="_top" href="../Teams/21.html"><img class="memu-icon" src='../Images/Logos/21_s.png' />Packers</a></li><li><a class=mlt target="_top" href="../Teams/35.html"><img class="memu-icon" src='../Images/Logos/35_s.png' />Rams</a></li><li><a class=mlt target="_top" href="../Teams/20.html"><img class="memu-icon" src='../Images/Logos/20_s.png' />Redskins</a></li><li><a class=mlt target="_top" href="../Teams/44.html"><img class="memu-icon" src='../Images/Logos/44_s.png' />Saints</a></li><li><a class=mlt target="_top" href="../Teams/7.html"><img class="memu-icon" src='../Images/Logos/7_s.png' />Steelers</a></li><li><a class=mlt target="_top" href="../Teams/24.html"><img class="memu-icon" src='../Images/Logos/24_s.png' />Vikings</a></li></ul></li><li class="memu-root"><a href="#">AFL</a><ul><li><a class=mlt target="_top" href="../Teams/43.html"><img class="memu-icon" src='../Images/Logos/43_s.png' />Bengals</a></li><li><a class=mlt target="_top" href="../Teams/1.html"><img class="memu-icon" src='../Images/Logos/1_s.png' />Bills</a></li><li><a class=mlt target="_top" href="../Teams/13.html"><img class="memu-icon" src='../Images/Logos/13_s.png' />Broncos</a></li><li><a class=mlt target="_top" href="../Teams/16.html"><img class="memu-icon" src='../Images/Logos/16_s.png' />Chargers</a></li><li><a class=mlt target="_top" href="../Teams/14.html"><img class="memu-icon" src='../Images/Logos/14_s.png' />Chiefs</a></li><li><a class=mlt target="_top" href="../Teams/42.html"><img class="memu-icon" src='../Images/Logos/42_s.png' />Dolphins</a></li><li><a class=mlt target="_top" href="../Teams/3.html"><img class="memu-icon" src='../Images/Logos/3_s.png' />Jets</a></li><li><a class=mlt target="_top" href="../Teams/38.html"><img class="memu-icon" src='../Images/Logos/38_s.png' />Oilers</a></li><li><a class=mlt target="_top" href="../Teams/34.html"><img class="memu-icon" src='../Images/Logos/34_s.png' />Patriots</a></li><li><a class=mlt target="_top" href="../Teams/15.html"><img class="memu-icon" src='../Images/Logos/15_s.png' />Raiders</a></li></ul></li></ul></div><div ng-controller="mainController" ng-show="player">
+   <div style="position: relative; width: 100%; padding: 15px; background-color: {{player.tcolor || '#fff'}}; color: {{player.tcolor2 || '#000'}};" class="clearfix">
+
+                        <img style="position: absolute; top: 15px; right: 15px; height: 80px; width: 80px;" ng-show="player.tid" ng-attr-src="../Images/Logos/{{player.tid}}_mf.png">
+
+                        <h2 style="margin-top: 0px; margin-bottom: 5px;"><span ng-if="player.jer">#{{player.jer}}&nbsp;</span>{{player.name}}</h2>
+                      <h6 style="margin-top: 0px; margin-bottom: 20px;"><span>{{player.position}}</span><span>&nbsp;|&nbsp;</span><span ng-if="player.tid"><a style="color: {{player.tcolor2 || '#000'}};" href="../Teams/{{player.tid}}.html">{{player.tname}}</a></span></h6>
+				 
+                        <img class="pull-left" style="margin-right: 15px; margin-top: 5px;" ng-show="!player.picf && !player.picture" src="../Images/Styles/NoPhoto.jpg" width="98" height="135">
+                        <img class="pull-left" style="margin-right: 15px; margin-top: 5px;" ng-show="player.picture" ng-attr-src="{{player.picture}}" width="98" height="135">
+
+												<div class="pull-left" style="position: relative; display: inline-block; margin-right: 15px; margin-top: 5px; width: 98px; height: 135px;" ng-show="!player.picture && player.picf">
+		                        <img style="position: absolute; left: 0; top: 0; width: 98px; height: 135px;" ng-show="player.picf" ng-attr-src="{{player.picf}}" width="98" height="135">
+		                        <img style="position: absolute; left: -2px; top: -5px; width: 100px; height: 100px;" ng-show="player.pich" ng-attr-src="{{player.pich}}" width="100" height="100">
+		                        <img style="position: absolute; left: 0; width: 98px; height: 135px;" ng-show="player.tid" ng-attr-src="../Images/Logos/{{player.tid}}_j.png" width="98" height="135">
+		                        <img style="position: absolute; left: 0; top: 0; width: 98px; height: 135px;" ng-show="!player.tid" ng-attr-src="../Images/Players/NoJersey.png" width="98" height="135">
+												</div>
+
+                        <div class="pull-left">
+						
+
+                            <ul class="list-unstyled">
+                                <li><strong style="width: 100px; display: inline-block;">Age:</strong> <span>{{player.age}}</span></li>
+                                <li><strong style="width: 100px; display: inline-block;">Experience:</strong> <span>{{player.exp}}</span></li>
+                                <li><strong style="width: 100px; display: inline-block;">Height:</strong> <span>{{player.hgt / 12 | floor | number: 0}}' {{player.hgt % 12}}"</span></li>
+                                <li><strong style="width: 100px; display: inline-block;">Weight:</strong> <span>{{player.wgt}}</span></li>
+                                <li><strong style="width: 100px; display: inline-block;">College:</strong> <span>{{player.coll}}</span></li>
+                                <li ng-if="player.dRnd && player.dPick && player.dSea"><strong style="width: 100px; display: inline-block;">Draft:</strong> <span>{{player.dSea}}, Round: {{player.dRnd}}, Pick: {{player.dPick}}</span></li>
+                                <li ng-if="player.yrs > 0"><strong style="width: 100px; display: inline-block;">Contract:</strong> <span>{{player.yrs}} yrs, {{player.sal | currency}}</span></li>
+                            </ul>
+
+                        </div>
+
+                        <div class="pull-right" style="width: 350px; margin-top: 20px;">
+                            <div class="panel panel-default" style="margin-bottom: 0;">
+                                <div class="panel-heading text-center">KEY STATS</div>
+                                <div class="panel-body" ng-switch on="player.pos" style="color: #000; padding: 0px;">
+                                    <div class="row" ng-switch-when="QB">
+                                        <div class="col-xs-4 text-center">
+                                            <h6 style="margin-bottom: 5px;">Pass Yds</h6>
+                                            <strong style="font-size: 22px;">{{player.py}}</strong>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <h6 style="margin-bottom: 5px;">Pass TD</h6>
+                                            <strong style="font-size: 22px;">{{player.ptd}}</strong>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <h6 style="margin-bottom: 5px;">Pass Int</h6>
+                                            <strong style="font-size: 22px;">{{player.pint}}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-switch-when="RB|FB" ng-switch-when-separator="|">
+                                        <div class="col-xs-4 text-center">
+                                            <h6 style="margin-bottom: 5px;">Rush Yds</h6>
+                                            <strong style="font-size: 22px;">{{player.ry}}</strong>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <h6 style="margin-bottom: 5px;">Rush Avg</h6>
+                                            <strong style="font-size: 22px;">{{player.ravg}}</strong>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <h6 style="margin-bottom: 5px;">Rush TD</h6>
+                                            <strong style="font-size: 22px;">{{player.rtd}}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-switch-when="WR|TE" ng-switch-when-separator="|">
+                                        <div class="col-xs-4 text-center">
+                                            <h6 style="margin-bottom: 5px;">Rec</h6>
+                                            <strong style="font-size: 22px;">{{player.rec}}</strong>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <h6 style="margin-bottom: 5px;">Rec Yds</h6>
+                                            <strong style="font-size: 22px;">{{player.recy}}</strong>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <h6 style="margin-bottom: 5px;">Rec TD</h6>
+                                            <strong style="font-size: 22px;">{{player.rectd}}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-switch-when="G|T|C" ng-switch-when-separator="|">
+                                        <div class="col-xs-6 text-center">
+                                            <h6 style="margin-bottom: 5px;">Pancakes</h6>
+                                            <strong style="font-size: 22px;">{{player.pnk}}</strong>
+                                        </div>
+                                        <div class="col-xs-6 text-center">
+                                            <h6 style="margin-bottom: 5px;">Sacks Allowed</h6>
+                                            <strong style="font-size: 22px;">{{player.scka}}</strong>
+                                        </div>
+                                        <div class="col-xs-6 text-center">
+                                            <h6 style="margin-bottom: 5px;">Missed Blocks</h6>
+                                            <strong style="font-size: 22px;">{{player.mb}}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-switch-when="K">
+                                        <div class="col-xs-4 text-center">
+                                            <h6 style="margin-bottom: 5px;">FG Made</h6>
+                                            <strong style="font-size: 22px;">{{player.fgm}}</strong>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <h6 style="margin-bottom: 5px;">FG Pct</h6>
+                                            <strong style="font-size: 22px;">{{player.fgpct}}</strong>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <h6 style="margin-bottom: 5px;">FG Long</h6>
+                                            <strong style="font-size: 22px;">{{player.fglng}}</strong>
+                                        </div>
+                                    </div>  
+                                    <div class="row" ng-switch-when="P">
+                                        <div class="col-xs-4 text-center">
+                                            <h6 style="margin-bottom: 5px;">Punts</h6>
+                                            <strong style="font-size: 22px;">{{player.pnts}}</strong>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <h6 style="margin-bottom: 5px;">Punt Avg</h6>
+                                            <strong style="font-size: 22px;">{{player.pntavg}}</strong>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <h6 style="margin-bottom: 5px;">Inside 20</h6>
+                                            <strong style="font-size: 22px;">{{player.pnti20}}</strong>
+                                        </div>
+                                    </div>
+                                      <div class="row" ng-switch-when="DT|DE|SS|LB|FS|CB" ng-switch-when-separator="|">
+                                      <div class="col-xs-4 text-center">
+                                            <h6 style="margin-bottom: 5px;">Tackles</h6>
+                                            <strong style="font-size: 22px;">{{player.tck}}</strong>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <h6 style="margin-bottom: 5px;">Sacks</h6>
+                                            <strong style="font-size: 22px;">{{player.sck}}</strong>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <h6 style="margin-bottom: 5px;">Int</h6>
+                                            <strong style="font-size: 22px;">{{player.intr}}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <br />
+
+    <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+        <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+            <li class="ui-state-default ui-corner-top"><a href="#tabs-1">Ratings</a></li>
+            <li class="ui-state-default ui-corner-top"><a href="#tabs-2">Personality</a></li>
+            <li class="ui-state-default ui-corner-top"><a href="#tabs-3">Skills</a></li>
+            <li class="ui-state-default ui-corner-top"><a href="#tabs-4">Stats</a></li>
+            <li class="ui-state-default ui-corner-top"><a href="#tabs-5">Game Records</a></li>
+            <li class="ui-state-default ui-corner-top"><a href="#tabs-6">Season Records</a></li>
+        </ul>
+        <div id="tabs-1" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+            <table class="Grid" cellspacing="0" cellpadding="3">
+                <tbody>
+                    <tr>
+                        <th colspan="2">Ratings</th>
+                    </tr>
+                    <tr>
+                        <td width="50%">Overall (Ovr): {{player.rat.ovr|zero}}</td>
+                        <td width="50%">Endurance (End): {{player.rat.end|zero}}</td>
+                    </tr>
+                    <tr class="alt">
+                        <td>Strength (ST): {{player.rat.str|zero}}</td>
+                        <td>Agility (AG): {{player.rat.agi|zero}}</td>
+                    </tr>
+                    <tr>
+                        <td>Arm (AR): {{player.rat.arm|zero}}</td>
+                        <td>Speed (SP): {{player.rat.spe|zero}}</td>
+                    </tr>
+                    <tr class="alt">
+                        <td>Hands (HN): {{player.rat.hnd|zero}}</td>
+                        <td>Intelligence (IN): {{player.rat.intel|zero}}</td>
+                    </tr>
+                    <tr>
+                        <td>Accuracy (AC): {{player.rat.acc|zero}}</td>
+                        <td>Run Blocking (RBL): {{player.rat.rbl|zero}}</td>
+                    </tr>
+                    <tr class="alt">
+                        <td>Tackling (TK): {{player.rat.tck|zero}}</td>
+                        <td>Pass Blocking (PBL): {{player.rat.pbl|zero}}</td>
+                    </tr>
+                    <tr>
+                        <td>Kick Distance (KD): {{player.rat.kd|zero}}</td>
+                        <td>Kick Accuracy (KA): {{player.rat.ka|zero}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="tabs-2" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+            <table class="Grid" cellspacing="0" cellpadding="3">
+                <tbody>
+                    <tr>
+                        <th colspan="2">Personality</th>
+                    </tr>
+                    <tr>
+                        <td width="50%">Leadership: {{player.per.le|zero}}</td>
+                        <td width="50%">Values Market Size: {{player.per.ms|zero}}</td>
+                    </tr>
+                    <tr class="alt">
+                        <td>Work Ethic: {{player.per.we|zero}}</td>
+                        <td>Values Security: {{player.per.sc|zero}}</td>
+                    </tr>
+                    <tr>
+                        <td>Competitiveness: {{player.per.co|zero}}</td>
+                        <td>Values Loyalty: {{player.per.lo|zero}}</td>
+                    </tr>
+                    <tr class="alt">
+                        <td>Team Player: {{player.per.tp|zero}}</td>
+                        <td>Values Winning: {{player.per.wi|zero}}</td>
+                    </tr>
+                    <tr>
+                        <td>Sportsmanship: {{player.per.sp|zero}}</td>
+                        <td>Values Playing Time: {{player.per.pt|zero}}</td>
+                    </tr>
+                    <tr class="alt">
+                        <td>Social Disposition: {{player.per.sd|zero}}</td>
+                        <td>Values Close To Home: {{player.per.ch|zero}}</td>
+                    </tr>
+                    <tr>
+                        <td>Morale: {{player.per.mo|zero}}</td>
+                        <td>Values Prestige: {{player.per.pr|zero}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+		<div id="tabs-3" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+            <table class="Grid" cellspacing="0" cellpadding="3">
+                <tbody>
+                    <tr>
+                        <th colspan="2">Skills</th>
+                    </tr>
+                    <tr>
+                        <td width="50%">QB: {{player.skl.qb|zero}}</td>
+                        <td width="50%">DT: {{player.skl.dt|zero}}</td>
+                    </tr>
+                    <tr class="alt">
+                        <td>RB: {{player.skl.rb|zero}}</td>
+                        <td>DE: {{player.skl.de|zero}}</td>
+                    </tr>
+                    <tr>
+                        <td>FB: {{player.skl.fb|zero}}</td>
+                        <td>LB: {{player.skl.lb|zero}}</td>
+                    </tr>
+                    <tr class="alt">
+                        <td>TE: {{player.skl.te|zero}}</td>
+                        <td>SS: {{player.skl.ss|zero}}</td>
+                    </tr>
+                    <tr>
+                        <td>WR: {{player.skl.wr|zero}}</td>
+                        <td>CB: {{player.skl.cb|zero}}</td>
+                    </tr>
+                    <tr class="alt">
+                        <td>C: {{player.skl.c|zero}}</td>
+                        <td>FS: {{player.skl.fs|zero}}</td>
+                    </tr>
+                    <tr>
+                        <td>G: {{player.skl.g|zero}}</td>
+                        <td>K: {{player.skl.k|zero}}</td>
+                    </tr>
+                    <tr class="alt">
+                        <td>T: {{player.skl.t|zero}}</td>
+                        <td>P: {{player.skl.p|zero}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="tabs-4" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
+            <table class="Grid" ng-if="player.career.PassAtt > 0" style="margin-bottom: 15px;">
+                <tbody>
+                    <tr>
+                        <th class="left" colspan="20">Passing Stats</th>
+                    </tr>
+                    <tr class="alt">
+                        <td>Year</td>
+                        <td>Team</td>
+                        <td>G</td>
+                        <td>GS</td>
+                        <td>Comp</td>
+                        <td>Att</td>
+                        <td>Yards</td>
+                        <td>Pct</td>
+                        <td>Lg</td>
+                        <td>TD</td>
+                        <td>Int</td>
+                        <td>Att/G</td>
+                        <td>Yds/G</td>
+                        <td>TD%</td>
+                        <td>Int%</td>
+                        <td>1st</td>
+                        <td>20+</td>
+                        <td>40+</td>
+                        <td>Sack</td>
+                        <td>Rating</td>
+                    </tr>
+                    <tr ng-repeat="s in player.stats" ng-class="{'alt': $index % 2 == 0}">
+                        <td>{{s.Season|zero}}</td>
+                        <td>{{s.Team}}</td>
+                        <td>{{s.G|zero}}</td>
+                        <td>{{s.GS|zero}}</td>
+                        <td>{{s.PassCmp|zero}}</td>
+                        <td>{{s.PassAtt|zero}}</td>
+                        <td>{{s.PassYds|zero}}</td>
+                        <td>{{s.PassPct|zero}}%</td>
+                        <td>{{s.PassLong|zero}}</td>
+                        <td>{{s.PassTD|zero}}</td>
+                        <td>{{s.PassInt|zero}}</td>
+                        <td>{{s.PassAttPerGame|zero}}</td>
+                        <td>{{s.PassYdsPerGame|zero}}</td>
+                        <td>{{s.PassTD / s.PassAtt * 100 | number: 1|zero}}</td>
+                        <td>{{s.PassInt / s.PassAtt * 100 | number : 1|zero}}</td>
+                        <td>{{s.PassFD|zero}}</td>
+                        <td>{{s.Pass20|zero}}</td>
+                        <td>{{s.Pass40|zero}}</td>
+                        <td>{{s.Sacked|zero}}</td>
+                        <td>{{s.Rating|zero}}</td>
+                    </tr>
+                    <tr class="pgr">
+                        <td colspan="2">Career</td>
+                        <td>{{player.career.G|zero}}</td>
+                        <td>{{player.career.GS|zero}}</td>
+                        <td>{{player.career.PassCmp|zero}}</td>
+                        <td>{{player.career.PassAtt|zero}}</td>
+                        <td>{{player.career.PassYds|zero}}</td>
+                        <td>{{player.career.PassPct|zero}}%</td>
+                        <td>{{player.career.PassLong|zero}}</td>
+                        <td>{{player.career.PassTD|zero}}</td>
+                        <td>{{player.career.PassInt|zero}}</td>
+                        <td>{{player.career.PassAttPerGame|zero}}</td>
+                        <td>{{player.career.PassYdsPerGame|zero}}</td>
+                        <td>{{player.career.PassTD / player.career.PassAtt * 100 | number: 1|zero}}</td>
+                        <td>{{player.career.PassInt / player.career.PassAtt * 100 | number : 1|zero}}</td>
+                        <td>{{player.career.PassFD|zero}}</td>
+                        <td>{{player.career.Pass20|zero}}</td>
+                        <td>{{player.career.Pass40|zero}}</td>
+                        <td>{{player.career.Sacked|zero}}</td>
+                        <td>{{player.career.Rating|zero}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="Grid" ng-if="player.career.RushAtt > 0" style="margin-bottom: 15px;">
+                <tbody>
+                    <tr>
+                        <th class="left" colspan="16">Rushing Stats</th>
+                    </tr>
+                    <tr class="alt">
+                        <td>Year</td>
+                        <td>Team</td>
+                        <td>G</td>
+                        <td>GS</td>
+                        <td>Att</td>
+                        <td>Yards</td>
+                        <td>Avg</td>
+                        <td>Lg</td>
+                        <td>TD</td>
+                        <td>Att/G</td>
+                        <td>Yds/G</td>
+                        <td>1st</td>
+                        <td>1st%</td>
+                        <td>20+</td>
+                        <td>40+</td>
+                        <td>Fum</td>
+                    </tr>
+                    <tr ng-repeat="s in player.stats" ng-class="{'alt': $index % 2 == 0}">
+                        <td>{{s.Season|zero}}</td>
+                        <td>{{s.Team}}</td>
+                        <td>{{s.G|zero}}</td>
+                        <td>{{s.GS|zero}}</td>
+                        <td>{{s.RushAtt|zero}}</td>
+                        <td>{{s.RushYds|zero}}</td>
+                        <td>{{s.RushAvg|zero}}</td>
+                        <td>{{s.RunLong|zero}}</td>
+                        <td>{{s.RushTD|zero}}</td>
+                        <td>{{s.RushAttPerGame|zero}}</td>
+                        <td>{{s.RushYdsPerGame|zero}}</td>
+                        <td>{{s.RushFD|zero}}</td>
+                        <td>{{s.RushFDPct|zero}}</td>
+                        <td>{{s.Rush20|zero}}</td>
+                        <td>{{s.Rush40|zero}}</td>
+                        <td>{{s.FumLst|zero}}</td>
+                    </tr>
+                    <tr class="pgr">
+                        <td colspan="2">Career</td>
+                        <td>{{player.career.G|zero}}</td>
+                        <td>{{player.career.GS|zero}}</td>
+                        <td>{{player.career.RushAtt|zero}}</td>
+                        <td>{{player.career.RushYds|zero}}</td>
+                        <td>{{player.career.RushAvg|zero}}</td>
+                        <td>{{player.career.RunLong|zero}}</td>
+                        <td>{{player.career.RushTD|zero}}</td>
+                        <td>{{player.career.RushAttPerGame|zero}}</td>
+                        <td>{{player.career.RushYdsPerGame|zero}}</td>
+                        <td>{{player.career.RushFD|zero}}</td>
+                        <td>{{player.career.RushFDPct|zero}}%</td>
+                        <td>{{player.career.Rush20|zero}}</td>
+                        <td>{{player.career.Rush40|zero}}</td>
+                        <td>{{player.career.FumLst|zero}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="Grid" ng-if="player.career.Rec > 0" style="margin-bottom: 15px;">
+                <tbody>
+                    <tr>
+                        <th class="left" colspan="17">Receiving Stats</th>
+                    </tr>
+                    <tr class="alt">
+                        <td>Year</td>
+                        <td>Team</td>
+                        <td>G</td>
+                        <td>GS</td>
+                        <td>No</td>
+                        <td>Yards</td>
+                        <td>Avg</td>
+                        <td>Lg</td>
+                        <td>TD</td>
+                        <td>Drop</td>
+                        <td>Ctc/G</td>
+                        <td>Yds/G</td>
+                        <td>1st</td>
+                        <td>1st%</td>
+                        <td>20+</td>
+                        <td>40+</td>
+                        <td>Fum</td>
+                    </tr>
+                    <tr ng-repeat="s in player.stats" ng-class="{'alt': $index % 2 == 0}">
+                        <td>{{s.Season|zero}}</td>
+                        <td>{{s.Team}}</td>
+                        <td>{{s.G|zero}}</td>
+                        <td>{{s.GS|zero}}</td>
+                        <td>{{s.Rec|zero}}</td>
+                        <td>{{s.RecYds|zero}}</td>
+                        <td>{{s.RecAvg|zero}}</td>
+                        <td>{{s.RecLong|zero}}</td>
+                        <td>{{s.RecTD|zero}}</td>
+                        <td>{{s.Drops|zero}}</td>
+                        <td>{{s.CatchesPerGame|zero}}</td>
+                        <td>{{s.RecYdsPerGame|zero}}</td>
+                        <td>{{s.RecFD|zero}}</td>
+                        <td>{{s.RecFDPct|zero}}</td>
+                        <td>{{s.Rec20|zero}}</td>
+                        <td>{{s.Rec40|zero}}</td>
+                        <td>{{s.Fum|zero}}</td>
+                    </tr>
+                    <tr class="pgr">
+                        <td colspan="2">Career</td>
+                        <td>{{player.career.G|zero}}</td>
+                        <td>{{player.career.GS|zero}}</td>
+                        <td>{{player.career.Rec|zero}}</td>
+                        <td>{{player.career.RecYds|zero}}</td>
+                        <td>{{player.career.RecAvg|zero}}</td>
+                        <td>{{player.career.RecLong|zero}}</td>
+                        <td>{{player.career.RecTD|zero}}</td>
+                        <td>{{player.career.Drops|zero}}</td>
+                        <td>{{player.career.CatchesPerGame|zero}}</td>
+                        <td>{{player.career.RecYdsPerGame|zero}}</td>
+                        <td>{{player.career.RecFD|zero}}</td>
+                        <td>{{player.career.RecFDPct|zero}}</td>
+                        <td>{{player.career.Rec20|zero}}</td>
+                        <td>{{player.career.Rec40|zero}}</td>
+                        <td>{{player.career.Fum|zero}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="Grid" ng-if="player.career.KR > 0 || player.career.PR > 0" style="margin-bottom: 15px;">
+                <tbody>
+                    <tr>
+                        <th class="left" colspan="14">Special Teams Stats</th>
+                    </tr>
+                    <tr class="alt">
+                        <td>Year</td>
+                        <td>Team</td>
+                        <td>G</td>
+                        <td>GS</td>
+                        <td>KR</td>
+                        <td>KR Yds</td>
+                        <td>KR Avg</td>
+                        <td>KR Lg</td>
+                        <td>KR TD</td>
+                        <td>PR</td>
+                        <td>PR Yds</td>
+                        <td>PR Avg</td>
+                        <td>PR Lg</td>
+                        <td>PR TD</td>
+                    </tr>
+                    <tr ng-repeat="s in player.stats" ng-class="{'alt': $index % 2 == 0}">
+                        <td>{{s.Season|zero}}</td>
+                        <td>{{s.Team}}</td>
+                        <td>{{s.G|zero}}</td>
+                        <td>{{s.GS|zero}}</td>
+                        <td>{{s.KR|zero}}</td>
+                        <td>{{s.KRYds|zero}}</td>
+                        <td>{{s.KRAvg|zero}}</td>
+                        <td>{{s.KRLong|zero}}</td>
+                        <td>{{s.KRTD|zero}}</td>
+                        <td>{{s.PuntRet|zero}}</td>
+                        <td>{{s.PuntRetYds|zero}}</td>
+                        <td>{{s.PuntRetAvg|zero}}</td>
+                        <td>{{s.PRLong|zero}}</td>
+                        <td>{{s.PuntRetTD|zero}}</td>
+                    </tr>
+
+                    <tr class="pgr">
+                        <td colspan="2">Career</td>
+                        <td>{{player.career.G|zero}}</td>
+                        <td>{{player.career.GS|zero}}</td>
+                        <td>{{player.career.KR|zero}}</td>
+                        <td>{{player.career.KRYds|zero}}</td>
+                        <td>{{player.career.KRAvg|zero}}</td>
+                        <td>{{player.career.KRLong|zero}}</td>
+                        <td>{{player.career.KRTD|zero}}</td>
+                        <td>{{player.career.PuntRet|zero}}</td>
+                        <td>{{player.career.PuntRetYds|zero}}</td>
+                        <td>{{player.career.PuntRetAvg|zero}}</td>
+                        <td>{{player.career.PRLong|zero}}</td>
+                        <td>{{player.career.PuntRetTD|zero}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="Grid" ng-if="player.career.XPA > 0 || player.career.FGA > 0" style="margin-bottom: 15px;">
+                <tbody>
+                    <tr>
+                        <th class="left" colspan="16">Kicking Stats</th>
+                    </tr>
+                    <tr class="alt">
+                        <td>Year</td>
+                        <td>Team</td>
+                        <td>G</td>
+                        <td>GS</td>
+                        <td>XPM</td>
+                        <td>XPA</td>
+                        <td>XP%</td>
+                        <td>FGM</td>
+                        <td>FGA</td>
+                        <td>FG%</td>
+                        <td>&lt;20</td>
+                        <td>20-29</td>
+                        <td>30-39</td>
+                        <td>40-49</td>
+                        <td>50+</td>
+                        <td>Lng</td>
+                    </tr>
+                    <tr ng-repeat="s in player.stats" ng-class="{'alt': $index % 2 == 0}">
+                        <td>{{s.Season|zero}}</td>
+                        <td>{{s.Team}}</td>
+                        <td>{{s.G|zero}}</td>
+                        <td>{{s.GS|zero}}</td>
+                        <td>{{s.XPM|zero}}</td>
+                        <td>{{s.XPA|zero}}</td>
+                        <td>{{s.XPPct|zero}}</td>
+                        <td>{{s.FGM|zero}}</td>
+                        <td>{{s.FGA|zero}}</td>
+                        <td>{{s.FGPct|zero}}</td>
+                        <td>{{s.FGM_U20|zero}}/{{s.FGA_U20|zero}}</td>
+                        <td>{{s.FGM_2029|zero}}/{{s.FGA_2029|zero}}</td>
+                        <td>{{s.FGM_3039|zero}}/{{s.FGA_3039|zero}}</td>
+                        <td>{{s.FGM_4049|zero}}/{{s.FGA_4049|zero}}</td>
+                        <td>{{s.FGM_50|zero}}/{{s.FGA_50|zero}}</td>
+                        <td>{{s.FGLong|zero}}</td>
+                    </tr>
+                    <tr class="pgr">
+                        <td colspan="2">Career</td>
+                        <td>{{player.career.G|zero}}</td>
+                        <td>{{player.career.GS|zero}}</td>
+                        <td>{{player.career.XPM|zero}}</td>
+                        <td>{{player.career.XPA|zero}}</td>
+                        <td>{{player.career.XPPct|zero}}</td>
+                        <td>{{player.career.FGM|zero}}</td>
+                        <td>{{player.career.FGA|zero}}</td>
+                        <td>{{player.career.FGPct|zero}}</td>
+                        <td>{{player.career.FGM_U20|zero}}/{{player.career.FGA_U20|zero}}</td>
+                        <td>{{player.career.FGM_2029|zero}}/{{player.career.FGA_2029|zero}}</td>
+                        <td>{{player.career.FGM_3039|zero}}/{{player.career.FGA_3039|zero}}</td>
+                        <td>{{player.career.FGM_4049|zero}}/{{player.career.FGA_4049|zero}}</td>
+                        <td>{{player.career.FGM_50|zero}}/{{player.career.FGA_50|zero}}</td>
+                        <td>{{player.career.FGLong|zero}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="Grid" ng-if="player.career.Punts > 0" style="margin-bottom: 15px;">
+                <tbody>
+                    <tr>
+                        <th class="left" colspan="9">Punting Stats</th>
+                    </tr>
+                    <tr class="alt">
+                        <td>Year</td>
+                        <td>Team</td>
+                        <td>G</td>
+                        <td>GS</td>
+                        <td>Punts</td>
+                        <td>Yds</td>
+                        <td>Avg</td>
+                        <td>Inside 20</td>
+                        <td>Long</td>
+                    </tr>
+                    <tr ng-repeat="s in player.stats" ng-class="{'alt': $index % 2 == 0}">
+                        <td>{{s.Season|zero}}</td>
+                        <td>{{s.Team}}</td>
+                        <td>{{s.G|zero}}</td>
+                        <td>{{s.GS|zero}}</td>
+                        <td>{{s.Punts|zero}}</td>
+                        <td>{{s.PuntYds|zero}}</td>
+                        <td>{{s.PuntAvg|zero}}</td>
+                        <td>{{s.PuntsI20|zero}}</td>
+                        <td>{{s.PuntLong|zero}}</td>
+                    </tr>
+                    <tr class="pgr">
+                        <td colspan="2">Career</td>
+                        <td>{{player.career.G|zero}}</td>
+                        <td>{{player.career.GS|zero}}</td>
+                        <td>{{player.career.Punts|zero}}</td>
+                        <td>{{player.career.PuntYds|zero}}</td>
+                        <td>{{player.career.PuntAvg|zero}}</td>
+                        <td>{{player.career.PuntsI20|zero}}</td>
+                        <td>{{player.career.PuntLong|zero}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="Grid" ng-if="player.career.Pan > 0 || player.career.SacksAll > 0 || player.career.MissedBlocks > 0" style="margin-bottom: 15px;">
+                <tbody>
+                    <tr>
+                        <th class="left" colspan="7">General Offensive Stats</th>
+                    </tr>
+                    <tr class="alt">
+                        <td>Year</td>
+                        <td>Team</td>
+                        <td>G</td>
+                        <td>GS</td>
+                        <td>Pancakes</td>
+                        <td>Sacks Allowed</td>
+                        <td>Missed Blocks</td>
+                    </tr>
+                    <tr>
+                    <tr ng-repeat="s in player.stats" ng-class="{'alt': $index % 2 == 0}">
+                        <td>{{s.Season|zero}}</td>
+                        <td>{{s.Team}}</td>
+                        <td>{{s.G|zero}}</td>
+                        <td>{{s.GS|zero}}</td>
+                        <td>{{s.Pan|zero}}</td>
+                        <td>{{s.SacksAll|zero}}</td>
+                        <td>{{s.MissedBlocks|zero}}</td>
+                    </tr>
+                    <tr class="pgr">
+                        <td colspan="2">Career</td>
+                        <td>{{player.career.G|zero}}</td>
+                        <td>{{player.career.GS|zero}}</td>
+                        <td>{{player.career.Pan|zero}}</td>
+                        <td>{{player.career.SacksAll|zero}}</td>
+                        <td>{{player.career.MissedBlocks|zero}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="Grid" ng-if="player.career.Tck || player.career.Int || player.career.Sacks || player.career.PassDef" style="margin-bottom: 15px;">
+                <tbody>
+                    <tr>
+                        <th class="left" colspan="16">Defensive Stats</th>
+                    </tr>
+                    <tr class="alt">
+                        <td>Year</td>
+                        <td>Team</td>
+                        <td>G</td>
+                        <td>GS</td>
+                        <td>Tck</td>
+                        <td>TFL</td>
+                        <td>Miss</td>
+                        <td>Hur</td>
+                        <td>KD</td>
+                        <td>FF/FR</td>
+                        <td>Sck</td>
+                        <td>Int</td>
+                        <td>PD</td>
+                        <td>Sfty</td>
+                        <td>Def. TD</td>
+                        <td>Blk P/XP/FG</td>
+                    </tr>
+                    <tr ng-repeat="s in player.stats" ng-class="{'alt': $index % 2 == 0}">
+                        <td>{{s.Season|zero}}</td>
+                        <td>{{s.Team}}</td>
+                        <td>{{s.G|zero}}</td>
+                        <td>{{s.GS|zero}}</td>
+                        <td>{{s.Tck|zero}}</td>
+                        <td>{{s.TFL|zero}}</td>
+                        <td>{{s.MissTck|zero}}</td>
+                        <td>{{s.Hurries|zero}}</td>
+                        <td>{{s.Knockdowns|zero}}</td>
+                        <td>{{s.FF|zero}}/{{s.FR|zero}}</td>
+                        <td>{{s.Sacks|zero}}</td>
+                        <td>{{s.Int|zero}}</td>
+                        <td>{{s.PassDef|zero}}</td>
+                        <td>{{s.Sfty|zero}}</td>
+                        <td>{{s.DefTD|zero}}</td>
+                        <td>{{s.BlkPunt|zero}}/{{s.BlkPAT|zero}}/{{s.BlkFG|zero}}</td>
+                    </tr>
+
+                    <tr class="pgr">
+                        <td colspan="2">Career</td>
+                        <td>{{player.career.G|zero}}</td>
+                        <td>{{player.career.GS|zero}}</td>
+                        <td>{{player.career.Tck|zero}}</td>
+                        <td>{{player.career.TFL|zero}}</td>
+                        <td>{{player.career.MissTck|zero}}</td>
+                        <td>{{player.career.Hurries|zero}}</td>
+                        <td>{{player.career.Knockdowns|zero}}</td>
+                        <td>{{player.career.FF|zero}}/{{player.career.FR|zero}}</td>
+                        <td>{{player.career.Sacks|zero}}</td>
+                        <td>{{player.career.Int|zero}}</td>
+                        <td>{{player.career.PassDef|zero}}</td>
+                        <td>{{player.career.Sfty|zero}}</td>
+                        <td>{{player.career.DefTD|zero}}</td>
+                        <td>{{player.career.BlkPunt|zero}}/{{player.career.BlkPAT|zero}}/{{player.career.BlkFG|zero}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <br />
+        </div>
+        <div id="tabs-5" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+            <table class="Grid">
+                <tbody>
+                    <tr>
+                        <th class="left" colspan="6">Game Records</th>
+                    </tr>
+                    <tr class="alt">
+                        <td>Name</td>
+                        <td>Season</td>
+                        <td>Week</td>
+                        <td>Team</td>
+                        <td>Versus</td>
+                        <td>Record</td>
+                    </tr>
+                    <tr ng-repeat="r in player.gamerec" ng-class="{'alt': $index % 2 == 0}">
+                        <td>{{r.Record|zero}}</td>
+                        <td>{{r.Sea|zero}}</td>
+                        <td>{{r.Week|zero}}</td>
+                        <td>{{r.Team|zero}}</td>
+                        <td>{{r.VS|zero}}</td>
+                        <td>{{r.Value|zero}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+        </div>
+        <div id="tabs-6" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+            <table class="Grid">
+                <tbody>
+                    <tr>
+                        <th class="left" colspan="4">Season Records</th>
+                    </tr>
+                    <tr class="alt">
+                        <td>Name</td>
+                        <td>Season</td>
+                        <td>Team</td>
+                        <td>Record</td>
+                    </tr>
+                    <tr ng-repeat="r in player.seasonrec" ng-class="{'alt': $index % 2 == 0}">
+                        <td>{{r.Record|zero}}</td>
+                        <td>{{r.Sea|zero}}</td>
+                        <td>{{r.Team|zero}}</td>
+                        <td>{{r.Value|zero}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>
+</td></tr><tr><td style="text-align: center; font-weight: bold; padding-top: 15px;">Powered by Draft Day Sports: Pro Football | <a alt="Wolverine Studios" href="http://www.wolverinestudios.com">http://www.wolverinestudios.com</a></td></tr></table></body></html>
