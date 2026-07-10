@@ -1,0 +1,11 @@
+/* Use this file to override styles in the default.css file.
+
+Example, to change the color of highlighted text use this code: 
+
+tr.hilite td
+{
+color: #000 !important;
+}
+
+*/
+

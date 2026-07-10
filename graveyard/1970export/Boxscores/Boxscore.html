@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html ng-app="myApp"><head><title>Draft Day Sports: Professional Football</title><meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" >
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" title=master href="../Styles/Default.css"><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script><script type="text/javascript" src="../Scripts/jquery.tablesorter.min.js"></script><link rel="stylesheet" type="text/css" title="master" href="../Styles/jquery-ui.custom.css"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script><script type="text/javascript" src="../Scripts/lz-string.js"></script><script type="text/javascript">
+    'use strict';
+// Declare app level module which depends on views, and components
+angular.module('myApp', [])
+.filter('zero', function() {
+    return function(input) {
+        if (angular.isUndefined(input) || input === null || input === '') {
+            return 0;
+        }
+
+        return input;
+    }
+})
+.controller('boxscoreController', ['$http', '$scope', '$filter', function ($http, $scope, $filter) {
+    $scope.boxscore = null;
+
+    var lzw_decode = function (compressed) {
+        var i,
+               dictionary = [],
+               w,
+               result,
+               k,
+               entry = "",
+               dictSize = 256;
+        for (i = 0; i < 256; i += 1) {
+            dictionary[i] = String.fromCharCode(i);
+        }
+
+        w = String.fromCharCode(compressed[0]);
+        result = w;
+        for (i = 1; i < compressed.length; i += 1) {
+            k = compressed[i];
+            if (dictionary[k]) {
+                entry = dictionary[k];
+            } else {
+                if (k === dictSize) {
+                    entry = w + w.charAt(0);
+                } else {
+                    return null;
+                }
+            }
+
+            result += entry;
+
+            // Add w+entry[0] to the dictionary.
+            dictionary[dictSize++] = w + entry.charAt(0);
+
+            w = entry;
+        }
+        return result;
+    }
+	
+    var getParameterByName = function (name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    var boxscoreId = getParameterByName('id');
+    boxscoreId = parseInt(boxscoreId);
+
+    var url = "boxscoreData" + (1 + (boxscoreId % 10)) + ".txt";
+	
+	$http({ method: 'GET', url: url }).then(function successCallback(response) {
+
+        var output = LZString.decompressFromEncodedURIComponent(response.data);
+        var data = JSON.parse(output);
+        $scope.boxscore = $filter('filter')(data, { "id": boxscoreId }, true)[0];
+
+    }, function errorCallback(response) {
+        console.log(response);
+        $scope.boxscore = null;
+    });
+
+
+}]);
+
+</script>
+
+<link rel="stylesheet" type="text/css" title=master href="../Styles/Custom.css"></head><body><table class="main_table_960" cellpadding="0" cellspacing="0"><tr><td style="border: 1px solid black; background-color: white; padding: 3px;"><div class="menucontainer"><ul class="memu"><li class="memu-root"><a href="#">League</a><ul><li><a class=ml target="_top" href="../Index.html">Home</a></li><li><a class=ml target="_top" href="../Transactions.html">Transactions</a></li><li><a class=ml target="_top" href="../Newspaper.html">Newspaper</a></li><li><a class=ml target="_top" href="../TrainingCampResults.html">Training Camps</a></li><li><a class=ml target="_top" href="../Standings.html">Standings</a></li><li><a class=ml target="_top" href="../GameResults.html">Weekly Results</a></li><li><a class=ml target="_top" href="../PlayoffResults.html">Playoff Results</a></li><li><a class=ml target="_top" href="../ProBowlRosters.html">Pro Bowl Rosters</a></li><li><a class=ml target="_top" href="../Boxscores/Boxscore.html?id=2006">Pro Bowl Boxscore</a></li><li><a class=ml target="_top" href="../LeagueLeaders.html">League Leaders</a></li><li><a class=ml target="_top" href="../LeagueAwards.html">League Awards</a></li><li><a class=ml target="_top" href="../TopPerformances.html">Top Performances</a></li><li><a class=ml target="_top" href="../TeamPowerRankings.html">Team Power Rankings</a></li><li><a class=ml target="_top" href="../LeagueOwners.html">League Owners</a></li><li><a class=ml target="_top" href="../TeamInfo.html">Team Info</a></li><li><a class=ml target="_top" href="../TeamSalaries.html">Team Salaries</a></li></ul></li><li class="memu-root"><a href="#">Records</a><ul><li><a class=ml target="_top" href="../LeagueGameRecords.html">Records - Game</a></li><li><a class=ml target="_top" href="../LeagueSeasonRecords.html">Records - Season</a></li><li><a class=ml target="_top" href="../LeaguePlayoffRecords.html">Records - Playoffs</a></li><li><a class=ml target="_top" href="../Top10Career.html">Top 10 Career</a></li><li><a class=ml target="_top" href="../Top10Season.html">Top 10 Season</a></li><li><a class=ml target="_top" href="../Top10Playoff.html">Top 10 Career Playoff</a></li></ul></li><li class="memu-root"><a href="#">Players</a><ul><li><a class=ml target="_top" href="../FreeAgents.html">Free Agents</a></li><li><a class=ml target="_top" href="../RetiredPlayers.html">Retired Players</a></li><li><a class=ml target="_top" href="../DraftPool.html">Current Draft Pool</a></li><li><a class=ml target="_top" href="../UpcomingDraftPool.html">Upcoming Draft Pool</a></li></ul></li><li class="memu-root"><a href="#">Player Stats</a><ul><li><a class=ml target="_top" href="../LeaguePassingStats.html">Passing</a></li><li><a class=ml target="_top" href="../LeagueRushingStats.html">Rushing</a></li><li><a class=ml target="_top" href="../LeagueReceivingStats.html">Receiving</a></li><li><a class=ml target="_top" href="../LeagueDefensiveStats.html">Defense</a></li><li><a class=ml target="_top" href="../LeagueKickingStats.html">Kicking</a></li><li><a class=ml target="_top" href="../LeaguePuntingStats.html">Punting</a></li><li><a class=ml target="_top" href="../LeagueOffensiveLineStats.html">Offensive Line</a></li><li><a class=ml target="_top" href="../LeagueSpecialTeamsStats.html">Special Teams</a></li></ul></li><li class="memu-root"><a href="#">Team Stats</a><ul><li><a class=ml target="_top" href="../TeamLeaguePassingStats.html">Passing</a></li><li><a class=ml target="_top" href="../TeamLeagueRushingStats.html">Rushing</a></li><li><a class=ml target="_top" href="../TeamLeagueReceivingStats.html">Receiving</a></li><li><a class=ml target="_top" href="../TeamLeagueDefensiveStats.html">Defense</a></li><li><a class=ml target="_top" href="../TeamLeagueKickingStats.html">Kicking</a></li><li><a class=ml target="_top" href="../TeamLeaguePuntingStats.html">Punting</a></li><li><a class=ml target="_top" href="../TeamLeagueOffensiveLineStats.html">Offensive Line</a></li><li><a class=ml target="_top" href="../TeamLeagueSpecialTeamsStats.html">Special Teams</a></li></ul></li><li class="memu-root"><a href="#">NFC</a><ul><li><a class=mlt target="_top" href="../Teams/29.html"><img class="memu-icon" src='../Images/Logos/29_s.png' />49ers</a></li><li><a class=mlt target="_top" href="../Teams/22.html"><img class="memu-icon" src='../Images/Logos/22_s.png' />Bears</a></li><li><a class=mlt target="_top" href="../Teams/36.html"><img class="memu-icon" src='../Images/Logos/36_s.png' />Cardinals</a></li><li><a class=mlt target="_top" href="../Teams/19.html"><img class="memu-icon" src='../Images/Logos/19_s.png' />Cowboys</a></li><li><a class=mlt target="_top" href="../Teams/17.html"><img class="memu-icon" src='../Images/Logos/17_s.png' />Eagles</a></li><li><a class=mlt target="_top" href="../Teams/41.html"><img class="memu-icon" src='../Images/Logos/41_s.png' />Falcons</a></li><li><a class=mlt target="_top" href="../Teams/18.html"><img class="memu-icon" src='../Images/Logos/18_s.png' />Giants</a></li><li><a class=mlt target="_top" href="../Teams/23.html"><img class="memu-icon" src='../Images/Logos/23_s.png' />Lions</a></li><li><a class=mlt target="_top" href="../Teams/21.html"><img class="memu-icon" src='../Images/Logos/21_s.png' />Packers</a></li><li><a class=mlt target="_top" href="../Teams/35.html"><img class="memu-icon" src='../Images/Logos/35_s.png' />Rams</a></li><li><a class=mlt target="_top" href="../Teams/20.html"><img class="memu-icon" src='../Images/Logos/20_s.png' />Redskins</a></li><li><a class=mlt target="_top" href="../Teams/44.html"><img class="memu-icon" src='../Images/Logos/44_s.png' />Saints</a></li><li><a class=mlt target="_top" href="../Teams/24.html"><img class="memu-icon" src='../Images/Logos/24_s.png' />Vikings</a></li></ul></li><li class="memu-root"><a href="#">AFC</a><ul><li><a class=mlt target="_top" href="../Teams/43.html"><img class="memu-icon" src='../Images/Logos/43_s.png' />Bengals</a></li><li><a class=mlt target="_top" href="../Teams/1.html"><img class="memu-icon" src='../Images/Logos/1_s.png' />Bills</a></li><li><a class=mlt target="_top" href="../Teams/13.html"><img class="memu-icon" src='../Images/Logos/13_s.png' />Broncos</a></li><li><a class=mlt target="_top" href="../Teams/8.html"><img class="memu-icon" src='../Images/Logos/8_s.png' />Browns</a></li><li><a class=mlt target="_top" href="../Teams/16.html"><img class="memu-icon" src='../Images/Logos/16_s.png' />Chargers</a></li><li><a class=mlt target="_top" href="../Teams/14.html"><img class="memu-icon" src='../Images/Logos/14_s.png' />Chiefs</a></li><li><a class=mlt target="_top" href="../Teams/40.html"><img class="memu-icon" src='../Images/Logos/40_s.png' />Colts</a></li><li><a class=mlt target="_top" href="../Teams/42.html"><img class="memu-icon" src='../Images/Logos/42_s.png' />Dolphins</a></li><li><a class=mlt target="_top" href="../Teams/3.html"><img class="memu-icon" src='../Images/Logos/3_s.png' />Jets</a></li><li><a class=mlt target="_top" href="../Teams/38.html"><img class="memu-icon" src='../Images/Logos/38_s.png' />Oilers</a></li><li><a class=mlt target="_top" href="../Teams/34.html"><img class="memu-icon" src='../Images/Logos/34_s.png' />Patriots</a></li><li><a class=mlt target="_top" href="../Teams/15.html"><img class="memu-icon" src='../Images/Logos/15_s.png' />Raiders</a></li><li><a class=mlt target="_top" href="../Teams/7.html"><img class="memu-icon" src='../Images/Logos/7_s.png' />Steelers</a></li></ul></li></ul></div><div ng-controller="boxscoreController" ng-show="boxscore">
+
+
+       <table width="100%" cellspacing="0" cellpadding="5">
+        <tbody>
+            <tr>
+                <td rowspan="3" style="font-size: 9pt; text-align: center; width: 20%;">
+                    <img ng-src="../Images/Logos/{{boxscore.aId}}.png" align="middle" />
+                    <br />{{boxscore.aMascot}} - {{boxscore.aF|zero}}
+                </td>
+                <td width="60%">
+                    <table class="Box" cellspacing="3" cellpadding="3">
+                        <tbody>
+                            <tr>
+                                <th align="left">Team</th>
+                                <th>1st</th>
+                                <th>2nd</th>
+                                <th>3rd</th>
+                                <th>4th</th>
+                                <th ng-if="boxscore.ot">OT</th>
+                                <th>F</th>
+                            </tr>
+                            <tr>
+                                <td>{{boxscore.aMascot}} ({{boxscore.aRec|zero}})</td>
+                                <td class="GrayBox">{{boxscore.a1Q|zero}}</td>
+                                <td class="GrayBox">{{boxscore.a2Q|zero}}</td>
+                                <td class="GrayBox">{{boxscore.a3Q|zero}}</td>
+                                <td class="GrayBox">{{boxscore.a4Q|zero}}</td>
+                                <td ng-if="boxscore.ot" class="GrayBox">{{boxscore.aOT|zero}}</td>
+                                <td class="GrayBox">{{boxscore.aF|zero}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{boxscore.hMascot}} ({{boxscore.hRec|zero}})</td>
+                                <td class="GrayBox">{{boxscore.h1Q|zero}}</td>
+                                <td class="GrayBox">{{boxscore.h2Q|zero}}</td>
+                                <td class="GrayBox">{{boxscore.h3Q|zero}}</td>
+                                <td class="GrayBox">{{boxscore.h4Q|zero}}</td>
+                                <td ng-if="boxscore.ot" class="GrayBox">{{boxscore.hOT|zero}}</td>
+                                <td class="GrayBox">{{boxscore.hF|zero}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="7">
+                                    <a href="../Logs/PBP.html?id={{boxscore.id}}">Play By Play</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                    <table class="Box" cellspacing="3" cellpadding="3">
+                        <tbody>
+                            <tr>
+                                <td style="font-size: 8pt;">
+                                    Offensive POG:
+                                    <a ng-href="../Players/Player.html?id={{boxscore.oPOGId}}">{{boxscore.oPOG}}</a>
+                                    <br />Defensive POG:
+                                    <a ng-href="../Players/Player.html?id={{boxscore.dPOGId}}">{{boxscore.dPOG}}</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+					<br />
+                    <table class="Box" cellspacing="3" cellpadding="3">
+                        <tbody>
+                            <tr>
+                                <td style="font-size: 8pt;">
+                                   Weather: {{boxscore.weather}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td rowspan="3" style="font-size: 9pt; text-align: center; width: 20%;">
+                    <img ng-src="../Images/Logos/{{boxscore.hId}}.png" align="middle" />
+                    <br />{{boxscore.hMascot}} - {{boxscore.hF|zero}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+    <table width="100%" cellspacing="0" cellpadding="5">
+        <tbody>
+            <tr valign="top">
+                <td width="50%">
+                    <table class="Grid">
+                        <tbody>
+                            <tr>
+                                <th colspan="6">Scoring Summary</th>
+                            </tr>
+                            <tr class="alt">
+                                <td colspan="4">First Quarter</td>
+                                <td>{{boxscore.aAbb}}</td>
+                                <td>{{boxscore.hAbb}}</td>
+                            </tr>
+                            <tr ng-repeat="score in boxscore.scoring1Q">
+                                <td align="center">
+                                    <img ng-src="../Images/Logos/{{score.team}}_s.png" align="middle" />
+                                </td>
+                                <td>{{score.type|zero}}</td>
+                                <td>{{score.time|zero}}</td>
+                                <td>{{score.play|zero}}</td>
+                                <td>{{score.a|zero}}</td>
+                                <td>{{score.h|zero}}</td>
+                            </tr>
+                            <tr class="alt">
+                                <td colspan="4">Second Quarter</td>
+                                <td>{{boxscore.aAbb}}</td>
+                                <td>{{boxscore.hAbb}}</td>
+                            </tr>
+                            <tr ng-repeat="score in boxscore.scoring2Q">
+                                <td align="center">
+                                    <img ng-src="../Images/Logos/{{score.team}}_s.png" align="middle" />
+                                </td>
+                                <td>{{score.type|zero}}</td>
+                                <td>{{score.time|zero}}</td>
+                                <td>{{score.play|zero}}</td>
+                                <td>{{score.a|zero}}</td>
+                                <td>{{score.h|zero}}</td>
+                            </tr>
+                            <tr class="alt">
+                                <td colspan="4">Third Quarter</td>
+                                <td>{{boxscore.aAbb}}</td>
+                                <td>{{boxscore.hAbb}}</td>
+                            </tr>
+                            <tr ng-repeat="score in boxscore.scoring3Q">
+                                <td align="center">
+                                    <img ng-src="../Images/Logos/{{score.team}}_s.png" align="middle" />
+                                </td>
+                                <td>{{score.type|zero}}</td>
+                                <td>{{score.time|zero}}</td>
+                                <td>{{score.play|zero}}</td>
+                                <td>{{score.a|zero}}</td>
+                                <td>{{score.h|zero}}</td>
+                            </tr>
+                            <tr class="alt">
+                                <td colspan="4">Fourth Quarter</td>
+                                <td>{{boxscore.aAbb}}</td>
+                                <td>{{boxscore.hAbb}}</td>
+                            </tr>
+                            <tr ng-repeat="score in boxscore.scoring4Q">
+                                <td align="center">
+                                    <img ng-src="../Images/Logos/{{score.team|zero}}_s.png" align="middle" />
+                                </td>
+                                <td>{{score.type|zero}}</td>
+                                <td>{{score.time|zero}}</td>
+                                <td>{{score.play|zero}}</td>
+                                <td>{{score.a|zero}}</td>
+                                <td>{{score.h|zero}}</td>
+                            </tr>
+                            <tr class="alt" ng-if="boxscore.scoringOT.length > 0">
+                                <td colspan="4">Overtime</td>
+                                <td>{{boxscore.aAbb}}</td>
+                                <td>{{boxscore.hAbb}}</td>
+                            </tr>
+                            <tr ng-repeat="score in boxscore.scoringOT" ng-if="boxscore.scoringOT.length > 0">
+                                <td align="center">
+                                    <img ng-src="../Images/Logos/{{score.team}}_s.png" align="middle" />
+                                </td>
+                                <td>{{score.type|zero}}</td>
+                                <td>{{score.time|zero}}</td>
+                                <td>{{score.play|zero}}</td>
+                                <td>{{score.a|zero}}</td>
+                                <td>{{score.h|zero}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <table class="Grid">
+                        <tbody>
+                            <tr>
+                                <th colspan="3">Team Stats</th>
+                            </tr>
+                            <tr class="alt">
+                                <td></td>
+                                <td>{{boxscore.aMascot}}</td>
+                                <td>{{boxscore.hMascot}}</td>
+                            </tr>
+                            <tr class="alt">
+                                <td>First Downs</td>
+                                <td>{{boxscore.aFD|zero}}</td>
+                                <td>{{boxscore.hFD|zero}}</td>
+                            </tr>
+                            <tr>
+                                <td> 3rd Down Efficiency</td>
+                                <td>{{boxscore.a3rdM|zero}}/{{boxscore.a3rdA|zero}}</td>
+                                <td>{{boxscore.h3rdM|zero}}/{{boxscore.h3rdA|zero}}</td>
+                            </tr>
+                            <tr>
+                                <td> 4th Down Efficiency</td>
+                                <td>{{boxscore.a4thM|zero}}/{{boxscore.a4thA|zero}}</td>
+                                <td>{{boxscore.h4thM|zero}}/{{boxscore.h4thA|zero}}</td>
+                            </tr>
+                            <tr class="alt">
+                                <td>Total Yards</td>
+                                <td>{{boxscore.aYds|zero}}</td>
+                                <td>{{boxscore.hYds|zero}}</td>
+                            </tr>
+                            <tr class="alt">
+                                <td>Passing</td>
+                                <td>{{boxscore.aPassing|zero}}</td>
+                                <td>{{boxscore.hPassing|zero}}</td>
+                            </tr>
+                            <tr>
+                                <td> Comp/Att</td>
+                                <td>{{boxscore.aComp|zero}}/{{boxscore.aAtt|zero}}</td>
+                                <td>{{boxscore.hComp|zero}}/{{boxscore.hAtt|zero}}</td>
+                            </tr>
+                            <tr>
+                                <td> Yards per Att</td>
+                                <td>{{boxscore.aYPP|zero}}</td>
+                                <td>{{boxscore.hYPP|zero}}</td>
+                            </tr>
+                            <tr class="alt">
+                                <td>Rushing</td>
+                                <td>{{boxscore.aRushing|zero}}</td>
+                                <td>{{boxscore.hRushing|zero}}</td>
+                            </tr>
+                            <tr>
+                                <td> Rushing Attempts</td>
+                                <td>{{boxscore.aRushes|zero}}</td>
+                                <td>{{boxscore.hRushes|zero}}</td>
+                            </tr>
+                            <tr>
+                                <td> Yards per Rush</td>
+                                <td>{{boxscore.aYPR|zero}}</td>
+                                <td>{{boxscore.hYPR|zero}}</td>
+                            </tr>
+                            <tr class="alt">
+                                <td>Penalties</td>
+                                <td>{{boxscore.aPen|zero}}-{{boxscore.aPenYds|zero}}</td>
+                                <td>{{boxscore.hPen|zero}}-{{boxscore.hPenYds|zero}}</td>
+                            </tr>
+                            <tr class="alt">
+                                <td>Turnovers</td>
+                                <td>{{boxscore.aTO|zero}}</td>
+                                <td>{{boxscore.hTO|zero}}</td>
+                            </tr>
+                            <tr>
+                                <td> Fumbles (Lost)</td>
+                                <td>{{boxscore.aFum|zero}} ({{boxscore.aFumL|zero}})</td>
+                                <td>{{boxscore.hFum|zero}} ({{boxscore.hFumL|zero}})</td>
+                            </tr>
+                            <tr>
+                                <td> Had Intercepted</td>
+                                <td>{{boxscore.aInt|zero}}</td>
+                                <td>{{boxscore.hInt|zero}}</td>
+                            </tr>
+                            <tr class="alt">
+                                <td>Time of Possession</td>
+                                <td>{{boxscore.aTOP|zero}}</td>
+                                <td>{{boxscore.hTOP|zero}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table width="100%" cellspacing="0" cellpadding="5" border="0">
+        <tbody>
+            <tr>
+                <td width="50%" valign="top">
+                    <table class="Grid">
+                        <tbody>
+                            <tr>
+                                <th class="left" colspan="7">Passing</th>
+                            </tr>
+                            <tr class="alt">
+                                <td></td>
+                                <td>Cp/At</td>
+                                <td>Yds</td>
+                                <td>Avg</td>
+                                <td>TD</td>
+                                <td>Int</td>
+                                <td>Rat</td>
+                            </tr>
+                            <tr ng-repeat="s in boxscore.aStatsPassing" ng-class="{'alt': $index % 2 == 0}">
+                                <td>
+                                    <a href="../Players/Player.html?id={{s.id}}">{{s.name}}</a>
+                                </td>
+                                <td>{{s.c|zero}}/{{s.a|zero}}</td>
+                                <td>{{s.y|zero}}</td>
+                                <td>{{s.avg|zero}}</td>
+                                <td>{{s.td|zero}}</td>
+                                <td>{{s.i|zero}}</td>
+                                <td>{{s.r|zero}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td width="50%" valign="top">
+                    <table class="Grid">
+                        <tbody>
+                            <tr>
+                                <th class="left" colspan="7">Passing</th>
+                            </tr>
+                            <tr class="alt">
+                                <td></td>
+                                <td>Cp/At</td>
+                                <td>Yds</td>
+                                <td>Avg</td>
+                                <td>TD</td>
+                                <td>Int</td>
+                                <td>Rat</td>
+                            </tr>
+                            <tr ng-repeat="s in boxscore.hStatsPassing" ng-class="{'alt': $index % 2 == 0}">
+                                <td>
+                                    <a href="../Players/Player.html?id={{s.id}}">{{s.name}}</a>
+                                </td>
+                                <td>{{s.c|zero}}/{{s.a|zero}}</td>
+                                <td>{{s.y|zero}}</td>
+                                <td>{{s.avg|zero}}</td>
+                                <td>{{s.td|zero}}</td>
+                                <td>{{s.i|zero}}</td>
+                                <td>{{s.r|zero}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" valign="top">
+                    <table class="Grid">
+                        <tbody>
+                            <tr>
+                                <th class="left" colspan="6">Rushing</th>
+                            </tr>
+                            <tr class="alt">
+                                <td></td>
+                                <td>Att</td>
+                                <td>Yds</td>
+                                <td>Avg</td>
+                                <td>Lg</td>
+                                <td>TD</td>
+                            </tr>
+                            <tr ng-repeat="s in boxscore.aStatsRushing" ng-class="{'alt': $index % 2 == 0}">
+                                <td>
+                                    <a href="../Players/Player.html?id={{s.id}}">{{s.name}}</a>
+                                </td>
+                                <td>{{s.a|zero}}</td>
+                                <td>{{s.y|zero}}</td>
+                                <td>{{s.avg|zero}}</td>
+                                <td>{{s.l|zero}}</td>
+                                <td>{{s.td|zero}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td width="50%" valign="top">
+                    <table class="Grid">
+                        <tbody>
+                            <tr>
+                                <th class="left" colspan="6">Rushing</th>
+                            </tr>
+                            <tr class="alt">
+                                <td></td>
+                                <td>Att</td>
+                                <td>Yds</td>
+                                <td>Avg</td>
+                                <td>Lg</td>
+                                <td>TD</td>
+                            </tr>
+                            <tr ng-repeat="s in boxscore.hStatsRushing" ng-class="{'alt': $index % 2 == 0}">
+                                <td>
+                                    <a href="../Players/Player.html?id={{s.id}}">{{s.name}}</a>
+                                </td>
+                                <td>{{s.a|zero}}</td>
+                                <td>{{s.y|zero}}</td>
+                                <td>{{s.avg|zero}}</td>
+                                <td>{{s.l|zero}}</td>
+                                <td>{{s.td|zero}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" valign="top">
+                    <table class="Grid">
+                        <tbody>
+                            <tr>
+                                <th class="left" colspan="6">Receiving</th>
+                            </tr>
+                            <tr class="alt">
+                                <td></td>
+                                <td>Rec</td>
+                                <td>Yds</td>
+                                <td>Avg</td>
+                                <td>Lg</td>
+                                <td>TD</td>
+                            </tr>
+                            <tr ng-repeat="s in boxscore.aStatsReceiving" ng-class="{'alt': $index % 2 == 0}">
+                                <td>
+                                    <a href="../Players/Player.html?id={{s.id}}">{{s.name}}</a>
+                                </td>
+                                <td>{{s.c|zero}}</td>
+                                <td>{{s.y|zero}}</td>
+                                <td>{{s.avg|zero}}</td>
+                                <td>{{s.l|zero}}</td>
+                                <td>{{s.td|zero}}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </td>
+                <td width="50%" valign="top">
+                    <table class="Grid">
+                        <tbody>
+                            <tr>
+                                <th class="left" colspan="6">Receiving</th>
+                            </tr>
+                            <tr class="alt">
+                                <td></td>
+                                <td>Rec</td>
+                                <td>Yds</td>
+                                <td>Avg</td>
+                                <td>Lg</td>
+                                <td>TD</td>
+                            </tr>
+                            <tr ng-repeat="s in boxscore.hStatsReceiving" ng-class="{'alt': $index % 2 == 0}">
+                                <td>
+                                    <a href="../Players/Player.html?id={{s.id}}">{{s.name}}</a>
+                                </td>
+                                <td>{{s.c|zero}}</td>
+                                <td>{{s.y|zero}}</td>
+                                <td>{{s.avg|zero}}</td>
+                                <td>{{s.l|zero}}</td>
+                                <td>{{s.td|zero}}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" valign="top">
+                    <table class="Grid">
+                        <tbody>
+                            <tr>
+                                <th class="left" colspan="7">Kicking</th>
+                            </tr>
+                            <tr class="alt">
+                                <td></td>
+                                <td>XP</td>
+                                <td>FG &lt; 20</td>
+                                <td>20-29</td>
+                                <td>30-39</td>
+                                <td>40-49</td>
+                                <td>50+</td>
+                            </tr>
+                            <tr ng-repeat="s in boxscore.aStatsKicking" ng-class="{'alt': $index % 2 == 0}">
+                                <td>
+                                    <a href="../Players/Player.html?id={{s.id}}">{{s.name}}</a>
+                                </td>
+                                <td>{{s.xpm|zero}}/{{s.xpa|zero}}</td>
+                                <td>{{s.fgm_u20|zero}}/{{s.fga_u20|zero}}</td>
+                                <td>{{s.fgm_2029|zero}}/{{s.fga_2029|zero}}</td>
+                                <td>{{s.fgm_3039|zero}}/{{s.fga_3039|zero}}</td>
+                                <td>{{s.fgm_4049|zero}}/{{s.fga_4049|zero}}</td>
+                                <td>{{s.fgm_50|zero}}/{{s.fga_50|zero}}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </td>
+                <td width="50%" valign="top">
+                    <table class="Grid">
+                        <tbody>
+                            <tr>
+                                <th class="left" colspan="7">Kicking</th>
+                            </tr>
+                            <tr class="alt">
+                                <td></td>
+                                <td>XP</td>
+                                <td>FG &lt; 20</td>
+                                <td>20-29</td>
+                                <td>30-39</td>
+                                <td>40-49</td>
+                                <td>50+</td>
+                            </tr>
+                            <tr ng-repeat="s in boxscore.hStatsKicking" ng-class="{'alt': $index % 2 == 0}">
+                                <td>
+                                    <a href="../Players/Player.html?id={{s.id}}">{{s.name}}</a>
+                                </td>
+                                <td>{{s.xpm|zero}}/{{s.xpa|zero}}</td>
+                                <td>{{s.fgm_u20|zero}}/{{s.fga_u20|zero}}</td>
+                                <td>{{s.fgm_2029|zero}}/{{s.fga_2029|zero}}</td>
+                                <td>{{s.fgm_3039|zero}}/{{s.fga_3039|zero}}</td>
+                                <td>{{s.fgm_4049|zero}}/{{s.fga_4049|zero}}</td>
+                                <td>{{s.fgm_50|zero}}/{{s.fga_50|zero}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" valign="top">
+                    <table class="Grid">
+                        <tbody>
+                            <tr>
+                                <th class="left" colspan="6">Punting</th>
+                            </tr>
+                            <tr class="alt">
+                                <td></td>
+                                <td>Punts</td>
+                                <td>Yds</td>
+                                <td>Avg</td>
+                                <td>Lng</td>
+                                <td>Inside 20</td>
+                            </tr>
+                            <tr ng-repeat="s in boxscore.aStatsPunting" ng-class="{'alt': $index % 2 == 0}">
+                                <td>
+                                    <a href="../Players/Player.html?id={{s.id}}">{{s.name}}</a>
+                                </td>
+                                <td>{{s.p|zero}}</td>
+                                <td>{{s.y|zero}}</td>
+                                <td>{{s.a|zero}}</td>
+                                <td>{{s.l|zero}}</td>
+                                <td>{{s.i|zero}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td width="50%" valign="top">
+                    <table class="Grid">
+                        <tbody>
+                            <tr>
+                                <th class="left" colspan="6">Punting</th>
+                            </tr>
+                            <tr class="alt">
+                                <td></td>
+                                <td>Punts</td>
+                                <td>Yds</td>
+                                <td>Avg</td>
+                                <td>Lng</td>
+                                <td>Inside 20</td>
+                            </tr>
+                            <tr ng-repeat="s in boxscore.hStatsPunting" ng-class="{'alt': $index % 2 == 0}">
+                                <td>
+                                    <a href="../Players/Player.html?id={{s.id}}">{{s.name}}</a>
+                                </td>
+                                <td>{{s.p|zero}}</td>
+                                <td>{{s.y|zero}}</td>
+                                <td>{{s.a|zero}}</td>
+                                <td>{{s.l|zero}}</td>
+                                <td>{{s.i|zero}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" valign="top">
+                    <table class="Grid">
+                        <tbody>
+                            <tr>
+                                <th class="left" colspan="9">Special Teams</th>
+                            </tr>
+                            <tr class="alt">
+                                <td></td>
+                                <td>KR</td>
+                                <td>Yds</td>
+                                <td>Lng</td>
+                                <td>TD</td>
+                                <td>PR</td>
+                                <td>Yds</td>
+                                <td>Lng</td>
+                                <td>TD</td>
+                            </tr>
+                            <tr ng-repeat="s in boxscore.aStatsST" ng-class="{'alt': $index % 2 == 0}">
+                                <td>
+                                    <a href="../Players/Player.html?id={{s.id}}">{{s.name}}</a>
+                                </td>
+                                <td>{{s.kr|zero}}</td>
+                                <td>{{s.kry|zero}}</td>
+                                <td>{{s.krl|zero}}</td>
+                                <td>{{s.krt|zero}}</td>
+                                <td>{{s.pr|zero}}</td>
+                                <td>{{s.pry|zero}}</td>
+                                <td>{{s.prl|zero}}</td>
+                                <td>{{s.prt|zero}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td width="50%" valign="top">
+                    <table class="Grid">
+                        <tbody>
+                            <tr>
+                                <th class="left" colspan="9">Special Teams</th>
+                            </tr>
+                            <tr class="alt">
+                                <td></td>
+                                <td>KR</td>
+                                <td>Yds</td>
+                                <td>Lng</td>
+                                <td>TD</td>
+                                <td>PR</td>
+                                <td>Yds</td>
+                                <td>Lng</td>
+                                <td>TD</td>
+                            </tr>
+                            <tr ng-repeat="s in boxscore.hStatsST" ng-class="{'alt': $index % 2 == 0}">
+                                <td>
+                                    <a href="../Players/Player.html?id={{s.id}}">{{s.name}}</a>
+                                </td>
+                                <td>{{s.kr|zero}}</td>
+                                <td>{{s.kry|zero}}</td>
+                                <td>{{s.krl|zero}}</td>
+                                <td>{{s.krt|zero}}</td>
+                                <td>{{s.pr|zero}}</td>
+                                <td>{{s.pry|zero}}</td>
+                                <td>{{s.prl|zero}}</td>
+                                <td>{{s.prt|zero}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" valign="top">
+                    <table class="Grid">
+                        <tbody>
+                            <tr>
+                                <th class="left" colspan="12">Defense</th>
+                            </tr>
+                            <tr class="alt">
+                                <td></td>
+                                <td>Tck</td>
+                                <td>TFL</td>
+                                <td>Sack</td>
+                                <td>Hur</td>
+                                <td>KD</td>
+                                <td>FF/FR</td>
+                                <td>PD</td>
+                                <td>Int</td>
+                                <td>Sfty</td>
+                                <td>TD</td>
+                                <td>Blk P/XP/FG</td>
+                            </tr>
+                            <tr ng-repeat="s in boxscore.aStatsDef" ng-class="{'alt': $index % 2 == 0}">
+                                <td>
+                                    <a href="../Players/Player.html?id={{s.id}}">{{s.name}}</a>
+                                </td>
+                                <td>{{s.t|zero}}</td>
+                                <td>{{s.tfl|zero}}</td>
+                                <td>{{s.s|zero}}</td>
+                                <td>{{s.hur|zero}}</td>
+                                <td>{{s.kd|zero}}</td>
+                                <td>{{s.ff|zero}}/{{s.fr|zero}}</td>
+                                <td>{{s.pd|zero}}</td>
+                                <td>{{s.i|zero}}</td>
+                                <td>{{s.sf|zero}}</td>
+                                <td>{{s.td|zero}}</td>
+                                <td>{{s.bp|zero}}/{{s.bxp|zero}}/{{s.bfg|zero}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td width="50%" valign="top">
+                    <table class="Grid">
+                        <tbody>
+                            <tr>
+                                <th class="left" colspan="12">Defense</th>
+                            </tr>
+                            <tr class="alt">
+                                <td></td>
+                                <td>Tck</td>
+                                <td>TFL</td>
+                                <td>Sack</td>
+                                <td>Hur</td>
+                                <td>KD</td>
+                                <td>FF/FR</td>
+                                <td>PD</td>
+                                <td>Int</td>
+                                <td>Sfty</td>
+                                <td>TD</td>
+                                <td>Blk P/XP/FG</td>
+                            </tr>
+                            <tr ng-repeat="s in boxscore.hStatsDef" ng-class="{'alt': $index % 2 == 0}">
+                                <td>
+                                    <a href="../Players/Player.html?id={{s.id}}">{{s.name}}</a>
+                                </td>
+                                <td>{{s.t|zero}}</td>
+                                <td>{{s.tfl|zero}}</td>
+                                <td>{{s.s|zero}}</td>
+                                <td>{{s.hur|zero}}</td>
+                                <td>{{s.kd|zero}}</td>
+                                <td>{{s.ff|zero}}/{{s.fr|zero}}</td>
+                                <td>{{s.pd|zero}}</td>
+                                <td>{{s.i|zero}}</td>
+                                <td>{{s.sf|zero}}</td>
+                                <td>{{s.td|zero}}</td>
+                                <td>{{s.bp|zero}}/{{s.bxp|zero}}/{{s.bfg|zero}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" valign="top">
+                    <table class="Grid">
+                        <tbody>
+                            <tr>
+                                <th class="left" colspan="6">Other</th>
+                            </tr>
+                            <tr class="alt">
+                                <td></td>
+                                <td>Penalties</td>
+                                <td>Yards</td>
+                                <td>Pancakes</td>
+                                <td>Sacks Allowed</td>
+                                <td>Missed Blocks</td>
+                            </tr>
+                            <tr ng-repeat="s in boxscore.aStatsOther" ng-class="{'alt': $index % 2 == 0}">
+                                <td>
+                                    <a href="../Players/Player.html?id={{s.id}}">{{s.name}}</a>
+                                </td>
+                                <td>{{s.pen|zero}}</td>
+                                <td>{{s.y|zero}}</td>
+                                <td>{{s.pan|zero}}</td>
+                                <td>{{s.sacks|zero}}</td>
+                                <td>{{s.mb|zero}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td width="50%" valign="top">
+                    <table class="Grid">
+                        <tbody>
+                            <tr>
+                                <th class="left" colspan="6">Other</th>
+                            </tr>
+                            <tr class="alt">
+                                <td></td>
+                                <td>Penalties</td>
+                                <td>Yards</td>
+                                <td>Pancakes</td>
+                                <td>Sacks Allowed</td>
+                                <td>Missed Blocks</td>
+                            </tr>
+                            <tr ng-repeat="s in boxscore.hStatsOther" ng-class="{'alt': $index % 2 == 0}">
+                                <td>
+                                    <a href="../Players/Player.html?id={{s.id}}">{{s.name}}</a>
+                                </td>
+                                <td>{{s.pen|zero}}</td>
+                                <td>{{s.y|zero}}</td>
+                                <td>{{s.pan|zero}}</td>
+                                <td>{{s.sacks|zero}}</td>
+                                <td>{{s.mb|zero}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+</div>
+</td></tr><tr><td style="text-align: center; font-weight: bold; padding-top: 15px;">Powered by Draft Day Sports: Pro Football | <a alt="Wolverine Studios" href="http://www.wolverinestudios.com">http://www.wolverinestudios.com</a></td></tr></table></body></html>
