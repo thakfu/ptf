@@ -2082,6 +2082,7 @@ svg text {
 
 .player-directory-toolbar {
     margin: 18px 0;
+    overflow: visible;
 }
 
 .player-filter-bar {
@@ -2091,7 +2092,8 @@ svg text {
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
-    max-width: 750px;
+    max-width: 1000px;
+    overflow: visible;
 
     padding: 10px;
 
@@ -2297,7 +2299,7 @@ svg text {
     position: sticky;
     top: 0;
 
-    background: #f2b9bf;
+    background: #BBBBBB;
     z-index: 21;
 }
 
@@ -2331,4 +2333,114 @@ svg text {
 
 #playersTable tbody tr.row-even {
     background-color: #e9e9e9;
+}
+
+.player-column-picker {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.player-column-button {
+    background: #25272d;
+    color: #f4f4f4;
+
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.player-column-button:hover,
+.player-column-button[aria-expanded="true"] {
+    background: #2f3239;
+    border-color: #5a5e68;
+}
+
+.player-column-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 1000;
+
+    width: 260px;
+    max-height: 420px;
+    overflow-y: auto;
+
+    padding: 14px;
+
+    background: #202126;
+    color: #f4f4f4;
+
+    border: 1px solid #3e4149;
+    border-radius: 14px;
+
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+}
+
+.player-column-menu-header {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.player-column-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 7px 4px;
+
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.player-column-option:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.player-column-option input {
+    width: 16px;
+    height: 16px;
+}
+
+.player-column-option input:disabled {
+    cursor: not-allowed;
+}
+
+.player-column-option:has(input:disabled) {
+    opacity: 0.65;
+}
+
+.player-column-clear,
+.player-column-reset {
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px;
+    flex: 1;
+
+    background: transparent;
+    color: #f4f4f4;
+
+    border: 1px solid #4a4d55;
+    border-radius: 10px;
+
+    cursor: pointer;
+}
+
+.player-column-reset:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+.player-column-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.player-table-loading {
+    visibility: hidden;
+}
+
+#positionFilter optgroup {
+    color: #000;
+    font-weight: 700;
 }
