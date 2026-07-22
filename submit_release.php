@@ -2,6 +2,10 @@
 
 include 'header.php';
 
+use App\Services\ContractService;
+
+$contractService = new ContractService();
+
 $time = "'1991 Week " . $curWeek . "'";
 
 if (isset($_POST['demote'])) {
@@ -93,8 +97,10 @@ if (isset($_POST['demote'])) {
 } elseif (isset($_POST['sign'])) {
     echo $_POST['Player'] . ' has been signed and should now appear on your roster.  Go on, give him a hug!';
 
+    $contractService->createMinimumContract($_POST['PlayerID'], $_POST['TeamID'], $year);
+
     $roster = $connection->query("UPDATE ptf_players SET TeamID = '{$_POST['TeamID']}', Team = '{$_POST['Abbreviation']}' WHERE PlayerID = " . $_POST['PlayerID']);
-    $roster = $connection->query("UPDATE ptf_players_salaries SET `" . $year . "` = '250000' WHERE PlayerID = " . $_POST['PlayerID']);
+    //$roster = $connection->query("UPDATE ptf_players_salaries SET `" . $year . "` = '250000' WHERE PlayerID = " . $_POST['PlayerID']);
 
     $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$_POST['PlayerID']},0, {$_POST['TeamID']}, 'sign', NOW(), {$time})");
     transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['Pos'], 'sign');

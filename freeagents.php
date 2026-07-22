@@ -4,7 +4,7 @@ include 'header.php';
 
 if ($waivers == 0) {
     echo 'Open Signing is not currently active';
-    exit;
+    //exit;
 }
 
 

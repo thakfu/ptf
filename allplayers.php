@@ -7,6 +7,26 @@ use App\Services\PlayerService;
 $PlayerService = new PlayerService();
 
 $players = $PlayerService->getAll();
+use App\Services\ContractService;
+echo '<pre>';
+
+try {
+    $contractService = new ContractService();
+
+    print_r(
+        $contractService->getTeamCapTotal(3, 1991)
+    );
+
+    print_r(
+        $contractService->getTeamCompliance(3, 1991)
+    );
+} catch (\Throwable $error) {
+    echo $error->getMessage();
+    echo "\n\n";
+    echo $error->getTraceAsString();
+}
+
+echo '</pre>';
 
 /* FILTERS */
 $rosterTeamId = filter_input(INPUT_GET,'team',FILTER_VALIDATE_INT) ?: 0;
