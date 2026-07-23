@@ -94,7 +94,7 @@ foreach ($positions as $pos) {
                 echo '<b>' . $player['KickAccuracy'] . '</td><td>';
             }
 
-            if ($waivers == 0) {
+            if ($waivers == 1) {
                 echo '';
             } else {
                 echo '<a href="release.php?PlayerID=' . $player['PlayerID'] . '">RELEASE / DEMOTE</a>';

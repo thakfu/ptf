@@ -1,16 +1,363 @@
 <?php
-
 include 'header.php';
+/** @var mysqli $connection */
 
 use App\Services\ContractService;
 
 $contractService = new ContractService();
 
-$time = "'1991 Week " . $curWeek . "'";
+$timeFrame = $year . ' Week ' . $curWeek;
+$playerID = filter_input(INPUT_POST, 'PlayerID', FILTER_VALIDATE_INT);
+$teamID = filter_input(INPUT_POST, 'TeamID', FILTER_VALIDATE_INT);
 
-if (isset($_POST['demote'])) {
+$playerName = trim((string) ($_POST['Player'] ?? ''));
+$position = trim((string) ($_POST['Pos'] ?? ''));
+
+$abbreviation = $teamID ? IDtoAbbrev($teamID) : '';
+$transactionType = '';
+
+function validatePlayerAndTeam(?int $playerID, ?int $teamID): array {
+    $errors = [];
+
+    if (!$playerID || $playerID < 1) {
+        $errors[] = 'A valid player is required.';
+    }
+
+    if (!$teamID || $teamID < 1) {
+        $errors[] = 'A valid team is required.';
+    }
+
+    return $errors;
+}
+
+function validateDiscordHook(string $playerName, string $abbreviation, string $position): array {
+    $hookErrors = [];
+
+    if ($playerName === '') {
+        $hookErrors[] = 'The player name is missing.';
+    }
+
+    if ($abbreviation === '') {
+        $hookErrors[] = 'The team abbreviation is missing.';
+    }
+
+    if ($position === '') {
+        $hookErrors[] = 'The player position is missing.';
+    }
+
+    return $hookErrors;
+}
+
+if (isset($_POST['sign'])) {
+    $transactionType = 'sign';
+
+    $errors = array_merge(
+        validatePlayerAndTeam($playerID, $teamID),
+        validateDiscordHook($playerName, $abbreviation, $position)
+    );
+
+    if ($errors === []) {
+        $transactionStarted = false;
+        try {
+            $connection->begin_transaction();
+
+            $contractService->createMinimumContract($playerID, $teamID, $year);
+
+            $rosterStatement = $connection->prepare(
+                'UPDATE ptf_players
+                 SET TeamID = ?, Team = ?
+                 WHERE PlayerID = ?
+                   AND TeamID = 0'
+            );
+
+            $rosterStatement->bind_param(
+                'isi',
+                $teamID,
+                $abbreviation,
+                $playerID
+            );
+
+            $rosterStatement->execute();
+
+            if ($rosterStatement->affected_rows !== 1) {
+                throw new RuntimeException(
+                    'The player could not be added to the roster.'
+                );
+            }
+
+            $logStatement = $connection->prepare(
+                'INSERT INTO ptf_transactions (
+                    PlayerID,
+                    TeamID_Old,
+                    TeamID_New,
+                    type,
+                    date,
+                    TimeFrame
+                ) VALUES (?, 0, ?, ?, NOW(), ?)'
+            );
+
+            $logStatement->bind_param(
+                'iiss',
+                $playerID,
+                $teamID,
+                $transactionType,
+                $timeFrame
+            );
+
+            $logStatement->execute();
+            if ($logStatement->affected_rows !== 1) {
+                throw new RuntimeException(
+                    'The transaction could not be recorded.'
+                );
+            }
+
+            $connection->commit();
+
+            echo htmlspecialchars(
+                $playerName,
+                ENT_QUOTES,
+                'UTF-8'
+            ) . ' has been signed and should now appear on your roster. '
+                . 'Go on, give him a hug!';
+        } catch (Throwable $exception) {
+            $connection->rollback();
+
+            error_log(
+                'Free-agent signing failed: ' . $exception->getMessage()
+            );
+
+            echo 'The signing could not be completed. No changes were saved.';
+
+            return;
+        }
+
+        try {
+            transactionHook(
+                $playerName,
+                $teamID,
+                $position,
+                $transactionType
+            );
+        } catch (Throwable $exception) {
+            error_log(
+                'Discord transaction hook failed: '
+                . $exception->getMessage()
+            );
+        }
+    } else {
+        echo implode('<br>', array_map(
+            static fn (string $error): string =>
+                htmlspecialchars($error, ENT_QUOTES, 'UTF-8'),
+            $errors
+        ));
+    }
+} elseif (isset($_POST['release'])) {
+    $transactionType = 'cut';
+
+    $errors = array_merge(
+        validatePlayerAndTeam($playerID, $teamID),
+        validateDiscordHook($playerName, $abbreviation, $position)
+    );
+
+    if ($errors === []) {
+        $transactionStarted = false;
+        $hasDeadCap = false;
+
+        try {
+            $connection->begin_transaction();
+            $transactionStarted = true;
+
+            $salaryStatement = $connection->prepare(
+                'SELECT
+                    `' . $year . '`,
+                    `' . ($year + 1) . '`,
+                    `' . ($year + 2) . '`,
+                    `' . ($year + 3) . '`,
+                    `' . ($year + 4) . '`,
+                    `' . ($year + 5) . '`
+                 FROM ptf_players_salaries
+                 WHERE PlayerID = ?'
+            );
+
+            $salaryStatement->bind_param('i', $playerID);
+            $salaryStatement->execute();
+
+            $salaryResult = $salaryStatement->get_result();
+            $salary = $salaryResult->fetch_assoc();
+
+            if ($salary === null) {
+                throw new RuntimeException(
+                    'No salary record was found for this player.'
+                );
+            }
+
+            $salaryYears = [
+                (int) $salary[$year],
+                (int) $salary[$year + 1],
+                (int) $salary[$year + 2],
+                (int) $salary[$year + 3],
+                (int) $salary[$year + 4],
+                (int) $salary[$year + 5],
+            ];
+
+            $hasDeadCap = (
+                $salaryYears[0] > 250000
+                || $salaryYears[1] > 250000
+                || $salaryYears[2] > 250000
+            );
+
+            if ($hasDeadCap) {
+                $capStatement = $connection->prepare(
+                    'UPDATE ptf_teams_data
+                     SET
+                        caphit = caphit + ?,
+                        caphit2 = caphit2 + ?,
+                        caphit3 = caphit3 + ?,
+                        caphit4 = caphit4 + ?,
+                        caphit5 = caphit5 + ?,
+                        caphit6 = caphit6 + ?
+                     WHERE TeamID = ?'
+                );
+
+                $capStatement->bind_param(
+                    'iiiiiii',
+                    $salaryYears[0],
+                    $salaryYears[1],
+                    $salaryYears[2],
+                    $salaryYears[3],
+                    $salaryYears[4],
+                    $salaryYears[5],
+                    $teamID
+                );
+
+                $capStatement->execute();
+
+                if ($capStatement->affected_rows !== 1) {
+                    throw new RuntimeException(
+                        'The team dead-cap totals could not be updated.'
+                    );
+                }
+            }
+
+            $contractService->releaseActiveContract($playerID, $teamID);
+
+            $rosterStatement = $connection->prepare(
+                "UPDATE ptf_players
+                 SET TeamID = 0, Team = 'N/A'
+                 WHERE PlayerID = ?
+                   AND TeamID = ?"
+            );
+
+            $rosterStatement->bind_param(
+                'ii',
+                $playerID,
+                $teamID
+            );
+
+            $rosterStatement->execute();
+
+            if ($rosterStatement->affected_rows !== 1) {
+                throw new RuntimeException(
+                    'The player could not be removed from the roster.'
+                );
+            }
+
+            $squadStatement = $connection->prepare(
+                'DELETE FROM ptf_players_squad
+                 WHERE PlayerID = ?'
+            );
+
+            $squadStatement->bind_param('i', $playerID);
+            $squadStatement->execute();
+
+            $logStatement = $connection->prepare(
+                'INSERT INTO ptf_transactions (
+                    PlayerID,
+                    TeamID_Old,
+                    TeamID_New,
+                    type,
+                    date,
+                    TimeFrame
+                ) VALUES (?, ?, 0, ?, NOW(), ?)'
+            );
+
+            $logStatement->bind_param(
+                'iiss',
+                $playerID,
+                $teamID,
+                $transactionType,
+                $timeFrame
+            );
+
+            $logStatement->execute();
+            if ($logStatement->affected_rows !== 1) {
+                throw new RuntimeException(
+                    'The transaction could not be recorded.'
+                );
+}
+
+            $connection->commit();
+            $transactionStarted = false;
+        } catch (Throwable $exception) {
+            if ($transactionStarted) {
+                $connection->rollback();
+            }
+
+            error_log(
+                'Player release failed: '
+                . $exception->getMessage()
+            );
+
+            echo 'The player could not be released. '
+                . 'No changes were saved.';
+
+            return;
+        }
+
+        try {
+            transactionHook(
+                $playerName,
+                $teamID,
+                $position,
+                'release'
+            );
+        } catch (Throwable $exception) {
+            error_log(
+                'Discord release hook failed: '
+                . $exception->getMessage()
+            );
+        }
+
+        echo htmlspecialchars(
+            $playerName,
+            ENT_QUOTES,
+            'UTF-8'
+        ) . ' has been released and should now appear in the '
+            . 'free agency pool. I hope you’re happy.';
+
+        if ($hasDeadCap) {
+            echo ' WARNING! This player’s salary is above the '
+                . 'league minimum, so his salary will still count '
+                . 'against your cap.';
+        }
+    } else {
+        echo implode(
+            '<br>',
+            array_map(
+                static fn (string $error): string =>
+                    htmlspecialchars(
+                        $error,
+                        ENT_QUOTES,
+                        'UTF-8'
+                    ),
+                $errors
+            )
+        );
+    }
+} elseif (isset($_POST['demote'])) {
     $demoteCheck = $connection->query("SELECT count(squadTeam) as 'check' FROM `ptf_players_squad` where PlayerID != 0 and squadTeam = {$_POST['TeamID']}");
     $check = $demoteCheck->fetch_assoc();
+
 
     if ($check['check'] >= 8) {
         echo 'Your Practice Squad is already full!';
@@ -63,7 +410,7 @@ if (isset($_POST['demote'])) {
     }
     transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['Pos'], 'activate');
 }elseif (isset($_POST['release'])) {
-    echo $_POST['Player'] . ' has been released and should now appear in the free agency pool.  I hope your happy.';
+    echo $_POST['Player'] . ' has been released and should now appear in the free agency pool.  I hope you\'re happy.';
 
     $salcheck = $connection->query("SELECT `" . $year . "`, `" . $year + 1 . "`, `" . $year + 2 . "`, `" . $year + 3 . "`, `" . $year + 4 . "`, `" . $year + 5 . "` FROM ptf_players_salaries WHERE PlayerId = " . $_POST['PlayerID']);
     $check = $salcheck->fetch_assoc();
@@ -94,16 +441,6 @@ if (isset($_POST['demote'])) {
 
     $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$_POST['PlayerID']},{$_POST['TeamID']},{$_POST['TeamID']}, 'change', NOW(), {$time})");
     transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['pos'], 'change');
-} elseif (isset($_POST['sign'])) {
-    echo $_POST['Player'] . ' has been signed and should now appear on your roster.  Go on, give him a hug!';
-
-    $contractService->createMinimumContract($_POST['PlayerID'], $_POST['TeamID'], $year);
-
-    $roster = $connection->query("UPDATE ptf_players SET TeamID = '{$_POST['TeamID']}', Team = '{$_POST['Abbreviation']}' WHERE PlayerID = " . $_POST['PlayerID']);
-    //$roster = $connection->query("UPDATE ptf_players_salaries SET `" . $year . "` = '250000' WHERE PlayerID = " . $_POST['PlayerID']);
-
-    $log = $connection->query("INSERT INTO ptf_transactions (PlayerID, TeamID_Old, TeamID_New, type, date, TimeFrame) VALUES ({$_POST['PlayerID']},0, {$_POST['TeamID']}, 'sign', NOW(), {$time})");
-    transactionHook($_POST['Player'], $_POST['TeamID'], $_POST['Pos'], 'sign');
 } elseif (isset($_POST['revoke'])) {
     echo $_POST['Player'] . '\'s offer has been revoked.  Try again... or don\'t.  I don\'t care.';
 

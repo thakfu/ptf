@@ -1,0 +1,17 @@
+{
+	"intelephense.environment.includePaths": [
+    "src",
+    "vendor"
+],
+	"folders": [
+		{
+			"path": "../ptf-services-stage"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {}
+
+// 	"intelephense.environment.includePaths": ["src","vendor"]
+}
