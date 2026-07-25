@@ -14,7 +14,7 @@ $rosterTeamId = filter_input(INPUT_GET,'team',FILTER_VALIDATE_INT) ?: 0;
 $selectedTeamId = filter_input(INPUT_GET,'filter_team',FILTER_VALIDATE_INT) ?: 0;
 $selectedPosition = strtoupper(trim($_GET['pos'] ?? 'all'));
 
-$stats = $StatsService->getAllCareer();
+$stats = $StatsService->getAllSeasonEverything();
 
 $searchQuery = trim($_GET['q'] ?? '');
 
@@ -28,7 +28,7 @@ $allowedStatuses = [
     'all'
 ];
 
-$defaultStatus = 'all';
+$defaultStatus = 'active';
 $selectedStatus = strtolower(
     trim($_GET['status'] ?? $defaultStatus)
 );
@@ -55,6 +55,10 @@ if (!in_array($selectedView, $allowedViews, true)) {
 $teamOptions = [];
 
 foreach ($stats as $stat) {
+    if ((int)$stat->DraftSeason > $selYear) {
+        continue;
+    }
+
     $teamId = (int) $stat->TeamID;
 
     if (
@@ -70,14 +74,14 @@ foreach ($stats as $stat) {
 
 asort($teamOptions, SORT_NATURAL | SORT_FLAG_CASE); ?>
 
-<h2>Career Stats</h2>
+<h2>All Player Seasons</h2>
 <div align="center">
     <div class="player-directory-toolbar">
         <form 
             class="player-filter-bar"
             id="playerFilters"
             method="get"
-            action="player_stats_career.php"
+            action="player_stats.php"
         >
         <?php if ($rosterTeamId): ?>
             <input
@@ -324,17 +328,22 @@ asort($teamOptions, SORT_NATURAL | SORT_FLAG_CASE); ?>
 <?php 
 usort($stats, fn($a, $b) => $b->Plays <=> $a->Plays);
 
+$teamCache = [];
+
 foreach ($stats as $stat) {
 
-    $exp = $year - (int)$stat->DraftSeason;
-    if ($exp > 1000) {
-        $exp = 0;
+    $teamId = (int)$stat->TeamID;
+    if (!isset($teamCache[$teamId])) {
+        $teamCache[$teamId] = [
+            'abbrev' => idToAbbrev($stat->TeamID),
+            'primary' => '#' . idConvert('primeColor', $stat->TeamID),
+            'secondary' => '#' . idConvert('secondaryColor', $stat->TeamID)
+        ];
     }
 
-    $teamId = (int)$stat->TeamID;
-    $teamAbbrev = idToAbbrev($stat->TeamID);
-    $primaryColor = '#' . idConvert('primeColor', $stat->TeamID);
-    $secondaryColor = '#' . idConvert('secondaryColor', $stat->TeamID);
+    $teamAbbrev = $teamCache[$teamId]['abbrev'];
+    $primaryColor = $teamCache[$teamId]['primary'];
+    $secondaryColor = $teamCache[$teamId]['secondary'];
 
     if (
         $rosterTeamId &&
@@ -369,6 +378,39 @@ foreach ($stats as $stat) {
         (int)$stat->BlockedFG >= 1 ||
         (int)$stat->BlockedPAT >= 1;
 
+    $matchesStatus = match ($selectedStatus) {
+        'current' => $isActive || $isFreeAgent,
+        'active' => $isActive,
+        'freeagents' => $isFreeAgent,
+        'draft' => $isDraftClass,
+        'injured' => $isInjured,
+        'retired' => $isRetired,
+        'all' => true,
+        default => false,
+    };
+    if (!$matchesStatus) {
+        continue;
+    }
+
+    $season = (int)$stat->Season;
+
+    $ageReferenceYear = $isRetired
+        ? (int)$stat->ProRetire
+        : (int)$year;
+
+    $age = (int)$stat->Age
+        - ($ageReferenceYear - $season)
+        + ($isRetired ? 1 : 0);
+
+    $exp = $season - (int)$stat->DraftSeason;
+
+    if ((int)$stat->DraftSeason <= 0) {
+        $exp = 0;
+    }
+
+    $age = max(0, $age);
+    $exp = max(0, $exp);
+
     echo '<tr data-player-row data-player-name="'
         . htmlspecialchars(strtolower($stat->FullName),ENT_QUOTES,'UTF-8') . '"'
         . ' data-team-id="' . (int) $stat->TeamID . '"' . ' data-team="'
@@ -398,8 +440,9 @@ echo '<td data-column="FullName">
     </td>';
 
 echo '<td data-column="Position">' . htmlspecialchars($stat->Position,ENT_QUOTES,'UTF-8') . '</td>';
-echo '<td data-column="Age">' . (int)$stat->Age . '</td>';
-echo '<td data-column="Experience">' . (int)$exp . '</td>';
+echo '<td data-column="Season"><b>' . (int)$stat->Season . '</b></td>';
+echo '<td data-column="Age">' . $age . '</td>';
+echo '<td data-column="Experience">' . $exp . '</td>';
 echo '<td data-column="G">' . (int)$stat->G . '</td>';
 echo '<td data-column="PassAtt"><b>' . (int)$stat->PassAtt . '</b></td>';
 echo '<td data-column="PassCmp"><b>' . (int)$stat->PassCmp . '</b></td>';
@@ -570,6 +613,11 @@ const columnDefinitions = {
     Age: {
         label: 'Age',
         title: 'Age'
+    },
+
+    Season: {
+        label: 'Season',
+        title: 'Season'
     },
 
     Experience: {
@@ -1226,17 +1274,27 @@ const viewColumns = {
 
 
 const defaultStatus = <?= json_encode($defaultStatus) ?>;
+const curYear = <?= json_encode((int)$year) ?>;
+const lastYear = curYear + 5;
+for (let year = curYear; year <= lastYear; year++) {
+    columnDefinitions[`1987${year}`] = {
+        label: String(year),
+        title: `${year} 1987`
+    };
+}
 
 const lockedColumns = [
     'Team',
     'FullName',
     'Position',
+    'Season'
 ];
 
 const baseColumns = [
     'Team',
     'FullName',
     'Position',
+    'Season',
     'Age',
     'Experience',
     'G',
@@ -1521,6 +1579,7 @@ const columnOrder = [
     'Team',
     'FullName',
     'Position',
+    'Season',
     'Age',
     'Experience',
     'G',
@@ -1907,7 +1966,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (
             statusValue &&
-            statusValue !== 'current'
+            statusValue !== defaultStatus
         ) {
             url.searchParams.set(
                 'status',
@@ -2117,12 +2176,18 @@ document.addEventListener('DOMContentLoaded', function () {
         applyFilters();
     });
 
-    statusSelect.addEventListener(
-        'change',
-        applyFilters
-    );
+    statusSelect.addEventListener('change', function () {
+        const url = new URL(window.location.href);
+        const statusValue = statusSelect.value;
 
+        if (statusValue === defaultStatus) {
+            url.searchParams.delete('status');
+        } else {
+            url.searchParams.set('status', statusValue);
+        }
 
+        window.location.href = url.toString();
+    });
 
     viewSelect.addEventListener('change', function () {
         currentView = viewSelect.value;
