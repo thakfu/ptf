@@ -7,7 +7,9 @@ use App\Services\PlayerService;
 $PlayerService = new PlayerService();
 
 $players = $PlayerService->getAll();
-use App\Services\ContractService;
+
+
+/*use App\Services\ContractService;
 echo '<pre>';
 
 try {
@@ -26,7 +28,7 @@ try {
     echo $error->getTraceAsString();
 }
 
-echo '</pre>';
+echo '</pre>';*/
 
 /* FILTERS */
 $rosterTeamId = filter_input(INPUT_GET,'team',FILTER_VALIDATE_INT) ?: 0;
