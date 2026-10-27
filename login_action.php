@@ -46,19 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$validate = validate($connection, $_POST['username'], $_POST['pass']);
 
 	if ($validate[0] === 'Success') {
-		ini_set('session.gc_maxlifetime', 3600);
-		ini_set('session.cookie_lifetime', 0);
-
-		//session_set_cookie_params(7200);
-		session_set_cookie_params([
-			'lifetime' => 3600,
-			'path' => '/',
-			'domain' => '.example.com', // allows subdomain sharing
-			'secure' => false,           // required for HTTPS
-			'httponly' => true,
-			'samesite' => 'Lax'
-		]);
-		session_start();
 
 		$data = $validate[1];
 		$_SESSION['user_id'] 		= $data['user_id'];	
@@ -88,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		?>
 		<script type="text/javascript">
 			setTimeout(function() { 
-				window.location.href = "http://www.thakfu.com/ptf/index.php";
+				window.location.href = "index.php";
 			},2000);
 		</script>
 		<?php

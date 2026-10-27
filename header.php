@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . '/bootstrap.php';
+?>
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
@@ -10,8 +15,6 @@
 <script type="text/javascript" src="js/sort.js"></script>
 <?php
 
-require_once __DIR__ . '/bootstrap.php';
-
 require('../sql-stage/phpmysqlconnect.php');
 require('../ptf-services-stage/sq-service.php');
 //require('../ptf-services-stage/player-service.php');
@@ -22,8 +25,8 @@ require('../ptf-services-stage/fa-service.php');
 require('../ptf-services-stage/transaction-service.php');
 date_default_timezone_set('America/Chicago');
 
-$username = $_SESSION['user_id'];
-$userteam = $_SESSION['TeamID'];
+$username = $_SESSION['user_id'] ?? null;
+$userteam = $_SESSION['TeamID'] ?? null;
 if(isset($username)){
     $curTime =  date("Y-m-d H:i:s", time());
     $stmtseen = $connection->query("UPDATE ptf_users SET last_seen='".$curTime."' WHERE user_id = " . $username);
@@ -161,7 +164,7 @@ $totalnext6 = $salarySum['p' . $year + 6];
     <div id='topnav1'>
         <div id='upcoming'>
         <?php              
-        if ($_SESSION['username'] != '') {
+        if (!empty($_SESSION['username'])) {
             echo "LOGGED IN AS <a href='profile.php'>" . $_SESSION['username'] . "</a>";
             if ($_SESSION['admin'] == '2') {
                 echo ' - <a href="admin/index.php">ADMIN</a>';
@@ -196,7 +199,7 @@ $totalnext6 = $salarySum['p' . $year + 6];
           <div id="topmenu" class="container-fluid">
             <ul class="nav navbar-nav">
                 <li><a href="index.php" id="homelink" >HOME</a>';
-        if ($_SESSION['username'] != '') {
+        if (!empty($_SESSION['username'])) {
             echo '
             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Info</a>
                 <ul class="dropdown-menu">
