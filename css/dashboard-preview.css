@@ -1,3 +1,75 @@
+.ptf-preview-page {
+    margin: 0;
+    background: #0b101b;
+}
+.ptf-preview-header {
+    position: relative;
+    z-index: 10;
+    background: #0d1725;
+    color: #f2f5f8;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.4;
+}
+.ptf-preview-header *, .ptf-preview-header *::before, .ptf-preview-header *::after { box-sizing: border-box; }
+.ptf-preview-header a { color: inherit; text-decoration: none; }
+.ptf-preview-header a:hover, .ptf-preview-header a:focus { color: #f4c956; text-decoration: none; }
+.ptf-preview-header a:focus-visible, .ptf-preview-header summary:focus-visible { outline: 3px solid #f4c956; outline-offset: 3px; }
+.ptf-preview-wrap { width: min(1240px, calc(100% - 48px)); margin: 0 auto; }
+.ptf-preview-top { border-bottom: 1px solid rgba(190,210,238,.12); background: linear-gradient(100deg, #15263b, #0d1725 72%); }
+.ptf-preview-top-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; min-height: 84px; }
+.ptf-preview-brand { display: inline-flex; align-items: center; gap: 12px; min-width: 0; }
+.ptf-preview-brand img { display: block; width: 58px; height: 58px; object-fit: contain; }
+.ptf-preview-brand-copy { display: flex; flex-direction: column; line-height: 1; }
+.ptf-preview-brand-copy strong { font-family: 'Bebas Neue', Impact, sans-serif; font-size: 34px; font-weight: 400; letter-spacing: .08em; color: #f4c956; }
+.ptf-preview-brand-copy small { margin-top: 2px; color: #b9c8d9; font-size: 9px; font-weight: 700; letter-spacing: .19em; white-space: nowrap; }
+.ptf-preview-account { display: flex; justify-content: flex-end; align-items: center; gap: 12px; flex-wrap: wrap; }
+.ptf-preview-online { display: inline-flex; align-items: center; gap: 7px; color: #a9bad0; font-size: 11px; }
+.ptf-preview-online-dot { width: 6px; height: 6px; border-radius: 50%; background: #f4c956; box-shadow: 0 0 0 3px rgba(244,201,86,.14); }
+.ptf-preview-admin, .ptf-preview-offers { color: #f4c956 !important; font-size: 11px; font-weight: 700; }
+.ptf-preview-profile, .ptf-preview-login { display: inline-flex; align-items: center; min-height: 34px; padding: 6px 13px; border: 1px solid rgba(244,201,86,.55); border-radius: 6px; font-weight: 700; }
+.ptf-preview-login { gap: 12px; background: #f4c956; color: #152033 !important; }
+.ptf-preview-login:hover { background: #ffe18a; color: #152033 !important; }
+.ptf-preview-navigation { border-bottom: 1px solid rgba(190,210,238,.15); background: #101e2f; }
+.ptf-preview-nav-inner { position: relative; display: flex; align-items: stretch; flex-wrap: wrap; gap: 1px 5px; min-height: 46px; }
+.ptf-preview-nav-inner > a, .ptf-preview-nav-group > summary { display: flex; align-items: center; min-height: 46px; padding: 0 14px; color: #c8d5e5; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+.ptf-preview-nav-inner > a:hover, .ptf-preview-nav-group > summary:hover, .ptf-preview-nav-group[open] > summary { color: #f4c956; }
+.ptf-preview-nav-inner > .ptf-preview-nav-home { color: #f4c956; box-shadow: inset 0 -2px #f4c956; }
+.ptf-preview-nav-group { position: relative; }
+.ptf-preview-nav-group > summary { list-style: none; gap: 7px; }
+.ptf-preview-nav-group > summary::-webkit-details-marker { display: none; }
+.ptf-preview-nav-group > summary::after { content: ''; width: 5px; height: 5px; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: rotate(45deg) translateY(-2px); opacity: .7; }
+.ptf-preview-nav-panel { position: absolute; top: calc(100% - 1px); left: 0; display: grid; min-width: 210px; padding: 7px; border: 1px solid rgba(244,201,86,.25); border-radius: 0 0 8px 8px; background: #17273a; box-shadow: 0 18px 32px rgba(0,0,0,.32); }
+.ptf-preview-nav-panel a { display: block; padding: 9px 11px; border-radius: 4px; color: #d7e1ed; font-size: 12px; white-space: nowrap; }
+.ptf-preview-nav-panel a:hover, .ptf-preview-nav-panel a:focus { background: rgba(244,201,86,.1); color: #f4c956; }
+.ptf-preview-teams { border-bottom: 1px solid rgba(244,201,86,.24); background: #0b1523; }
+.ptf-preview-teams-inner { display: flex; align-items: center; gap: 14px; min-height: 62px; }
+.ptf-preview-teams-label { flex: none; color: #91a4bc; font-size: 10px; font-weight: 700; letter-spacing: .18em; }
+.ptf-preview-teams-label span { color: #f4c956; margin-left: 7px; }
+.ptf-preview-team-scroll { display: flex; align-items: center; gap: 8px; min-width: 0; width: 100%; overflow-x: auto; padding: 7px 0; scrollbar-color: #506781 transparent; scrollbar-width: thin; }
+.ptf-preview-team-scroll a { display: grid; flex: 0 0 43px; place-items: center; width: 43px; height: 43px; border: 1px solid transparent; border-radius: 7px; scroll-snap-align: start; transition: background .15s ease, border-color .15s ease; }
+.ptf-preview-team-scroll a:hover, .ptf-preview-team-scroll a:focus-visible { border-color: rgba(244,201,86,.5); background: #22344a; }
+.ptf-preview-team-scroll img { display: block; width: 38px; height: 38px; object-fit: contain; }
+@media (max-width: 700px) {
+    .ptf-preview-wrap { width: min(100% - 28px, 1240px); }
+    .ptf-preview-top-inner { flex-wrap: wrap; gap: 7px 16px; padding: 11px 0; }
+    .ptf-preview-brand img { width: 46px; height: 46px; }
+    .ptf-preview-brand-copy strong { font-size: 28px; }
+    .ptf-preview-account { gap: 9px; }
+    .ptf-preview-nav-inner { gap: 0; }
+    .ptf-preview-nav-inner > a, .ptf-preview-nav-group > summary { min-height: 42px; padding: 0 10px; font-size: 10px; }
+    .ptf-preview-nav-group { position: static; }
+    .ptf-preview-nav-panel { left: 14px; right: 14px; top: auto; min-width: 0; max-height: 60vh; overflow-y: auto; }
+    .ptf-preview-team-scroll { scroll-snap-type: x proximity; }
+}
+@media (max-width: 430px) {
+    .ptf-preview-top-inner { align-items: flex-start; }
+    .ptf-preview-account { width: 100%; justify-content: flex-start; }
+    .ptf-preview-teams-inner { gap: 8px; }
+    .ptf-preview-teams-label { font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) { .ptf-preview-team-scroll a { transition: none; } }
+
 .dashboard-preview {
     --dp-bg: #0b101b;
     --dp-panel: #151e2c;
@@ -89,4 +161,5 @@
     .dashboard-preview .dp-footer { flex-direction: column; gap: 5px; }
 }
 @media (prefers-reduced-motion: reduce) { .dashboard-preview .dp-button { transition: none; } }
+
 
