@@ -1,6 +1,19 @@
 <?php
-// Staging homepage concept. The existing header keeps authentication and navigation intact.
+// Reuse the shared setup, then render a preview-only header without changing legacy pages.
+ob_start();
 include __DIR__ . '/header.php';
+$previewLegacyOutput = ob_get_clean();
+$previewHeadEnd = stripos($previewLegacyOutput, '</head>');
+$previewBodyStart = stripos($previewLegacyOutput, '<body>', $previewHeadEnd === false ? 0 : $previewHeadEnd);
+if ($previewHeadEnd === false || $previewBodyStart === false) {
+    throw new RuntimeException('The shared header could not be rendered for the dashboard preview.');
+}
+echo substr($previewLegacyOutput, 0, $previewHeadEnd);
+echo '<link rel="stylesheet" href="css/dashboard-preview.css">';
+echo substr($previewLegacyOutput, $previewHeadEnd, $previewBodyStart - $previewHeadEnd);
+echo '<body class="ptf-preview-page">';
+include __DIR__ . '/dashboard-preview-header.php';
+unset($previewLegacyOutput);
 
 function previewEscape($value): string
 {
@@ -78,7 +91,6 @@ $nextSimulation = previewDate($nextSim ?? null);
 $lastSimulation = previewDate($lastSim ?? null);
 $scheduleWeek = $weekNumber !== false && $weekNumber > 0 ? $weekNumber : -4;
 ?>
-<link rel="stylesheet" href="css/dashboard-preview.css">
 <main class="dashboard-preview" id="main-content">
     <div class="dp-shell">
         <div class="dp-kicker"><span class="dp-live-dot" aria-hidden="true"></span> PTF LEAGUE CENTRAL <span class="dp-kicker-rule" aria-hidden="true"></span> STAGING PREVIEW</div>
@@ -142,4 +154,5 @@ $scheduleWeek = $weekNumber !== false && $weekNumber > 0 ? $weekNumber : -4;
         <div class="dp-footer"><span>PTF / LEAGUE CENTRAL</span><span>Preview for staging review</span></div>
     </div>
 </main>
+
 
