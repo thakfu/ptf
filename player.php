@@ -2,6 +2,12 @@
 
 include 'header.php';
 
+use App\Services\PlayerService;
+
+$PlayerService = new PlayerService();
+
+$player = $PlayerService->getAll();
+
 $playerService = playerService(0,$_GET['player'],0);
 $player = $playerService[0];
 $teamService = teamService($player['TeamID']);
@@ -11,6 +17,8 @@ $team = $teamService[0];
 
 if ($player['RetiredSeason'] != 0) {
     $retired = ' - RETIRED (' . $player['RetiredSeason'] . ') - ';
+} else {
+    $retired = '';
 }
 
 echo '<h1>' . $player['FullName'] . $retired . '</h1>';
@@ -93,6 +101,7 @@ foreach ($teamhistory as $teamhis) {
 }
 
 //var_dump($sequence);
+$lastTeam = null;
 foreach ($sequence as $teamhis) {
     //$teamColor = $teamhis['TeamID'];
     if ($teamColor == NULL) {
@@ -107,7 +116,7 @@ foreach ($sequence as $teamhis) {
         if(intval($teamhis['Season']) == (intval($player['DraftSeason']) - 1) || $teamColor == 0) {
             echo '';
         } else {
-            if ($teamhis['Left']) {
+            if (isset($teamhis['Left'])) {
                 $left = " - " . $teamhis['Left'];
             } else {
                 $left = " - Current";

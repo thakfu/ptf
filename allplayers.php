@@ -423,11 +423,22 @@ foreach ($players as $player) {
         !$isRetired &&
         !$isDraftClass;
 
-    echo '<tr data-player-row data-player-name="'
-        . htmlspecialchars(strtolower($player->FullName),ENT_QUOTES,'UTF-8') . '"'
-        . ' data-team-id="' . (int) $player->TeamID . '"' . ' data-team="'
-        . htmlspecialchars(strtolower($teamAbbrev),ENT_QUOTES,'UTF-8'). '"'
-        . ' data-position="'. htmlspecialchars(strtoupper($player->Position),ENT_QUOTES,'UTF-8') . '"'
+        if ((int)$player->TeamID === 3) {
+    error_log('PTF GB TEST: ' . json_encode([
+        'teamId' => $player->TeamID,
+        'abbrev' => $teamAbbrev,
+        'primary' => $primaryColor,
+        'secondary' => $secondaryColor
+    ]));
+}
+
+echo '<tr data-player-row data-player-name="'
+        . htmlspecialchars(strtolower($player->FullName ?? ''), ENT_QUOTES, 'UTF-8') . '"'
+        . ' data-team-id="' . (int)$player->TeamID . '"'
+        . ' data-team="'
+        . htmlspecialchars(strtolower($teamAbbrev ?? ''), ENT_QUOTES, 'UTF-8') . '"'
+        . ' data-position="'
+        . htmlspecialchars(strtoupper($player->Position ?? ''), ENT_QUOTES, 'UTF-8') . '"'
         . ' data-active="' . (int)$isActive . '"'
         . ' data-free-agent="' . (int)$isFreeAgent . '"'
         . ' data-draft-class="' . (int)$isDraftClass . '"'
@@ -437,10 +448,10 @@ foreach ($players as $player) {
     echo '<td class="team-cell" data-column="Team">';
 
     echo '<span class="team-badge" style="'
-        . '--team-primary: ' . htmlspecialchars($primaryColor,ENT_QUOTES,'UTF-8')
-        . '; --team-secondary: ' . htmlspecialchars($secondaryColor,ENT_QUOTES,'UTF-8') . ';">';
+        . '--team-primary: ' . htmlspecialchars((string)($primaryColor ?? ''), ENT_QUOTES, 'UTF-8')
+        . '; --team-secondary: ' . htmlspecialchars((string)($secondaryColor ?? ''), ENT_QUOTES, 'UTF-8') . ';">';
 
-    echo htmlspecialchars($teamAbbrev,ENT_QUOTES,'UTF-8');
+    echo htmlspecialchars((string)($teamAbbrev ?? ''), ENT_QUOTES, 'UTF-8');
 
     echo '</span>';
     echo '</td>';
@@ -502,7 +513,7 @@ echo '<td data-column="Jersey">' . (int)$player->Jersey . '</td>';
 echo '<td data-column="Height">' . floor($player->Height / 12) . '\'' . ($player->Height % 12) . '</td>';
 echo '<td data-column="Weight">' . (int)$player->Weight . '</td>';
 echo '<td data-column="College">' . htmlspecialchars((string)($player->College ?? ''), ENT_QUOTES, 'UTF-8') . '</td>';
-echo '<td data-column="DraftedBy">' . htmlspecialchars(idToAbbrev((int)($player->DraftedBy ?? 0)), ENT_QUOTES, 'UTF-8') . '</td>';
+echo '<td data-column="DraftedBy">' . htmlspecialchars((string)(idToAbbrev((int)($player->DraftedBy ?? 0)) ?? ''), ENT_QUOTES, 'UTF-8') . '</td>';
 echo '<td data-column="DraftSeason">' . (int)$player->DraftSeason . '</td>';
 echo '<td data-column="DraftRound">' . (int)$player->DraftRound . '</td>';
 echo '<td data-column="DraftPick">' . (int)$player->DraftPick . '</td>';

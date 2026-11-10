@@ -27,18 +27,18 @@ include 'teamhead.php';
 echo '</table><br>';
 
 
-if ($_GET['sort'] == NULL) {
+/*if ($_GET['sort'] == NULL) {
     $_GET['sort'] = 'PosSort';
     $_GET['order'] = 'asc';
-}
+}*/
 
-if ($_GET['order'] == 'asc') {
+/*if ($_GET['order'] == 'asc') {
     $sorter = 'desc';
     usort($playerService, fn($a, $b) => $a[$_GET['sort']] <=> $b[$_GET['sort']]);
 } else {
     $sorter = 'asc';
     usort($playerService, fn($a, $b) => $b[$_GET['sort']] <=> $a[$_GET['sort']]);
-}
+}*/
 
 /*if ($_GET['team'] == 4) {
     echo '<table><tr><td><img src="rb-trophy.png" title="Super Bowl - ' . $ch . '" width="75"></td></tr><tr><td>Super Bowl I - 1985</td></tr></table>';
@@ -99,7 +99,7 @@ foreach ($playerService as $player) {
     }else {
         echo $player['Jersey'];
     }
-    echo '</td><td><a href="/ptf/player.php?player=' . $player['PlayerID'] . '">' . $player['FullName'] . '</a></td><td>' .
+    echo '</td><td><a href="/player.php?player=' . $player['PlayerID'] . '">' . $player['FullName'] . '</a></td><td>' .
     $player['Position'] . '</td><td>' .
     $player['Age'] . '</td><td>'; 
     if ($player['Experience'] == 0) {
