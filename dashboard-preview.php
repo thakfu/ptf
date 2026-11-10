@@ -9,7 +9,8 @@ if ($previewHeadEnd === false || $previewBodyStart === false) {
     throw new RuntimeException('The shared header could not be rendered for the dashboard preview.');
 }
 echo substr($previewLegacyOutput, 0, $previewHeadEnd);
-echo '<link rel="stylesheet" href="css/dashboard-preview.css">';
+$previewStylesheetVersion = substr(hash_file('sha256', __DIR__ . '/css/dashboard-preview.css'), 0, 12);
+echo '<link rel="stylesheet" href="css/dashboard-preview.css?v=' . $previewStylesheetVersion . '">';
 echo substr($previewLegacyOutput, $previewHeadEnd, $previewBodyStart - $previewHeadEnd);
 echo '<body class="ptf-preview-page">';
 include __DIR__ . '/dashboard-preview-header.php';
